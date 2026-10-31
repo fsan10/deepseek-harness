@@ -43,6 +43,7 @@ apps/web/dist/
 .playwright-mcp/
 .orig
 .worktrees/
+.workbuddy/
 worktrees/
 .agents/worktrees/
 .typert-*/
