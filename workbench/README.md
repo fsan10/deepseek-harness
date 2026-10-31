@@ -148,3 +148,14 @@ curl http://127.0.0.1:4599/api/workbench/views/projects
 2. 给 kefu 的差评派单做 L1 工具（自动 + 留痕），跑通「一句话 → 工具 → 页面刷新」闭环。
 3. 补 DIM：把 56 家店铺的公司归属从差评明细反推，改为读 `dim.dim_platform_shop_company`。
 4. 做 scoped session：进入项目时新建会话并只挂该项目的 tool 白名单。
+
+## 附：验证截图
+
+`docs/screenshots/` 下四张是 2026-10-31 用无头 Chrome 实拍（1440×900，`pnpm dsh web --port 4599`）：
+
+| 文件 | 页面 | 看点 |
+|---|---|---|
+| `01-project-matrix.png` | 项目矩阵 | 四形态分组、健康分构成彩条、运行中/已停止的真实差异 |
+| `02-project-drawer.png` | 项目详情抽屉 | 健康分拆到 40/30/20/10、前置检查、L2 确认入口 |
+| `03-shop-panorama.png` | 店铺全景 | 56 店 × 5 能力，结算列整列「未接入」 |
+| `04-kefu.png` | 客服中心 | 真实店铺/差评/采集成功率 |
