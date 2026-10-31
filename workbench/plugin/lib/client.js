@@ -637,7 +637,9 @@ window.__ModuleLoader__.load({
       apply(ctx) {
         ctx.slots.inject('main', () => ctx.slots.register({ name: 'main', key: 'workbench' }, Workbench))
         ctx.slots.inject('sidebar.panellist', () => ctx.slots.register({
-          name: 'sidebar.panellist', id: 'workbench', order: 5, label: '工作台',
+          // 叫「全能工作台」而不是「工作台」：侧边栏里已经有一个第三方 worktable 的「工作台」区块，
+          // 两个同名入口会让人点错，进而以为页面没生效。
+          name: 'sidebar.panellist', id: 'workbench', order: 5, label: '全能工作台',
         }, WorkbenchIcon))
       },
     }

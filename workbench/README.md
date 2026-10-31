@@ -111,11 +111,15 @@ bash workbench/scripts/clone-projects.sh
 # 3. 把工作台装进 dsh 的 web profile（已装过可跳过）
 pnpm dsh plugin --profile web add "link:D:/fsan10/deepseek-harness/workbench/plugin"
 
-# 4. 启动
-pnpm dsh web --port 4599
+# 4. 启动（默认 3080；也可用 --port 换端口）
+pnpm dsh web
 ```
 
-打开后左侧点「工作台」。控制室每 20 秒静默刷新一次状态（不产生模型调用）。
+启动后终端会打印一条带 `?token=…` 的地址，**必须用那条地址打开**；直接访问 `127.0.0.1:3080`
+会返回 401 纯文本（`dsh web authentication required`），token 每次启动都会变。
+
+进去后看左侧边栏，在「插件」下面点 **「全能工作台」**（第二个入口，2×2 方块图标）。
+底部还有一个第三方 dsh-worktable 插件自己的「工作台」区块，那是另一个东西，别点错。
 
 接口自检：
 
