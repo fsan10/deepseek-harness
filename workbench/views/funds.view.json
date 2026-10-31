@@ -1,0 +1,9 @@
+{
+  "id": "funds",
+  "domain": "业务",
+  "title": "资金拆分",
+  "question": "哪些调整单待复核？",
+  "kind": "ops",
+  "order": 25,
+  "owner": "工作台"
+}

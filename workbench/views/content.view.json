@@ -1,9 +1,0 @@
-{
-  "id": "content",
-  "domain": "业务",
-  "title": "内容与达人",
-  "question": "主播排期和场次数据齐不齐？",
-  "kind": "table",
-  "order": 23,
-  "owner": "工作台"
-}

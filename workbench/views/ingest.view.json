@@ -1,0 +1,9 @@
+{
+  "id": "ingest",
+  "domain": "业务",
+  "title": "文件接入",
+  "question": "今天这批文件登记了吗？",
+  "kind": "ops",
+  "order": 22,
+  "owner": "工作台"
+}

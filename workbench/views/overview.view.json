@@ -1,8 +1,8 @@
 {
   "id": "overview",
   "domain": "经营",
-  "title": "经营总览",
-  "question": "钱在哪个店、哪个环节卡住？",
+  "title": "公司总览",
+  "question": "全公司现在到底怎么样？",
   "kind": "overview",
   "order": 10,
   "owner": "工作台"

@@ -1,0 +1,9 @@
+{
+  "id": "automation",
+  "domain": "业务",
+  "title": "自动化流程",
+  "question": "哪条同步流程该跑、跑成了吗？",
+  "kind": "ops",
+  "order": 23,
+  "owner": "工作台"
+}

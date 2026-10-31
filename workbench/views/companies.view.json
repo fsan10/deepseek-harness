@@ -3,7 +3,7 @@
   "domain": "治理",
   "title": "公司与店铺",
   "question": "谁在什么范围内经营？",
-  "kind": "governance",
+  "kind": "ops",
   "order": 40,
   "owner": "工作台"
 }

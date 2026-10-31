@@ -1,0 +1,9 @@
+{
+  "id": "liveops",
+  "domain": "业务",
+  "title": "直播运营（原系统）",
+  "question": "排班、采集、截图在哪儿操作？",
+  "kind": "app",
+  "order": 21,
+  "owner": "工作台"
+}

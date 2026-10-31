@@ -381,13 +381,178 @@ window.__ModuleLoader__.load({
         data.note ? h('div', { className: 'wb-note' }, data.note) : null)
     }
 
-    function Body({ data, onOpen }) {
+    function AppView({ data, onStartProject, onReload }) {
+      const [nonce, setNonce] = useState(0)
+      const toolbar = h('div', { style: { display: 'flex', gap: 8, marginBottom: 10, flexWrap: 'wrap', alignItems: 'center' } },
+        data.url === null
+          ? h(Chip, null, '无入口')
+          : h('a', {
+            className: 'wb-btn',
+            href: data.url,
+            target: '_blank',
+            rel: 'noreferrer',
+            style: { textDecoration: 'none' },
+          }, '在新窗口打开'),
+        h('button', { className: 'wb-btn', onClick: () => setNonce(n => n + 1) }, '刷新画面'),
+        h('button', { className: 'wb-btn', onClick: onReload }, '刷新状态'),
+        h('span', { className: 'wb-spacer' }),
+        h(Chip, { tone: data.running ? 'ok' : undefined }, data.running ? '原系统运行中' : '原系统未启动'))
+
+      const kpis = h('div', { className: 'wb-kpis' }, data.kpis.map(kpi => h('div', { className: 'wb-kpi', key: kpi.label },
+        h('span', null, kpi.label),
+        h('b', null, String(kpi.value)),
+        h('em', null, kpi.hint))))
+
+      const body = data.running && data.url !== null
+        ? h('iframe', {
+          key: nonce,
+          src: data.url,
+          title: data.title,
+          style: {
+            width: '100%',
+            height: 'calc(100vh - 320px)',
+            minHeight: 420,
+            border: '1px solid var(--wb-line)',
+            borderRadius: 12,
+            background: '#fff',
+          },
+        })
+        : h('div', { className: 'wb-card', style: { padding: 28, textAlign: 'center' } },
+          h('div', { style: { fontSize: 13, fontWeight: 600, marginBottom: 6 } }, '原系统没有在运行'),
+          h('div', { style: { color: 'var(--wb-mute)', marginBottom: 14, lineHeight: 1.7 } },
+            '工作台不会替你改这个项目，只负责把它拉起来。启动后这里会直接嵌入原系统，所有功能照旧可用。'),
+          h('button', { className: 'wb-btn', 'data-tone': 'primary', onClick: () => onStartProject(data.projectId) }, '启动并进入'))
+
+      return h('div', null, kpis, toolbar, body,
+        data.note ? h('div', { className: 'wb-note' }, data.note) : null)
+    }
+
+    function Field({ field, value, onChange }) {
+      const style = {
+        width: '100%',
+        height: 30,
+        padding: '0 8px',
+        borderRadius: 7,
+        border: '1px solid var(--wb-line)',
+        background: 'var(--dsw-alias-bg-base,#fff)',
+        color: 'inherit',
+        fontSize: 12,
+      }
+      if (field.type === 'select') {
+        return h('select', { style, value: value ?? '', onChange: e => onChange(e.target.value) },
+          h('option', { value: '' }, '请选择'),
+          (field.options ?? []).map(option => h('option', { key: option.value ?? option, value: option.value ?? option }, option.label ?? option)))
+      }
+      return h('input', {
+        style,
+        type: field.type === 'number' ? 'number' : 'text',
+        value: value ?? '',
+        placeholder: field.placeholder ?? '',
+        onChange: e => onChange(e.target.value),
+      })
+    }
+
+    function OpsForm({ form, onSubmit, busy }) {
+      const [values, setValues] = useState({})
+      const [error, setError] = useState(null)
+      const submit = () => {
+        for (const field of form.fields) {
+          if (field.required && String(values[field.key] ?? '').trim() === '') {
+            setError(`请填写「${field.label}」`)
+            return
+          }
+        }
+        setError(null)
+        onSubmit(form.action, values, form.level)
+      }
+      return h('div', { className: 'wb-card', style: { padding: 14, marginBottom: 14 } },
+        h('div', { style: { fontSize: 12, fontWeight: 600, marginBottom: 10 } }, form.title),
+        h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(180px,1fr))', gap: 10 } },
+          form.fields.map(field => h('label', { key: field.key, style: { display: 'block' } },
+            h('span', { style: { display: 'block', fontSize: 11, color: 'var(--wb-mute)', marginBottom: 4 } },
+              field.label + (field.required ? ' *' : '')),
+            h(Field, {
+              field,
+              value: values[field.key],
+              onChange: next => setValues(current => ({ ...current, [field.key]: next })),
+            })))),
+        error === null ? null : h('div', { style: { color: 'var(--wb-risk)', fontSize: 11, marginTop: 8 } }, error),
+        h('div', { style: { marginTop: 12, display: 'flex', gap: 8 } },
+          h('button', { className: 'wb-btn', 'data-tone': 'primary', disabled: busy, onClick: submit },
+            busy ? '提交中…' : (form.submitLabel ?? '提交')),
+          h('span', { style: { fontSize: 11, color: 'var(--wb-mute)', alignSelf: 'center' } },
+            form.level === 'L3' ? 'L3 · 仅限人工确认' : `${form.level} · 提交后会记审计`)))
+    }
+
+    function OpsView({ data, onAction, busy, onOpenTarget }) {
+      const kpis = data.kpis !== undefined && data.kpis.length > 0
+        ? h('div', { className: 'wb-kpis' }, data.kpis.map(kpi => h('div', { className: 'wb-kpi', key: kpi.label },
+          h('span', null, kpi.label), h('b', null, String(kpi.value)), h('em', null, kpi.hint))))
+        : null
+
+      const toolbar = data.toolbar !== undefined && data.toolbar.length > 0
+        ? h('div', { style: { display: 'flex', gap: 8, marginBottom: 12 } },
+          data.toolbar.map(item => h('button', {
+            key: item.id,
+            className: 'wb-btn',
+            disabled: busy,
+            onClick: () => onAction(item.action, {}, item.level),
+          }, item.label)))
+        : null
+
+      const forms = (data.forms ?? []).map(form => h(OpsForm, { key: form.id, form, onSubmit: onAction, busy }))
+
+      const header = h('tr', null,
+        data.columns.map(column => h('th', { key: column.key, 'data-align': column.align, style: { width: column.width } }, column.label)),
+        data.rowActions !== undefined && data.rowActions.length > 0
+          ? h('th', { key: '__a', style: { width: 150, minWidth: 150 } }, '操作')
+          : null)
+
+      const rows = data.rows.map((row, index) => h('tr', { key: row.id ?? index },
+        data.columns.map(column => h('td', { key: column.key, 'data-align': column.align }, String(row[column.key] ?? '—'))),
+        data.rowActions !== undefined && data.rowActions.length > 0
+          ? h('td', { style: { whiteSpace: 'nowrap' } }, h('div', { style: { display: 'flex', gap: 6, flexWrap: 'nowrap' } },
+            data.rowActions.map(action => h('button', {
+              key: action.id,
+              className: 'wb-btn',
+              style: { height: 24, padding: '0 8px', fontSize: 11 },
+              'data-tone': action.level === 'L3' ? 'danger' : undefined,
+              disabled: busy,
+              onClick: () => onAction(action.action, { [action.payloadKey]: row[action.payloadKey] }, action.level),
+            }, action.label))))
+          : null))
+
+      const lists = (data.lists ?? []).map(list => h('div', { className: 'wb-card', key: list.title, style: { marginTop: 14 } },
+        h('h3', null, list.title),
+        list.rows.length === 0
+          ? h('div', { className: 'wb-empty' }, '暂无记录')
+          : list.rows.map((row, index) => h('div', { className: 'wb-row', key: index },
+            h('i', { className: 'wb-dot', 'data-tone': row.tone ?? 'muted' }),
+            h('div', null,
+              h('b', null, row.text),
+              row.meta ? h('small', null, row.meta) : null)))))
+
+      return h('div', null,
+        kpis,
+        toolbar,
+        forms,
+        h('div', { className: 'wb-wrap' },
+          h('table', { className: 'wb-table' },
+            h('thead', null, header),
+            h('tbody', null, rows))),
+        lists,
+        data.note ? h('div', { className: 'wb-note' }, data.note) : null)
+    }
+
+    function Body({ data, onOpen, onAction, busy, onStartProject, onReload }) {
       if (data === null) return h('div', { className: 'wb-loading' }, '读取视图…')
       if (data.kind === 'overview') return h(Overview, { data })
       if (data.kind === 'control') return h(Control, { data, onOpen })
       if (data.kind === 'table') return h(TableView, { data })
       if (data.kind === 'matrix') return h(MatrixView, { data })
       if (data.kind === 'governance') return h(GovernanceView, { data })
+      if (data.kind === 'app') return h(AppView, { data, onStartProject, onReload })
+      if (data.kind === 'ops') return h(OpsView, { data, onAction, busy })
       return h(UnavailableView, { data })
     }
 
@@ -527,6 +692,8 @@ window.__ModuleLoader__.load({
       const [error, setError] = useState(null)
       const [drawerId, setDrawerId] = useState(null)
       const [toast, setToast] = useState(null)
+      const [busy, setBusy] = useState(false)
+      const [pending, setPending] = useState(null)
       const timer = useRef(null)
 
       const notify = useCallback(message => {
@@ -580,6 +747,51 @@ window.__ModuleLoader__.load({
         notify('已刷新')
       }, [active, loadBoot, loadView, notify])
 
+      /** 提交一条动作：先不带 confirm，服务端判等级并回影响面；确认后再带 confirm 重发。 */
+      const sendAction = useCallback(async (action, payload, confirm) => {
+        setBusy(true)
+        try {
+          const result = await api('/action', {
+            method: 'POST',
+            body: JSON.stringify({ action, payload, confirm, actor: 'web', intent: '工作台页面操作' }),
+          })
+          notify(result.ok ? '已执行' : (result.message ?? '未执行'))
+          setPending(null)
+          await loadBoot()
+          await loadView(active, true)
+        } catch (failure) {
+          const info = failure.payload ?? {}
+          if (failure.status === 428 && info.needConfirm === true) {
+            setPending({ action, payload, impact: info.impact, level: info.level })
+          } else {
+            notify(info.error ?? info.message ?? failure.message)
+          }
+        } finally {
+          setBusy(false)
+        }
+      }, [active, loadBoot, loadView, notify])
+
+      const onAction = useCallback((action, payload) => {
+        sendAction(action, payload, false)
+      }, [sendAction])
+
+      const startProject = useCallback(async id => {
+        setBusy(true)
+        try {
+          await api(`/projects/${id}/start`, {
+            method: 'POST',
+            body: JSON.stringify({ confirm: true, intent: '从业务页启动原系统', actor: 'web' }),
+          })
+          notify('已启动，正在载入原系统…')
+          await loadBoot()
+          await loadView(active, true)
+        } catch (failure) {
+          notify(failure.payload?.error ?? failure.message)
+        } finally {
+          setBusy(false)
+        }
+      }, [active, loadBoot, loadView, notify])
+
       if (boot === null) {
         return h('div', { className: 'wb-root' },
           h('style', null, CSS),
@@ -609,7 +821,14 @@ window.__ModuleLoader__.load({
             error === null
               ? null
               : h('div', { className: 'wb-card', style: { padding: 14, marginBottom: 12, color: 'var(--wb-risk)' } }, error),
-            h(Body, { data, onOpen: setDrawerId }),
+            h(Body, {
+              data,
+              onOpen: setDrawerId,
+              onAction,
+              busy,
+              onStartProject: startProject,
+              onReload: refresh,
+            }),
             h('div', { className: 'wb-note' },
               `健康分 ${boot.policy.formula} · 数据源：项目本地库与文件系统 · 生成于 ${new Date(boot.generatedAt).toLocaleTimeString('zh-CN', { hour12: false })}`))),
         drawer === null
@@ -620,6 +839,26 @@ window.__ModuleLoader__.load({
             onChanged: async () => { await loadBoot(); await loadView(active) },
             notify,
           }),
+        pending === null
+          ? null
+          : h('div', {
+            style: {
+              position: 'absolute', inset: 0, background: 'rgba(0,0,0,.28)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10,
+            },
+          },
+          h('div', { className: 'wb-card', style: { width: 'min(460px,86%)', padding: 18, boxShadow: '0 18px 50px rgba(0,0,0,.25)' } },
+            h('div', { style: { fontWeight: 600, marginBottom: 8 } }, `确认执行「${pending.action}」？`),
+            h('div', { style: { color: 'var(--wb-mute)', lineHeight: 1.7, fontSize: 12 } },
+              pending.impact ?? '该动作会写入本地业务库，并留下一条审计。'),
+            h('div', { style: { display: 'flex', gap: 8, marginTop: 14, justifyContent: 'flex-end' } },
+              h('button', { className: 'wb-btn', onClick: () => setPending(null) }, '取消'),
+              h('button', {
+                className: 'wb-btn',
+                'data-tone': pending.level === 'L3' ? 'danger' : 'primary',
+                disabled: busy,
+                onClick: () => sendAction(pending.action, pending.payload, true),
+              }, busy ? '执行中…' : (pending.level === 'L3' ? '人工确认并执行' : '确认执行'))))),
         toast === null ? null : h('div', { className: 'wb-toast' }, toast))
     }
 

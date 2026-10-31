@@ -19,7 +19,9 @@
                 │
 ┌───────────────┴──────────────────────────────────────────────────────┐
 │ C 能力与治理                                                          │
-│   C1 tools（L0-L3）   C2 policies（角色/红线）   C3 audit（JSONL）     │
+│   C0 store（本地业务库 var/workbench.db）                             │
+│   C1 actions（11 条，L1/L2/L3）  C2 tools（7 个）                      │
+│   C3 policies（角色/红线）        C4 audit（JSONL）                    │
 └───────────────▲──────────────────────────────────────────────────────┘
                 │
 ┌───────────────┴──────────────────────────────────────────────────────┐
@@ -31,8 +33,11 @@
 
 数据流只有两条，且不交叉：
 
-- **看**：浏览器 → `A1` → `GET /api/workbench/views/:id` → `B1/B3` → `computeView()` → 项目本地库/文件系统。
-- **做**：浏览器点击 或 模型调 `workbench_control` → `C1` 校验等级 → `C2` 查红线 → `B2` 拉起子进程 → `C3` 落审计 → `B3` 重新探测 → `A2` 刷新。
+- **看**：浏览器 → `A1` → `GET /api/workbench/views/:id` → `B1/B3/C0` → `computeView()` → 项目本地库/文件系统。
+- **做**：页面表单/行内按钮 或 模型调 `workbench_action` → `POST /action` → `C1` 等级校验 → 执行 → `C4` 落审计 → `A2` 刷新。
+
+两条通道共用 `runAction(action, payload, { actor, confirm, intent })`：
+`actor='web'` 走页面，`actor='agent'` 走工具；L3 只对 `web + confirm` 放行。
 
 ## 二、编号 ↔ 文件
 
@@ -47,10 +52,12 @@
 | B2 | `plugin/lib/runner.js` | spawn/pid/日志/taskkill | 启动语义 |
 | B2 | `projects/*/runtime/start.ps1` | 人工启动入口（与 command/args 等价） | 仅影响手动启动 |
 | B3 | `plugin/lib/status.js` | TCP/HTTP 探测、状态机、健康分 | 可信度来源 |
-| C1 | `plugin/lib/index.js`（tools 段） | 4 个 tool 的 schema 与执行 | 模型能看到什么 |
-| C2 | `policies/roles.yaml` | 角色 × 范围 × 最高等级 | 治理页 |
-| C2 | `policies/redlines.md` | L3 红线清单 | 只读文档；代码里另有硬判 |
-| C3 | `plugin/lib/audit.js` + `var/audit.jsonl` | 一次调用一行，不改写历史 | 事后回放 |
+| C0 | `plugin/lib/store.js` + `var/workbench.db` | 本地业务库：7 张表、播种、只读同步、写动作 | 业务数据与操作 |
+| C1 | `plugin/lib/index.js`（ACTIONS 段） | 11 条动作：等级 + 影响面 + 实现 | 人与 AI 的行为边界 |
+| C2 | `plugin/lib/index.js`（tools 段） | 7 个 tool 的 schema 与执行 | 模型能看到什么 |
+| C3 | `policies/roles.yaml` | 角色 × 范围 × 最高等级 | 治理页 |
+| C3 | `policies/redlines.md` | L3 红线清单 | 只读文档；代码里另有硬判 |
+| C4 | `plugin/lib/audit.js` + `var/audit.jsonl` | 一次调用一行，不改写历史 | 事后回放 |
 | D1 | dsh `tool-*` / profile | tool 注册与权限 | 由 dsh 决定 |
 | D2 | `var/{runs.jsonl,pids.json,logs/}` | 运行事实，可删可重建 | 不影响代码 |
 | D3 | `plugin/lib/index.js`（register 段） | `/api/workbench/*` 路由 | 前端契约 |
@@ -114,7 +121,7 @@ coffice-core（完整、可运行）
 
 界面上还有一条：**外部进程标记**。端口通但没有工作台 pid 时标「外部进程」——避免把别人正在跑的生产实例算成自己的工作台启动的。
 
-## 七、扩展一个页面 / 一个工具
+## 七、扩展一个页面 / 一个动作 / 一个工具
 
 **加页面**（不改主程序）：
 
@@ -122,8 +129,31 @@ coffice-core（完整、可运行）
 2. 在 `plugin/lib/views.js` 的 `resolvers` 里加同名函数，返回 `{kind, ...}`。
 3. 若 `kind` 是新的，在 `client.js` 的 `Body` 里加一个分支。
 
+现有两种「能干活」的 kind：
+- `app`：给 `{url, projectId, running}`，客户端渲染工具栏 + iframe，未启动时给「启动并进入」。
+- `ops`：给 `{forms, columns, rows, rowActions, toolbar, lists}`，客户端渲染表单与行内按钮，
+  提交走 `/action`；L2 会先返回影响面让用户确认。
+
+**加动作**（页面与 AI 同时获得）：
+
+```js
+// plugin/lib/index.js
+const ACTIONS = {
+  'your.action': {
+    level: 'L2',
+    impact: '一句话说清这个动作会改什么、影响多大',
+    run: payload => store.yourMethod(payload),
+  },
+}
+```
+
+1. 写 `store.js` 里的实现，抛错要给人看得懂的原因。
+2. 等级默认按 L2；只有明确无害的才给 L1，L3 表示「AI 永不执行」。
+3. 加完页面用 `forms[].action` 或 `rowActions[].action` 引用它；工具侧不需要再改，
+   `workbench_action` 的 enum 由 `Object.keys(ACTIONS)` 自动带出。
+
 **加工具**：
 
-1. 在 `index.js` 里 `tools.register({...})`，显式写 `output.schema`（标准 JSON Schema：`required` 是数组，不是属性上的布尔值）。
-2. 危险等级通过 `project.levels` 或代码内判定，默认按 L2 处理。
-3. 审计里必须带 `intent`；失败要返回可读原因，不要吞异常。
+1. 在 `index.js` 里 `tools.register({...})`，显式写 `output.schema`（标准 JSON Schema：`required` 是数组）。
+2. 审计里必须带 `intent`；失败要返回可读原因，不要吞异常。
+3. 危险等级通过 `ACTIONS` 或 `project.levels` 判定，默认按 L2 处理。

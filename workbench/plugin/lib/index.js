@@ -16,6 +16,7 @@ import { Runner } from './runner.js'
 import { Audit } from './audit.js'
 import { parseYaml } from './yaml.js'
 import { computeView } from './views.js'
+import { Store } from './store.js'
 
 export const name = 'dsh-workbench'
 export const inject = ['webServer']
@@ -59,6 +60,28 @@ function readBody(req) {
   })
 }
 
+/** 审计里只留参数字段，避免把整段文件内容写进日志。 */
+function summarizePayload(payload) {
+  if (payload === null || typeof payload !== 'object') return payload ?? null
+  const out = {}
+  for (const [key, value] of Object.entries(payload)) {
+    out[key] = typeof value === 'string' && value.length > 120 ? `${value.slice(0, 120)}…` : value
+  }
+  return out
+}
+
+/** 审计里只留结果摘要（行数/单号），不落整表。 */
+function summarizeResult(result) {
+  if (result === null || result === undefined) return null
+  if (typeof result !== 'object') return result
+  if (Array.isArray(result)) return { count: result.length }
+  const out = {}
+  for (const key of ['added', 'total', 'runId', 'status', 'rows', 'message', 'id', 'name']) {
+    if (result[key] !== undefined) out[key] = result[key]
+  }
+  return Object.keys(out).length > 0 ? out : { ok: true }
+}
+
 /**
  * 挂载工作台插件。
  * @param {import('@deepseek-ai/cordis').Context} ctx Cordis 上下文。
@@ -83,6 +106,61 @@ export function apply(ctx) {
 
   const board = new StatusBoard(getProjects, { varDir })
   board.seedRuns(readJsonl(runsFile).reverse())
+
+  // 本地业务库：coffice 的数据只落这里，不碰生产 PG
+  const store = new Store({ root, varDir })
+
+  /** 动作注册表：页面按钮与 AI 工具共用同一份实现与等级。 */
+  const ACTIONS = {
+    'ingest.scan': { level: 'L1', impact: '扫描 coffice-core/data，把新文件补登为待登记批次', run: () => store.scanFiles() },
+    'ingest.register': { level: 'L1', impact: '把一个文件批次登记为「已登记」', run: payload => store.registerBatch(payload.id, '已登记') },
+    'ingest.mark': { level: 'L1', impact: '把批次标记为「已入库」（只改本地记录）', run: payload => store.registerBatch(payload.id, '已入库') },
+    'flow.create': { level: 'L2', impact: '新建一条同步流程', run: payload => store.createFlow(payload) },
+    'flow.run': { level: 'L2', impact: '读取 kefu/liveops 的本地库并写入工作台镜像（只写本地库）', run: payload => store.runFlow(payload.id, payload.actor ?? 'web') },
+    'influencer.upsert': { level: 'L2', impact: '新增或修改达人主数据', run: payload => store.upsertInfluencer(payload) },
+    'influencer.disable': { level: 'L2', impact: '把达人标记为离职（不影响历史排班）', run: payload => store.setInfluencerStatus(payload.id, '离职') },
+    'fund.adjust': { level: 'L2', impact: '新建一张资金调整单，进入待复核', run: payload => store.addFundAdjustment(payload) },
+    'fund.reject': { level: 'L2', impact: '驳回一张待复核调整单', run: payload => store.reviewFundAdjustment(payload.id, '已驳回') },
+    // L3：AI 永不执行；只有人工在页面上点确认才放行
+    'fund.approve': { level: 'L3', impact: '确认一张资金调整单（会影响对账口径）', run: payload => store.reviewFundAdjustment(payload.id, '已复核') },
+    'company.map': { level: 'L2', impact: '把店铺归属写入本地 DIM，并刷新镜像里的 company', run: payload => store.mapCompany(payload) },
+  }
+
+  /**
+   * 执行一条动作：等级校验 → 预算 → 执行 → 审计。
+   * @param {string} action 动作名。
+   * @param {object} payload 参数。
+   * @param {{actor: string, confirm: boolean, intent: string}} meta 调用方信息。
+   */
+  const runAction = async (action, payload, meta) => {
+    const spec = ACTIONS[action]
+    if (spec === undefined) throw Object.assign(new Error(`未知动作：${action}`), { status: 404 })
+    if (spec.level === 'L3' && meta.actor !== 'web') {
+      const row = audit.append({ actor: meta.actor, action, level: 'L3', intent: meta.intent, ok: false, blocked: 'L3-human-only' })
+      return { ok: false, blocked: 'L3-human-only', auditId: row.id, message: 'L3 动作只能由人工在页面上确认执行，AI 不代劳。' }
+    }
+    if (spec.level !== 'L1' && meta.confirm !== true) {
+      return { ok: false, needConfirm: true, level: spec.level, impact: spec.impact }
+    }
+    const budget = audit.writesWithin(10 * 60_000, meta.actor)
+    if (spec.level !== 'L1' && budget > 30) {
+      const row = audit.append({ actor: meta.actor, action, level: spec.level, intent: meta.intent, ok: false, blocked: 'session-budget' })
+      return { ok: false, blocked: 'session-budget', auditId: row.id, message: '10 分钟内写操作超过 30 次，已熔断，请人工介入。' }
+    }
+    const started = Date.now()
+    try {
+      const result = spec.run({ ...payload, actor: meta.actor })
+      const row = audit.append({
+        actor: meta.actor, action, level: spec.level, intent: meta.intent,
+        ok: true, payload: summarizePayload(payload), result: summarizeResult(result),
+      })
+      return { ok: true, result, auditId: row.id, elapsedMs: Date.now() - started }
+    } catch (error) {
+      const message = String(error && error.message ? error.message : error)
+      const row = audit.append({ actor: meta.actor, action, level: spec.level, intent: meta.intent, ok: false, error: message })
+      return { ok: false, error: message, auditId: row.id }
+    }
+  }
 
   const audit = new Audit(join(varDir, 'audit.jsonl'))
   const runner = new Runner({
@@ -148,6 +226,7 @@ export function apply(ctx) {
       root,
       projects,
       states,
+      store,
       roles: getRoles(),
       auditTail: limit => audit.tail(limit),
       freshnessHours: newest === 0 ? null : (Date.now() - newest) / 3_600_000,
@@ -315,6 +394,28 @@ export function apply(ctx) {
       const id = decodeURIComponent(logMatch[1])
       const lines = Math.min(400, Number(url.searchParams.get('lines') ?? 80) || 80)
       sendJson(res, 200, { id, ...runner.tailLog(id, lines) })
+      return
+    }
+
+    if (path === '/action' && method === 'POST') {
+      const body = await readBody(req)
+      const action = String(body.action ?? '')
+      const payload = body.payload !== null && typeof body.payload === 'object' ? body.payload : {}
+      const meta = {
+        actor: body.actor === 'agent' ? 'agent' : 'web',
+        confirm: body.confirm === true,
+        intent: String(body.intent ?? (body.actor === 'agent' ? '' : '页面操作')),
+      }
+      const result = await runAction(action, payload, meta)
+      const status = result.ok ? 200 : result.needConfirm ? 428 : result.blocked ? 403 : 400
+      sendJson(res, status, { action, ...result })
+      return
+    }
+
+    if (path === '/actions' && method === 'GET') {
+      sendJson(res, 200, {
+        actions: Object.entries(ACTIONS).map(([name, spec]) => ({ name, level: spec.level, impact: spec.impact })),
+      })
       return
     }
 
@@ -552,6 +653,128 @@ export function apply(ctx) {
       }
     },
   }), 'dsh-workbench: tool workbench_control')
+
+  ctx.effect(() => tools.register({
+    name: 'workbench_query',
+    description: '对工作台本地业务库执行只读 SQL（SELECT）。表：ingest_batches（文件批次）、flows/flow_runs（流程与运行）、'
+      + 'influencers（达人）、fund_adjustments（资金调整）、dim_shop_company（店铺归属）、metrics_daily（指标镜像）。'
+      + '用于回答公司/店铺/平台层面的数据问题。只读（L0），不支持写、PRAGMA、ATTACH。',
+    parameters: {
+      sql: { type: 'string', required: true, description: '单条 SELECT 语句，表名必须在白名单内。' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          summary: { type: 'string' },
+          rows: { type: 'array', items: { type: 'object', additionalProperties: true } },
+        },
+        required: ['summary', 'rows'],
+      },
+      render: (_args, value) => text(value.summary),
+    },
+    execute(args) {
+      const result = store.query(args.sql)
+      const preview = result.rows.slice(0, 8)
+      const summary = result.count === 0
+        ? '查询没有返回行。'
+        : `返回 ${result.count} 行。前 ${preview.length} 行：\n${preview.map(row => JSON.stringify(row)).join('\n')}`
+      return Promise.resolve({ summary, rows: result.rows })
+    },
+  }), 'dsh-workbench: tool workbench_query')
+
+  ctx.effect(() => tools.register({
+    name: 'workbench_analysis',
+    description: '公司整体数据分析：按公司聚合本地镜像里的指标（店铺数、指标行数、各项指标合计、数据覆盖），'
+      + '并给出每个来源的覆盖情况。只读（L0）。回答「公司整体怎么样」「哪家公司数据最全」先调它。',
+    parameters: {
+      days: { type: 'integer', description: '时间窗（天），默认 30。' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          summary: { type: 'string' },
+          data: { type: 'object', additionalProperties: true },
+        },
+        required: ['summary', 'data'],
+      },
+      render: (_args, value) => text(value.summary),
+    },
+    execute(args) {
+      const days = Number.isInteger(args.days) && args.days > 0 ? Math.min(365, args.days) : 30
+      const data = store.analysis(days)
+      const lines = data.companies.map(item => {
+        const metrics = Object.entries(item.metrics).map(([name, value]) => `${name} ${Math.round(value)}`).join('、')
+        return `- ${item.company}：${item.shops} 家店 · ${item.rows} 行 · 截至 ${item.latest || '—'}${metrics ? ` · ${metrics}` : ''}`
+      })
+      const coverage = data.coverage.slice(0, 8).map(row => `${row.source}/${row.metric} ${row.n} 行`)
+      return Promise.resolve({
+        summary: [
+          `窗口：最近 ${days} 天（${data.window.since} 起）`,
+          `总计：${data.totals.shops ?? 0} 家店 · ${data.totals.rows ?? 0} 行 · 最新 ${data.totals.latest ?? '—'}`,
+          lines.length ? `按公司：\n${lines.join('\n')}` : '按公司：无数据',
+          coverage.length ? `覆盖：${coverage.join('；')}` : '覆盖：无',
+        ].join('\n'),
+        data,
+      })
+    },
+  }), 'dsh-workbench: tool workbench_analysis')
+
+  ctx.effect(() => tools.register({
+    name: 'workbench_action',
+    description: '执行工作台的写动作（与页面按钮同一套实现）。可用动作：'
+      + Object.keys(ACTIONS).join('、') + '。'
+      + 'L1 直接执行；L2 必须先向用户说明影响面并获得明确同意，再传 confirm=true；'
+      + 'L3（资金复核）永远不由 AI 执行，只能提示用户到页面上人工确认。'
+      + 'payload 传 JSON 字符串，intent 写用户原话或本次诉求。',
+    parameters: {
+      action: { type: 'string', required: true, enum: Object.keys(ACTIONS), description: '动作名。' },
+      payload: { type: 'string', description: 'JSON 对象字符串，例如 {"id":"flow-sync-kefu"}。' },
+      confirm: { type: 'boolean', description: 'L2 动作必须在用户明确同意后传 true。' },
+      intent: { type: 'string', required: true, description: '为什么做这件事。' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          summary: { type: 'string' },
+          ok: { type: 'boolean' },
+          auditId: { type: 'string' },
+        },
+        required: ['summary', 'ok', 'auditId'],
+      },
+      render: (_args, value) => text(value.summary),
+    },
+    async execute(args) {
+      let payload = {}
+      if (typeof args.payload === 'string' && args.payload.trim() !== '') {
+        try { payload = JSON.parse(args.payload) } catch { throw new Error('payload 不是合法 JSON') }
+      }
+      const result = await runAction(args.action, payload, {
+        actor: 'agent',
+        confirm: args.confirm === true,
+        intent: args.intent,
+      })
+      if (result.needConfirm === true) {
+        return { ok: false, auditId: '', summary: `该动作是 ${result.level}，影响面：${result.impact}。请先向用户确认，再以 confirm=true 重新调用。` }
+      }
+      if (result.blocked !== undefined) {
+        return { ok: false, auditId: result.auditId ?? '', summary: result.message }
+      }
+      if (!result.ok) {
+        return { ok: false, auditId: result.auditId ?? '', summary: `执行失败：${result.error}` }
+      }
+      const data = result.result
+      const detail = data === null || typeof data !== 'object'
+        ? String(data ?? '')
+        : Object.entries(data).filter(([, v]) => typeof v !== 'object').map(([k, v]) => `${k}=${v}`).join(' ')
+      return { ok: true, auditId: result.auditId, summary: `${args.action} 执行成功。${detail}` }
+    },
+  }), 'dsh-workbench: tool workbench_action')
 
   ctx.logger?.info?.(`[dsh-workbench] 已挂载 root=${root} projects=${getProjects().length} views=${getViews().length}`)
 }

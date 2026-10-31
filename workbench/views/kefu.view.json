@@ -1,9 +1,9 @@
 {
   "id": "kefu",
   "domain": "业务",
-  "title": "客服中心",
-  "question": "会话与差评的负载在哪家店？",
-  "kind": "table",
-  "order": 22,
+  "title": "客服中心（原系统）",
+  "question": "会话、评价、指标在哪儿操作？",
+  "kind": "app",
+  "order": 20,
   "owner": "工作台"
 }

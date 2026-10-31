@@ -39,3 +39,4 @@ projects/*/*.log
 # 根仓库的 `lib/` 规则用于忽略编译产物；工作台的 plugin/lib 是手写源码，必须入库
 !plugin/lib/
 !plugin/lib/*.js
+projects/*/var/master.key

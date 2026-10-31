@@ -1,0 +1,9 @@
+{
+  "id": "influencers",
+  "domain": "业务",
+  "title": "达人主数据",
+  "question": "达人档案和佣金率齐不齐？",
+  "kind": "ops",
+  "order": 24,
+  "owner": "工作台"
+}
