@@ -1,0 +1,4 @@
+interface:
+  display_name: "京东推广费下载"
+  short_description: "下载并归档京东联盟与京东通推广费"
+  default_prompt: "请使用 $jd-promotion-fee-download 下载京东联盟和京东通推广费报表并归档。"

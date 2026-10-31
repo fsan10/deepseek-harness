@@ -1,0 +1,9 @@
+{
+  "id": "storeops",
+  "domain": "经营",
+  "title": "门店与人效",
+  "question": "线下门店的销售和人效是多少？",
+  "kind": "unavailable",
+  "order": 13,
+  "owner": "工作台"
+}

@@ -1,0 +1,18 @@
+.sidebar-menu.nav-loading{visibility:hidden}.nav-error{margin:16px;color:#d7e2f4;font-size:13px}.nav-error button{display:block;margin-top:10px}
+.nav-group-link>svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 18px}
+.nav-group-toggle>svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;transition:transform .18s}.nav-group.open .nav-group-toggle>svg{transform:rotate(180deg)}
+.nav-item span,.nav-group-link span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.nav-group-header,.nav-group-link,.nav-group-toggle,.nav-item{box-sizing:border-box}
+.current-user{position:relative;flex:0 0 auto;margin-left:auto}.current-user-trigger{height:44px;border:1px solid #e6ebf2;background:#fff;border-radius:10px;padding:5px 10px;display:flex;align-items:center;gap:8px;cursor:pointer;max-width:210px}.user-avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#e8f2ff;color:#1677ff;font-weight:700}.user-copy{display:flex;flex-direction:column;min-width:0;text-align:left}.user-copy b,.user-copy small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.user-copy b{font-size:13px;color:#1f2a3d}.user-copy small{font-size:11px;color:#8993a4;margin-top:2px}.user-menu{position:absolute;right:0;top:50px;width:150px;background:#fff;border:1px solid #e6ebf2;border-radius:9px;box-shadow:0 12px 28px rgba(15,31,55,.14);padding:6px;z-index:100}.user-menu button{width:100%;border:0;background:transparent;padding:9px 10px;text-align:left;border-radius:6px;cursor:pointer}.user-menu button:hover{background:#f3f7fc;color:#1677ff}
+.sidebar-footer{flex:0 0 auto;padding:10px 8px;border-top:1px solid rgba(255,255,255,.06)}
+.sidebar .current-user{position:relative;margin-left:0}
+.sidebar .current-user-trigger{width:100%;max-width:none;height:auto;border:0;background:transparent;border-radius:6px;padding:8px 10px;display:flex;align-items:center;gap:8px;cursor:pointer}
+.sidebar .current-user-trigger:hover{background:rgba(255,255,255,.06)}
+.sidebar .user-avatar{width:28px;height:28px;background:rgba(22,119,255,.25);color:#fff;font-size:13px}
+.sidebar .user-copy b{color:#fff;font-size:13px}
+.sidebar .user-copy small{color:rgba(255,255,255,.45);font-size:11px}
+.sidebar .user-menu{top:auto;bottom:calc(100% + 8px);right:10px;width:180px}
+@media(max-width:900px){.sidebar .user-copy{display:block}.sidebar .current-user-trigger{padding:8px 10px}.sidebar .user-menu{right:8px}}
+@media(max-width:900px){.user-copy{display:none}.current-user-trigger{padding:5px}.current-user{margin-left:8px}}
+.app-global-toast{position:fixed;z-index:2147483647;top:72px;left:50%;transform:translateX(-50%);width:max-content;max-width:min(560px,calc(100vw - 32px));margin:0;border:0;border-radius:8px;padding:11px 18px;color:#fff;font-size:14px;line-height:1.45;text-align:center;box-shadow:0 12px 30px rgba(15,31,55,.24)}
+.app-global-toast.success{background:#16a06a}.app-global-toast.error{background:#d9363e}.app-global-toast[popover]::backdrop{display:none}
+.nav-group-emoji{width:18px;height:18px;display:inline-grid;place-items:center;flex:none;font-size:16px;line-height:1}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "京东资金与结算账单下载"
+  short_description: "京东资金流水与日月结算账单下载、解压归档及故障接管"
+  default_prompt: "使用 $jd-bill-download 下载京东最新资金单或日月结算单，并在失败时接管修复。"

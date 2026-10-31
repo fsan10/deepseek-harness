@@ -1,0 +1,17 @@
+# 原一体式平台（mock_coffice）的完整克隆。
+# 它保持整体可运行，是联邦拆分的参照系：拆分单元从它派生，但不再回写它。
+id: coffice-core
+name: 数据底座（原一体式平台）
+form: job
+domain: 数据
+owner: 数据组
+description: ODS→DWD→DWS→ADS 指标链路、7 平台 ETL、commerce_api 连接器、达人主数据与资金拆分。整包克隆，未改一行源码。
+source: D:\fsan10\mock_coffice（只读源，已物理克隆）
+dataFiles: [sql, etl, apps, commerce_api]
+schedule: 每日 02:00 全量刷新（由部署侧调度器触发，本项目不自带守护进程）
+depends: []
+split: [coffice-ingest, coffice-insight, coffice-master]
+capabilities: [ODS 接入, 指标链路, 平台适配器, 达人主数据, 资金拆分]
+levels:
+  read: L0
+  write: L2

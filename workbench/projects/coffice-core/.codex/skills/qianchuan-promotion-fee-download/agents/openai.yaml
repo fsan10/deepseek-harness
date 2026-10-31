@@ -1,0 +1,4 @@
+interface:
+  display_name: "千川推广费下载"
+  short_description: "从千川流水对账日结表下载最新推广费并自动完成增量归档"
+  default_prompt: "使用 $qianchuan-promotion-fee-download 下载指定千川店铺最新一天的推广费流水并归档。"

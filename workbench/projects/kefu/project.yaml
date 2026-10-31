@@ -1,0 +1,26 @@
+# 客服中心：Next.js 会话与评价工作台，本地 data/kefu.sqlite 是真实数据源。
+# 副本未安装 node_modules；首次启动前运行 workbench/scripts/bootstrap.ps1 kefu。
+# 端口用 3100：3000 上通常跑着生产实例，工作台不能去抢。
+id: kefu
+name: 客服中心
+form: service
+domain: 客服
+owner: 客服组
+description: 56 家店铺的接待/评分/差评采集与指标看板；门户只做指标与派单，会话工作台仍在 kefu 本体。
+source: D:/fsan10/kefu（只读源，已物理克隆）
+port: 3100
+health:
+  path: null
+  timeoutMs: 1200
+runtime:
+  command: node
+  args: [node_modules/next/dist/bin/next, dev, -p, 3100, -H, 127.0.0.1]
+  start: runtime/start.ps1
+  cwd: .
+requires: [node_modules]
+dataFiles: [data/kefu.sqlite]
+depends: []
+capabilities: [会话, 评价, 店铺分, 指标采集]
+levels:
+  read: L0
+  write: L2

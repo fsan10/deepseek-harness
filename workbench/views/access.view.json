@@ -1,0 +1,9 @@
+{
+  "id": "access",
+  "domain": "治理",
+  "title": "人员与权限",
+  "question": "谁能在什么范围内做什么？",
+  "kind": "governance",
+  "order": 41,
+  "owner": "工作台"
+}

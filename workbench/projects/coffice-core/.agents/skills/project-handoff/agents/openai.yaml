@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Handoff"
+  short_description: "Refresh a concise current project snapshot"
+  default_prompt: "Use $project-handoff to summarize the current repository state into a concise PROJECT_STATUS.md without running tests or changing Git."

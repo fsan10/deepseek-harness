@@ -1,0 +1,25 @@
+# 直播运营：FastAPI + SQLite，按主播排班采集罗盘/千川数据。
+# 副本首次启动前运行 workbench/scripts/bootstrap.ps1 liveops。
+id: liveops
+name: 直播运营
+form: service
+domain: 内容
+owner: 直播组
+description: 排班 → 采集 → 截图 → 飞书/多维表格同步的完整链路；本地 var/liveops.sqlite3 是真实数据源。
+source: D:/fsan10/直播运营（只读源，已物理克隆）
+port: 8865
+health:
+  path: null
+  timeoutMs: 1200
+runtime:
+  command: .venv/Scripts/python.exe
+  args: [-m, uvicorn, liveops.app:app, --host, 127.0.0.1, --port, 8865]
+  start: runtime/start.ps1
+  cwd: .
+requires: [.venv]
+dataFiles: [var/liveops.sqlite3]
+depends: []
+capabilities: [排班, 采集, 截图, 飞书同步]
+levels:
+  read: L0
+  write: L2

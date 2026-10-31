@@ -1,0 +1,7 @@
+interface:
+  display_name: "天猫订单报表下载"
+  short_description: "下载天猫近一个月宝贝销售明细订单报表并归档"
+  default_prompt: "使用 $tmall-order-download 下载并归档天猫宝贝销售明细订单报表。"
+
+policy:
+  allow_implicit_invocation: true

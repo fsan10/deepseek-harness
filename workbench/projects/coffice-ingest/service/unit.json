@@ -1,0 +1,30 @@
+{
+  "id": "coffice-ingest",
+  "title": "数据接入与自动化",
+  "domain": "数据",
+  "owner": "数据组",
+  "port": 8791,
+  "splitFrom": "coffice-core",
+  "modules": [
+    {
+      "name": "文件接入",
+      "path": "apps/file_ingest",
+      "kind": "模块"
+    },
+    {
+      "name": "自动化流程",
+      "path": "apps/automation_center",
+      "kind": "模块"
+    },
+    {
+      "name": "公共健康聚合",
+      "path": "apps/common",
+      "kind": "模块"
+    }
+  ],
+  "assets": [],
+  "handoff": [
+    "批量补采与重跑：把 ingest 的批次入口包成 tool，保留原批次号",
+    "自动化流程的 checkpoint 与人工介入点需要一面可视化的墙"
+  ]
+}

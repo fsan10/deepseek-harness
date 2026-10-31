@@ -1,0 +1,22 @@
+# 联邦单元：从 coffice-core（原一体式平台）按业务域拆出，代码为物理副本。
+id: coffice-ingest
+name: 数据接入与自动化
+form: service
+domain: 数据
+owner: 数据组
+description: 从 mock_coffice 拆出的数据接入与自动化单元，保留原模块源码，外层为零依赖自检服务。
+source: coffice-core（本仓库内物理副本，非引用）
+port: 8791
+health:
+  path: /health
+  timeoutMs: 1200
+runtime:
+  command: python
+  args: [service/app.py, --port, 8791]
+  start: runtime/start.ps1
+  cwd: .
+depends: [coffice-core]
+capabilities: [文件接入, 自动化流程, 公共健康聚合]
+levels:
+  read: L0
+  write: L2

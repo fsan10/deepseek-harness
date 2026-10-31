@@ -1,0 +1,4 @@
+interface:
+  display_name: "京东自动化下载"
+  short_description: "统一路由并串行下载京东全部标准报表"
+  default_prompt: "请使用 $jd-automation-download 按报表类型下载京东订单、资金、结算或推广费。"

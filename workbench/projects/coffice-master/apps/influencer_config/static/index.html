@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>经营配置中心 · 达播运营</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="product-category.css">
+  <link rel="stylesheet" href="master-config.css">
+  <link rel="stylesheet" href="/identity-assets/shell.css">
+</head>
+<body>
+  <svg class="svg-sprite" aria-hidden="true">
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M20 7V6a2 2 0 0 0-2-2H5a3 3 0 0 0 0 6h15v9a1 1 0 0 1-1 1H5a3 3 0 0 1-3-3V7"/><path d="M16 14h.01"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></symbol>
+    <symbol id="i-user-check" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m16 11 2 2 4-4"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+    <symbol id="i-package" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 7 9 5 9-5M3 12l9 5 9-5M3 17l9 5 9-5"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7h-5V2M4 17h5v5"/><path d="M5.5 9a7 7 0 0 1 11.8-3L20 7M4 17l2.7 1A7 7 0 0 0 18.5 15"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14zM10 11v6M14 11v6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-check-square" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m7 12 3 3 7-7"/></symbol>
+    <symbol id="i-x-square" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m8 8 8 8M16 8l-8 8"/></symbol>
+    <symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol>
+    <symbol id="i-power" viewBox="0 0 24 24"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/></symbol>
+    <symbol id="i-tags" viewBox="0 0 24 24"><path d="M9.5 4H4v5.5L14.5 20 20 14.5 9.5 4Z"/><path d="M6.5 6.5h.01"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  </svg>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><svg><use href="#i-grid"/></svg><strong>经营配置中心</strong></div>
+      <div class="sidebar-menu">
+        <section class="nav-group open" data-nav-group="bank">
+          <div class="nav-group-header"><a class="nav-group-link" href="/#statement"><svg><use href="#i-wallet"/></svg><span>银行资金</span></a><button class="nav-group-toggle" type="button" aria-expanded="true" aria-label="收起银行资金菜单"><svg class="nav-chevron"><use href="#i-chevron-down"/></svg></button></div>
+          <div class="nav-group-items"><nav aria-label="银行资金功能"><a class="nav-item" href="/#statement"><span>主编辑表</span></a><a class="nav-item" href="/#types"><span>类型管理</span></a><a class="nav-item" href="/#accounts"><span>入账管理</span></a><a class="nav-item" href="/#imports"><span>导入记录</span></a><a class="nav-item" href="/#logs"><span>操作日志</span></a></nav></div>
+        </section>
+        <section class="nav-group open active" data-nav-group="influencer">
+          <div class="nav-group-header"><a class="nav-group-link" href="/influencer/#assignmentPanel"><svg><use href="#i-users"/></svg><span>达播运营</span></a><button class="nav-group-toggle" type="button" aria-expanded="true" aria-label="收起达播运营菜单"><svg class="nav-chevron"><use href="#i-chevron-down"/></svg></button></div>
+          <div class="nav-group-items"><nav aria-label="达播运营功能">
+            <button class="tab-button nav-item is-active active" data-tab="assignmentPanel" data-title="达人商务归属" data-subtitle="管理达人商务归属配置" aria-current="page"><span>达人商务归属</span></button>
+            <button class="tab-button nav-item" data-tab="targetPanel" data-title="商务月度目标" data-subtitle="设定与追踪商务月度 GMV 目标"><span>商务月度目标</span></button>
+            <button class="tab-button nav-item" data-tab="productCategoryPanel" data-title="商品品类配置" data-subtitle="维护公司商品、一级分类和二级分类"><span>商品品类配置</span></button>
+            <button class="tab-button nav-item" data-tab="productMappingPanel" data-title="商品编码映射" data-subtitle="发现七平台编码族并维护到公司商品的全局规则"><span>商品编码映射</span></button>
+          </nav></div>
+        </section>
+        <section class="nav-group open" data-nav-group="ingest">
+          <div class="nav-group-header"><a class="nav-group-link" href="/ingest/#upload"><svg><use href="#i-upload"/></svg><span>数据导入</span></a><button class="nav-group-toggle" type="button" aria-expanded="true" aria-label="收起数据导入菜单"><svg class="nav-chevron"><use href="#i-chevron-down"/></svg></button></div>
+          <div class="nav-group-items"><nav aria-label="数据导入功能"><a class="nav-item" href="/ingest/#upload"><span>数据上传</span></a><a class="nav-item" href="/ingest/#runs"><span>导入记录</span></a><a class="nav-item" href="/ingest/#etl"><span>ETL任务</span></a><a class="nav-item" href="/ingest/#logs"><span>操作日志</span></a></nav></div>
+        </section>
+        <section class="nav-group open" data-nav-group="platform-fees">
+          <div class="nav-group-header"><a class="nav-group-link" href="/ingest/#feeCategories"><svg><use href="#i-tags"/></svg><span>平台费用管理</span></a><button class="nav-group-toggle" type="button" aria-expanded="true" aria-label="收起平台费用管理菜单"><svg class="nav-chevron"><use href="#i-chevron-down"/></svg></button></div>
+          <div class="nav-group-items"><nav aria-label="平台费用管理功能"><a class="nav-item" href="/ingest/#feeCategories"><span>一级分类管理</span></a><a class="nav-item" href="/ingest/#feeMappings"><span>费用映射</span></a><a class="nav-item" href="/ingest/#rawFees"><span>原始费用</span></a></nav></div>
+        </section>
+      </div>
+    </aside>
+
+    <div class="content-shell">
+      <header class="topbar">
+        <div class="page-heading">
+          <h1 id="pageTitle">达人商务归属</h1>
+          <p id="pageSubtitle">管理达人商务归属配置</p>
+        </div>
+        <div class="topbar-actions">
+          <label class="month-control"><span class="sr-only">配置月份</span><input id="globalMonth" type="month" aria-label="配置月份"></label>
+          <div id="healthBadge" class="health-badge is-loading"><span class="health-dot"></span><span>连接中</span></div>
+        </div>
+      </header>
+
+      <main>
+        <section id="assignmentPanel" class="tab-panel is-active">
+          <div id="influencerMasterApp" aria-live="polite"></div>
+          <div hidden>
+          <div id="assignmentCards" class="metric-grid" aria-live="polite"></div>
+
+          <div class="filter-card">
+            <label><span class="sr-only">平台</span><select id="platformFilter">
+              <option value="">全部平台</option><option value="douyin">抖音</option><option value="ks">快手</option>
+              <option value="wechat_channels">视频号</option><option value="tmall">天猫</option><option value="xhs">小红书</option>
+              <option value="jd">京东</option><option value="pdd">拼多多</option>
+            </select></label>
+            <label><span class="sr-only">商务</span><select id="businessFilter"><option value="">全部商务</option></select></label>
+            <label><span class="sr-only">归属状态</span><select id="statusFilter">
+              <option value="">全部状态</option><option value="assigned">已分配</option><option value="unassigned">未分配</option>
+            </select></label>
+            <label><span class="sr-only">启用状态</span><select id="activeStatusFilter">
+              <option value="">全部</option><option value="active">启用</option><option value="disabled">停用</option>
+            </select></label>
+            <label class="search-field"><span class="sr-only">搜索</span><svg><use href="#i-search"/></svg><input id="searchInput" type="search" placeholder="搜索达人名称 / UID / 商务 / 店铺"></label>
+            <div class="filter-actions">
+              <button id="reloadAssignments" class="button button-primary query-button" type="button"><svg><use href="#i-search"/></svg>查询</button>
+              <button id="addInfluencerButton" class="button button-primary" type="button"><svg><use href="#i-plus"/></svg>新增达人</button>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-shell">
+              <table class="assignment-table">
+                <thead><tr><th>平台</th><th>达人</th><th>达人UID</th><th>店铺归属</th><th>商务归属</th><th>版本信息</th><th>备注</th><th>操作</th></tr></thead>
+                <tbody id="assignmentTableBody"></tbody>
+              </table>
+              <div id="assignmentEmpty" class="empty-state" hidden><strong>配置库中没有匹配的达人</strong><span>调整筛选条件，或新增达人配置。</span></div>
+            </div>
+            <div id="assignmentPagination" class="pagination-bar" aria-label="达人列表分页">
+              <span id="paginationRange" class="pagination-summary">共 0 条</span>
+              <div class="pagination-controls">
+                <select id="pageSizeSelect" class="select-chevron pagination-size" aria-label="每页条数"><option value="10" selected>10 条/页</option><option value="20">20 条/页</option><option value="50">50 条/页</option><option value="100">100 条/页</option></select>
+                <button id="previousPage" class="pagination-nav" type="button" aria-label="上一页"><svg><use href="#i-left"/></svg></button>
+                <div id="pageNumbers" class="pagination-pages" aria-label="页码"></div>
+                <button id="nextPage" class="pagination-nav" type="button" aria-label="下一页"><svg><use href="#i-right"/></svg></button>
+                <span id="paginationPage" class="pagination-page">第 1/1 页</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="definition-card definition-grid assignment-definitions">
+            <article><strong>配置库范围</strong><span>只展示所选月份已生效且未删除的配置</span></article>
+            <article><strong>版本历史</strong><span>修改在所选月份生成版本，之前月份不变</span></article>
+            <article><strong>删除规则</strong><span>删除写入停用版本，历史仍可查</span></article>
+            <article><strong>ID=0</strong><span>封禁/注销账号统一为“其他”</span></article>
+          </div>
+          </div>
+        </section>
+
+        <section id="targetPanel" class="tab-panel">
+          <div id="targetCards" class="metric-grid target-metrics" aria-live="polite"></div>
+
+          <div class="table-card">
+            <div class="table-shell">
+              <table class="target-table">
+                <thead><tr><th>商务</th><th class="amount">GMV目标</th><th class="amount">实际达成</th><th>完成率</th><th class="center">归属达人</th><th class="center">月10万+</th><th>备注</th><th class="center">操作</th></tr></thead>
+                <tbody id="targetTableBody"></tbody>
+              </table>
+            </div>
+            <div class="add-business">
+              <input id="newBusinessName" type="text" maxlength="128" placeholder="新商务姓名">
+              <button id="addBusinessButton" class="button button-primary" type="button"><svg><use href="#i-plus"/></svg>新增商务</button>
+            </div>
+          </div>
+
+          <div class="definition-card definition-grid target-definitions">
+            <article><strong>目标设定</strong><span>目标金额仅用于当月完成率计算，不影响达人归属</span></article>
+            <article><strong>实际达成</strong><span>来自 ADS 汇总，含已归属达人的跨平台 GMV</span></article>
+            <article><strong>月10万+</strong><span>按商务名下跨平台 GMV ≥ 10万的达人数统计</span></article>
+          </div>
+        </section>
+
+        <section id="productCategoryPanel" class="tab-panel">
+          <div id="productCategoryApp" aria-live="polite"></div>
+        </section>
+        <section id="productMappingPanel" class="tab-panel">
+          <div id="productMappingApp" aria-live="polite"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="influencerDialog" class="editor-dialog" aria-labelledby="influencerDialogTitle">
+    <form id="influencerForm" method="dialog">
+      <div class="dialog-heading"><div><p>配置库维护</p><h3 id="influencerDialogTitle">新增达人</h3></div><button id="closeInfluencerDialog" class="dialog-close" type="button" aria-label="关闭">×</button></div>
+      <div class="editor-grid">
+        <label><span>平台</span><select id="editorPlatform" required><option value="douyin">抖音</option><option value="ks">快手</option><option value="wechat_channels">视频号</option><option value="tmall">天猫</option><option value="xhs">小红书</option><option value="jd">京东</option><option value="pdd">拼多多</option></select></label>
+        <label><span>达人UID</span><input id="editorInfluencerId" maxlength="128" required></label>
+        <label><span>达人名称</span><input id="editorInfluencerName" maxlength="255" required></label>
+        <label><span>商务归属</span><select id="editorBusinessOwner"></select></label>
+        <label class="editor-span"><span>店铺归属</span><textarea id="editorShopNames" rows="3" placeholder="多个店铺可用逗号或换行分隔"></textarea></label>
+        <label class="editor-span"><span>备注</span><textarea id="editorNote" rows="3" maxlength="2000" placeholder="可选备注"></textarea></label>
+      </div>
+      <p class="dialog-help">保存后从当前配置月份起生效；修改平台或 UID 时，原身份会从当前月停用并保留历史。</p>
+      <div class="dialog-actions"><button id="cancelInfluencerEdit" class="button" type="button">取消</button><button id="saveInfluencerEdit" class="button button-primary" type="submit">保存配置</button></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div class="assign-dropdown" id="assignDropdown" hidden><label class="assign-search"><svg><use href="#i-search"/></svg><input id="assignSearch" placeholder="查找公司达人" autocomplete="off"></label><div class="assign-options" id="assignOptions"></div></div>
+  <div class="table-popover" id="tablePopover" hidden></div>
+  <script src="/identity-assets/shell.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="master-config.js" defer></script>
+</body>
+</html>

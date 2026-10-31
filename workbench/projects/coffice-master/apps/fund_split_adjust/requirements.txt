@@ -1,0 +1,10 @@
+openpyxl>=3.1,<4
+xlrd>=2,<3
+psycopg2-binary>=2.9,<3
+bcrypt>=4,<6
+cryptography>=43,<47
+sqlglot>=27,<28
+# 飞书长连接按需安装；Webhook模式不依赖该SDK。
+lark-oapi>=1.4,<2
+# Windows 上的 Asia/Shanghai 等业务时区数据。
+tzdata>=2025.2

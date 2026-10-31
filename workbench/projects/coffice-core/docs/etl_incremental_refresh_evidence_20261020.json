@@ -1,0 +1,1571 @@
+{
+  "ingest_run": [
+    {
+      "run_id": "98de86a7-cd61-42ed-83eb-9acd24b00ce3",
+      "status": "success",
+      "expected_file_count": 57,
+      "uploaded_file_count": 57,
+      "success_file_count": 28,
+      "duplicate_file_count": 29,
+      "failed_file_count": 0,
+      "auto_refresh": true,
+      "created_at": "2026-10-20 08:17:54.245670+00:00",
+      "completed_at": "2026-10-20 08:18:12.231623+00:00",
+      "seconds": "17.985953"
+    }
+  ],
+  "file_types": [
+    {
+      "report_type": "ks_fund",
+      "status": "duplicate",
+      "files": 29
+    },
+    {
+      "report_type": "ks_fund",
+      "status": "success",
+      "files": 25
+    },
+    {
+      "report_type": "ks_settlement",
+      "status": "success",
+      "files": 3
+    }
+  ],
+  "etl_run": [
+    {
+      "etl_run_id": "49f46a7d-0975-4e48-8dba-466e15a38c9d",
+      "status": "success",
+      "error_message": null,
+      "refresh_context": {
+        "mode": "incremental",
+        "shops": {
+          "ks": [
+            "123456789",
+            "2376318498",
+            "5350925656"
+          ]
+        },
+        "months": {
+          "ks": [
+            "2026-10-01"
+          ]
+        },
+        "version": 1,
+        "batch_ids": [
+          739,
+          740,
+          741,
+          742,
+          743,
+          744,
+          745,
+          746,
+          747,
+          748,
+          749,
+          750,
+          751,
+          752,
+          753,
+          754,
+          755,
+          756,
+          757,
+          758,
+          759,
+          760,
+          761,
+          762,
+          763,
+          764,
+          765,
+          766
+        ],
+        "batch_cutoff": 766,
+        "trigger_type": "ingest_complete"
+      },
+      "completed_at": "2026-10-20 08:24:36.250460+00:00"
+    }
+  ],
+  "etl_tasks": [
+    {
+      "etl_key": "ks_settlement",
+      "etl_label": "快手结算指标",
+      "status": "success",
+      "attempt_count": 2,
+      "exit_code": 0,
+      "started_at": "2026-10-20 08:24:31.916761+00:00",
+      "finished_at": "2026-10-20 08:24:32.664049+00:00",
+      "seconds": "0.747288",
+      "result_metrics": {
+        "refresh": [
+          {
+            "mode": "incremental",
+            "shops": {
+              "ks": [
+                "123456789",
+                "2376318498",
+                "5350925656"
+              ]
+            },
+            "events": [
+              {
+                "source": "ods.ods_ks_settlement_raw",
+                "seconds": 0.004
+              },
+              {
+                "source": "common.v_ingest_batch_shop_context",
+                "seconds": 0.0124
+              },
+              {
+                "source": "ods.ods_file_ingest_log",
+                "seconds": 0.0026
+              },
+              {
+                "source": "common.v_settlement_source_batch",
+                "seconds": 0.0087
+              },
+              {
+                "source": "ods.ods_douyin_settlement_raw",
+                "seconds": 0.0026
+              },
+              {
+                "source": "ods.ods_xhs_settlement_income_raw",
+                "seconds": 0.0024
+              },
+              {
+                "source": "ods.ods_xhs_settlement_expense_raw",
+                "seconds": 0.0023
+              },
+              {
+                "source": "ods.ods_tmall_aggregate_fund_raw",
+                "seconds": 0.0025
+              },
+              {
+                "source": "ods.ods_tmall_alipay_fund_raw",
+                "seconds": 0.0022
+              },
+              {
+                "source": "common.v_settlement_source_days",
+                "seconds": 0.0922
+              },
+              {
+                "source": "common.v_settlement_source_group",
+                "seconds": 0.005
+              },
+              {
+                "source": "common.v_settlement_source_decision",
+                "seconds": 0.0315
+              },
+              {
+                "source": "common.v_effective_settlement_source",
+                "seconds": 0.0419
+              },
+              {
+                "source": "common.v_current_ks_settlement_raw",
+                "seconds": 0.0483
+              },
+              {
+                "rows": 137,
+                "table": "dwd.dwd_ks_settlement_income_event_detail",
+                "seconds": 0.0015,
+                "operation": "delete"
+              },
+              {
+                "rows": 318,
+                "table": "dwd.dwd_ks_settlement_income_event_detail",
+                "seconds": 0.0063,
+                "operation": "insert"
+              },
+              {
+                "rows": 108,
+                "table": "dws.dws_ks_settlement_income_shop_daily_type",
+                "seconds": 0.0012,
+                "operation": "delete"
+              },
+              {
+                "rows": 240,
+                "table": "dws.dws_ks_settlement_income_shop_daily_type",
+                "seconds": 0.0034,
+                "operation": "insert"
+              },
+              {
+                "rows": 108,
+                "table": "ads.ads_settlement_income_company_shop_daily_type",
+                "seconds": 0.0014,
+                "operation": "delete"
+              },
+              {
+                "rows": 240,
+                "table": "ads.ads_settlement_income_company_shop_daily_type",
+                "seconds": 0.0049,
+                "operation": "insert"
+              },
+              {
+                "rows": 137,
+                "table": "dwd.dwd_ks_settlement_expense_event_detail",
+                "seconds": 0.0013,
+                "operation": "delete"
+              },
+              {
+                "rows": 318,
+                "table": "dwd.dwd_ks_settlement_expense_event_detail",
+                "seconds": 0.0063,
+                "operation": "insert"
+              },
+              {
+                "rows": 144,
+                "table": "dws.dws_ks_settlement_expense_shop_daily_type",
+                "seconds": 0.0016,
+                "operation": "delete"
+              },
+              {
+                "rows": 320,
+                "table": "dws.dws_ks_settlement_expense_shop_daily_type",
+                "seconds": 0.0043,
+                "operation": "insert"
+              },
+              {
+                "rows": 144,
+                "table": "ads.ads_settlement_expense_company_shop_daily_type",
+                "seconds": 0.0016,
+                "operation": "delete"
+              },
+              {
+                "rows": 320,
+                "table": "ads.ads_settlement_expense_company_shop_daily_type",
+                "seconds": 0.0059,
+                "operation": "insert"
+              },
+              {
+                "rows": 137,
+                "table": "dwd.dwd_ks_settlement_net_event_detail",
+                "seconds": 0.0013,
+                "operation": "delete"
+              },
+              {
+                "rows": 318,
+                "table": "dwd.dwd_ks_settlement_net_event_detail",
+                "seconds": 0.0069,
+                "operation": "insert"
+              },
+              {
+                "rows": 18,
+                "table": "dws.dws_ks_settlement_net_shop_daily",
+                "seconds": 0.0012,
+                "operation": "delete"
+              },
+              {
+                "rows": 40,
+                "table": "dws.dws_ks_settlement_net_shop_daily",
+                "seconds": 0.0017,
+                "operation": "insert"
+              },
+              {
+                "rows": 18,
+                "table": "ads.ads_settlement_net_company_shop_daily",
+                "seconds": 0.0012,
+                "operation": "delete"
+              },
+              {
+                "rows": 40,
+                "table": "ads.ads_settlement_net_company_shop_daily",
+                "seconds": 0.0034,
+                "operation": "insert"
+              }
+            ],
+            "months": {
+              "ks": [
+                "2026-10-01"
+              ]
+            }
+          }
+        ],
+        "validation_lines": [
+          "ODS来源行数/唯一订单数：2022/2022",
+          "DWD行数（收入/支出/净额）：(2022, 2022, 2022)",
+          "DWS行数（收入类型/支出类型/净额日）：(762, 1016, 127)",
+          "ADS快手日期范围：2026-08-01 至 2026-10-19",
+          "ADS未匹配公司行数（收入/支出/净额）：(0, 0, 0)",
+          "跨平台收入合计：[('douyin', Decimal('6693156.98')), ('jd', Decimal('42565.60')), ('ks', Decimal('264074.54')), ('pdd', Decimal('767164.98')), ('tmall', Decimal('516049.30')), ('wechat_channels', Decimal('194595.00')), ('xhs', Decimal('15551.85'))]",
+          "警告：公式抽样场景不足5类，已对全部4个实际场景完成公式校验。"
+        ]
+      }
+    },
+    {
+      "etl_key": "settlement_shared_ads",
+      "etl_label": "七平台共享结算 ADS",
+      "status": "success",
+      "attempt_count": 1,
+      "exit_code": 0,
+      "started_at": "2026-10-20 08:24:32.730620+00:00",
+      "finished_at": "2026-10-20 08:24:33.095529+00:00",
+      "seconds": "0.364909",
+      "result_metrics": {
+        "refresh": [
+          {
+            "mode": "incremental",
+            "shops": {
+              "ks": [
+                "123456789",
+                "2376318498",
+                "5350925656"
+              ]
+            },
+            "events": [
+              {
+                "rows": 240,
+                "table": "ads.ads_settlement_income_company_shop_daily_type",
+                "seconds": 0.0021,
+                "operation": "delete"
+              },
+              {
+                "rows": 240,
+                "table": "ads.ads_settlement_income_company_shop_daily_type",
+                "seconds": 0.0066,
+                "operation": "insert"
+              },
+              {
+                "rows": 320,
+                "table": "ads.ads_settlement_expense_company_shop_daily_type",
+                "seconds": 0.0018,
+                "operation": "delete"
+              },
+              {
+                "rows": 320,
+                "table": "ads.ads_settlement_expense_company_shop_daily_type",
+                "seconds": 0.0067,
+                "operation": "insert"
+              },
+              {
+                "rows": 40,
+                "table": "ads.ads_settlement_net_company_shop_daily",
+                "seconds": 0.0014,
+                "operation": "delete"
+              },
+              {
+                "rows": 40,
+                "table": "ads.ads_settlement_net_company_shop_daily",
+                "seconds": 0.0037,
+                "operation": "insert"
+              },
+              {
+                "rows": 3,
+                "table": "ads.ads_settlement_net_company_shop_monthly",
+                "seconds": 0.0012,
+                "operation": "delete"
+              },
+              {
+                "rows": 3,
+                "table": "ads.ads_settlement_net_company_shop_monthly",
+                "seconds": 0.0016,
+                "operation": "insert"
+              }
+            ],
+            "months": {
+              "ks": [
+                "2026-10-01"
+              ]
+            }
+          }
+        ],
+        "validation_lines": [
+          "平台日明细（平台，行数，日期范围，收入，支出，净额，核验差额，未匹配公司）：",
+          "月度透视底表：行数=50，月份范围=2026-08-01至2026-10-01，收入=8493158.25，支出=1810593.81，净额=6682564.44，源结算金额=6682564.44，核验差额=0.00，纳入事件数=161023，视图行数=150"
+        ]
+      }
+    },
+    {
+      "etl_key": "ks_platform_expense",
+      "etl_label": "快手平台费用",
+      "status": "success",
+      "attempt_count": 2,
+      "exit_code": 0,
+      "started_at": "2026-10-20 08:24:33.167254+00:00",
+      "finished_at": "2026-10-20 08:24:34.354546+00:00",
+      "seconds": "1.187292",
+      "result_metrics": {
+        "refresh": [
+          {
+            "mode": "incremental",
+            "shops": {
+              "ks": [
+                "123456789",
+                "2376318498",
+                "5350925656"
+              ]
+            },
+            "events": [
+              {
+                "source": "ods.ods_ks_settlement_raw",
+                "seconds": 0.003
+              },
+              {
+                "source": "ods.ods_ks_fund_raw",
+                "seconds": 0.0028
+              },
+              {
+                "source": "common.v_ingest_batch_shop_context",
+                "seconds": 0.0121
+              },
+              {
+                "source": "ods.ods_file_ingest_log",
+                "seconds": 0.0027
+              },
+              {
+                "source": "common.v_settlement_source_batch",
+                "seconds": 0.0092
+              },
+              {
+                "source": "ods.ods_douyin_settlement_raw",
+                "seconds": 0.0027
+              },
+              {
+                "source": "ods.ods_xhs_settlement_income_raw",
+                "seconds": 0.0024
+              },
+              {
+                "source": "ods.ods_xhs_settlement_expense_raw",
+                "seconds": 0.0024
+              },
+              {
+                "source": "ods.ods_tmall_aggregate_fund_raw",
+                "seconds": 0.0023
+              },
+              {
+                "source": "ods.ods_tmall_alipay_fund_raw",
+                "seconds": 0.0023
+              },
+              {
+                "source": "common.v_settlement_source_days",
+                "seconds": 0.0926
+              },
+              {
+                "source": "common.v_settlement_source_group",
+                "seconds": 0.0079
+              },
+              {
+                "source": "common.v_settlement_source_decision",
+                "seconds": 0.0369
+              },
+              {
+                "source": "common.v_effective_settlement_source",
+                "seconds": 0.0478
+              },
+              {
+                "source": "common.v_current_ks_settlement_raw",
+                "seconds": 0.0459
+              },
+              {
+                "source": "common.v_current_ks_fund_raw",
+                "seconds": 0.0888
+              },
+              {
+                "rows": 1344,
+                "table": "dwd.dwd_ks_platform_expense_source_detail",
+                "seconds": 0.0021,
+                "operation": "delete"
+              },
+              {
+                "rows": 2544,
+                "table": "dwd.dwd_ks_platform_expense_source_detail",
+                "seconds": 0.0257,
+                "operation": "insert"
+              },
+              {
+                "rows": 614,
+                "table": "dwd.dwd_ks_platform_expense_source_detail",
+                "seconds": 0.0102,
+                "operation": "insert"
+              },
+              {
+                "rows": 176,
+                "table": "dws.dws_ks_platform_expense_shop_daily_category",
+                "seconds": 0.0015,
+                "operation": "delete"
+              },
+              {
+                "rows": 390,
+                "table": "dws.dws_ks_platform_expense_shop_daily_category",
+                "seconds": 0.0134,
+                "operation": "insert"
+              },
+              {
+                "rows": 248,
+                "table": "dws.dws_ks_operating_flow_shop_daily_scene",
+                "seconds": 0.0017,
+                "operation": "delete"
+              },
+              {
+                "rows": 511,
+                "table": "dws.dws_ks_operating_flow_shop_daily_scene",
+                "seconds": 0.0322,
+                "operation": "insert"
+              },
+              {
+                "rows": 248,
+                "table": "ads.ads_platform_operating_flow_company_shop_daily_scene",
+                "seconds": 0.0015,
+                "operation": "delete"
+              },
+              {
+                "rows": 511,
+                "table": "ads.ads_platform_operating_flow_company_shop_daily_scene",
+                "seconds": 0.0054,
+                "operation": "insert"
+              },
+              {
+                "rows": 176,
+                "table": "ads.ads_platform_expense_company_shop_daily_category",
+                "seconds": 0.0016,
+                "operation": "delete"
+              },
+              {
+                "rows": 390,
+                "table": "ads.ads_platform_expense_company_shop_daily_category",
+                "seconds": 0.0075,
+                "operation": "insert"
+              },
+              {
+                "rows": 32,
+                "table": "ads.ads_platform_main_business_income_company_shop_daily_category",
+                "seconds": 0.0013,
+                "operation": "delete"
+              },
+              {
+                "rows": 32,
+                "table": "ads.ads_platform_main_business_income_company_shop_daily_category",
+                "seconds": 0.0027,
+                "operation": "insert"
+              }
+            ],
+            "months": {
+              "ks": [
+                "2026-10-01"
+              ]
+            }
+          }
+        ],
+        "validation_lines": [
+          "快手ADS日期范围与总费用：2026-08-01至2026-10-19，101839.99",
+          "DWS按来源汇总：[('fund', Decimal('1937.65'), Decimal('730')), ('settlement', Decimal('99894.99'), Decimal('4077'))]",
+          "ADS一级费用分类汇总：[('consolidated_shipping_expense', '集运物流费', Decimal('235.00')), ('freight_insurance_expense', '运费保险', Decimal('1402.21')), ('influencer_commission', '达人佣金', Decimal('89736.13')), ('other_platform_expense', '其他平台费用', Decimal('1869.65')), ('platform_service_fee', '平台服务费', Decimal('8154.96')), ('return_shipping_expense', '退货物流费', Decimal('196.89')), ('service_provider_commission', '服务商佣金', Decimal('0.00')), ('small_payment_expense', '小额打款', Decimal('245.15'))]",
+          "公司未匹配与DWS/ADS差异：0 / 0"
+        ]
+      }
+    },
+    {
+      "etl_key": "ks_main_business_income",
+      "etl_label": "快手主营收入",
+      "status": "success",
+      "attempt_count": 2,
+      "exit_code": 0,
+      "started_at": "2026-10-20 08:24:34.415626+00:00",
+      "finished_at": "2026-10-20 08:24:35.208382+00:00",
+      "seconds": "0.792756",
+      "result_metrics": {
+        "refresh": [
+          {
+            "mode": "incremental",
+            "shops": {
+              "ks": [
+                "123456789",
+                "2376318498",
+                "5350925656"
+              ]
+            },
+            "events": [
+              {
+                "source": "ods.ods_ks_settlement_raw",
+                "seconds": 0.003
+              },
+              {
+                "source": "common.v_ingest_batch_shop_context",
+                "seconds": 0.0112
+              },
+              {
+                "source": "ods.ods_file_ingest_log",
+                "seconds": 0.0024
+              },
+              {
+                "source": "common.v_settlement_source_batch",
+                "seconds": 0.0087
+              },
+              {
+                "source": "ods.ods_douyin_settlement_raw",
+                "seconds": 0.0026
+              },
+              {
+                "source": "ods.ods_xhs_settlement_income_raw",
+                "seconds": 0.0024
+              },
+              {
+                "source": "ods.ods_xhs_settlement_expense_raw",
+                "seconds": 0.0021
+              },
+              {
+                "source": "ods.ods_tmall_aggregate_fund_raw",
+                "seconds": 0.0022
+              },
+              {
+                "source": "ods.ods_tmall_alipay_fund_raw",
+                "seconds": 0.0023
+              },
+              {
+                "source": "common.v_settlement_source_days",
+                "seconds": 0.0917
+              },
+              {
+                "source": "common.v_settlement_source_group",
+                "seconds": 0.0051
+              },
+              {
+                "source": "common.v_settlement_source_decision",
+                "seconds": 0.0317
+              },
+              {
+                "source": "common.v_effective_settlement_source",
+                "seconds": 0.0419
+              },
+              {
+                "source": "ods.ods_ks_fund_raw",
+                "seconds": 0.0025
+              },
+              {
+                "source": "common.v_current_ks_settlement_raw",
+                "seconds": 0.0461
+              },
+              {
+                "source": "common.v_current_ks_fund_raw",
+                "seconds": 0.0896
+              },
+              {
+                "rows": 385,
+                "table": "dwd.dwd_ks_main_business_income_source_detail",
+                "seconds": 0.0015,
+                "operation": "delete"
+              },
+              {
+                "rows": 318,
+                "table": "dwd.dwd_ks_main_business_income_source_detail",
+                "seconds": 0.0074,
+                "operation": "insert"
+              },
+              {
+                "rows": 614,
+                "table": "dwd.dwd_ks_main_business_income_source_detail",
+                "seconds": 0.01,
+                "operation": "insert"
+              },
+              {
+                "rows": 32,
+                "table": "dws.dws_ks_main_business_income_shop_daily_category",
+                "seconds": 0.0014,
+                "operation": "delete"
+              },
+              {
+                "rows": 73,
+                "table": "dws.dws_ks_main_business_income_shop_daily_category",
+                "seconds": 0.0051,
+                "operation": "insert"
+              }
+            ],
+            "months": {
+              "ks": [
+                "2026-10-01"
+              ]
+            }
+          }
+        ],
+        "validation_lines": [
+          "ODS行数：{'ods_ks_settlement_raw': 2022, 'ods_ks_fund_raw': 2815}"
+        ]
+      }
+    },
+    {
+      "etl_key": "platform_main_business_income_shared_ads",
+      "etl_label": "七平台共享主营收入 ADS",
+      "status": "success",
+      "attempt_count": 1,
+      "exit_code": 0,
+      "started_at": "2026-10-20 08:24:35.270269+00:00",
+      "finished_at": "2026-10-20 08:24:35.768504+00:00",
+      "seconds": "0.498235",
+      "result_metrics": {
+        "refresh": [
+          {
+            "mode": "incremental",
+            "shops": {
+              "ks": [
+                "123456789",
+                "2376318498",
+                "5350925656"
+              ]
+            },
+            "events": [
+              {
+                "rows": 511,
+                "table": "dws.dws_ks_operating_flow_shop_daily_scene",
+                "seconds": 0.0018,
+                "operation": "delete"
+              },
+              {
+                "rows": 552,
+                "table": "dws.dws_ks_operating_flow_shop_daily_scene",
+                "seconds": 0.0378,
+                "operation": "insert"
+              },
+              {
+                "rows": 511,
+                "table": "ads.ads_platform_operating_flow_company_shop_daily_scene",
+                "seconds": 0.002,
+                "operation": "delete"
+              },
+              {
+                "rows": 552,
+                "table": "ads.ads_platform_operating_flow_company_shop_daily_scene",
+                "seconds": 0.0072,
+                "operation": "insert"
+              },
+              {
+                "rows": 390,
+                "table": "ads.ads_platform_expense_company_shop_daily_category",
+                "seconds": 0.0017,
+                "operation": "delete"
+              },
+              {
+                "rows": 390,
+                "table": "ads.ads_platform_expense_company_shop_daily_category",
+                "seconds": 0.008,
+                "operation": "insert"
+              },
+              {
+                "rows": 32,
+                "table": "ads.ads_platform_main_business_income_company_shop_daily_category",
+                "seconds": 0.0013,
+                "operation": "delete"
+              },
+              {
+                "rows": 73,
+                "table": "ads.ads_platform_main_business_income_company_shop_daily_category",
+                "seconds": 0.0036,
+                "operation": "insert"
+              }
+            ],
+            "months": {
+              "ks": [
+                "2026-10-01"
+              ]
+            }
+          }
+        ],
+        "validation_lines": []
+      }
+    },
+    {
+      "etl_key": "platform_bank_summary",
+      "etl_label": "平台银行汇总",
+      "status": "success",
+      "attempt_count": 1,
+      "exit_code": 0,
+      "started_at": "2026-10-20 08:24:35.830362+00:00",
+      "finished_at": "2026-10-20 08:24:36.218092+00:00",
+      "seconds": "0.387730",
+      "result_metrics": {
+        "refresh": [
+          {
+            "mode": "incremental",
+            "shops": {
+              "ks": [
+                "123456789",
+                "2376318498",
+                "5350925656"
+              ]
+            },
+            "events": [
+              {
+                "rows": 284,
+                "table": "ads.ads_platform_bank_total_revenue_company_daily_type",
+                "seconds": 0.0017,
+                "operation": "delete"
+              },
+              {
+                "rows": 539,
+                "table": "ads.ads_platform_bank_total_revenue_company_daily_type",
+                "seconds": 0.0109,
+                "operation": "insert"
+              }
+            ],
+            "months": {
+              "ks": [
+                "2026-10-01"
+              ]
+            }
+          }
+        ],
+        "validation_lines": [
+          "[WARN] 来源表ads.ads_bank_statement_company_daily_metric为空，按0值纳入平台/银行汇总",
+          "四张来源ADS（行数/日期范围/金额/未匹配公司）：",
+          "汇总ADS：9114行，2026-08-01 至 2026-10-19",
+          "来源方向汇总（来源表/方向/金额/汇总行数）：",
+          "未匹配公司/重复主键/四来源双向差异：0/0/0",
+          "收入/支出构成图汇总：{'expense': Decimal('3131681.73'), 'income': Decimal('8448892.03')}"
+        ]
+      }
+    }
+  ],
+  "new_ods": [
+    {
+      "target_table": "ods_ks_fund_raw",
+      "batches": 25,
+      "parsed_rows": 366,
+      "failed_rows": 0
+    },
+    {
+      "target_table": "ods_ks_settlement_raw",
+      "batches": 3,
+      "parsed_rows": 296,
+      "failed_rows": 0
+    }
+  ],
+  "verified_ranges": [
+    {
+      "batch_id": 739,
+      "period_start": "2026-10-01",
+      "period_end": "2026-10-18",
+      "file_hash": "84620a0c19b96d3bd63d47861534997261b5de86dc663253a9cd380156b586b7",
+      "evidence_type": "user_confirmed",
+      "evidence": {
+        "request": "用户明确指定快手三店10月1日至18日的范围结算导出；下载归档验收记录确认完整导出",
+        "query_end": "2026-10-18",
+        "query_start": "2026-10-01",
+        "archive_path": "C:\\Users\\win\\Desktop\\data\\快手\\结算\\2026.10\\202610_快手_漯河音咖商贸有限公司_MOCK音咖专卖店_结算_019.xlsx",
+        "archive_sha256": "84620a0c19b96d3bd63d47861534997261b5de86dc663253a9cd380156b586b7",
+        "export_evidence": "2026-10-19 下载验收记录：57份归档中，结算三份为音咖153行、禧饮140行、舟益3行；当前归档SHA256与成功导入文件一致",
+        "verified_parsed_rows": 153,
+        "confirmed_request_turn": "01a1537c-0209-7cc0-8fc9-c937f9de24bf",
+        "confirmed_request_thread": "01a15310-7096-77b2-a17e-98049ad80b8e"
+      }
+    },
+    {
+      "batch_id": 740,
+      "period_start": "2026-10-01",
+      "period_end": "2026-10-18",
+      "file_hash": "1143cf5ee83217ca4cd767ef257d712a8456867d663f98cef026d92925105921",
+      "evidence_type": "user_confirmed",
+      "evidence": {
+        "request": "用户明确指定快手三店10月1日至18日的范围结算导出；下载归档验收记录确认完整导出",
+        "query_end": "2026-10-18",
+        "query_start": "2026-10-01",
+        "archive_path": "C:\\Users\\win\\Desktop\\data\\快手\\结算\\2026.10\\202610_快手_西平县禧饮商贸有限公司_MOCK禧饮咖啡专卖店_结算_019.xlsx",
+        "archive_sha256": "1143cf5ee83217ca4cd767ef257d712a8456867d663f98cef026d92925105921",
+        "export_evidence": "2026-10-19 下载验收记录：57份归档中，结算三份为音咖153行、禧饮140行、舟益3行；当前归档SHA256与成功导入文件一致",
+        "verified_parsed_rows": 140,
+        "confirmed_request_turn": "01a1537c-0209-7cc0-8fc9-c937f9de24bf",
+        "confirmed_request_thread": "01a15310-7096-77b2-a17e-98049ad80b8e"
+      }
+    },
+    {
+      "batch_id": 741,
+      "period_start": "2026-10-01",
+      "period_end": "2026-10-18",
+      "file_hash": "7baa1c7dd0c6fca02c48e6421a4dad7b4b9eafea2ef7715e4989975c5dd08bf4",
+      "evidence_type": "user_confirmed",
+      "evidence": {
+        "request": "用户明确指定快手三店10月1日至18日的范围结算导出；下载归档验收记录确认完整导出",
+        "query_end": "2026-10-18",
+        "query_start": "2026-10-01",
+        "archive_path": "C:\\Users\\win\\Desktop\\data\\快手\\结算\\2026.10\\202610_快手_舟益生物科技(南京)有限公司_MOCK舟益专卖店_结算_019.xlsx",
+        "archive_sha256": "7baa1c7dd0c6fca02c48e6421a4dad7b4b9eafea2ef7715e4989975c5dd08bf4",
+        "export_evidence": "2026-10-19 下载验收记录：57份归档中，结算三份为音咖153行、禧饮140行、舟益3行；当前归档SHA256与成功导入文件一致",
+        "verified_parsed_rows": 3,
+        "confirmed_request_turn": "01a1537c-0209-7cc0-8fc9-c937f9de24bf",
+        "confirmed_request_thread": "01a15310-7096-77b2-a17e-98049ad80b8e"
+      }
+    }
+  ],
+  "effective_new_settlement": [
+    {
+      "batch_id": 739,
+      "effective_days": 18,
+      "effective_rows": "153"
+    },
+    {
+      "batch_id": 740,
+      "effective_days": 17,
+      "effective_rows": "140"
+    },
+    {
+      "batch_id": 741,
+      "effective_days": 3,
+      "effective_rows": "3"
+    }
+  ],
+  "settlement_october": [
+    {
+      "shop_code": "123456789",
+      "shop_name": "MOCK禧饮咖啡专卖店",
+      "first_day": "2026-10-01",
+      "last_day": "2026-10-19",
+      "daily_rows": 18,
+      "income": "11776.50",
+      "expense": "4120.46",
+      "net": "7656.04",
+      "validation_difference": "0.00"
+    },
+    {
+      "shop_code": "2376318498",
+      "shop_name": "MOCK音咖专卖店",
+      "first_day": "2026-10-01",
+      "last_day": "2026-10-19",
+      "daily_rows": 19,
+      "income": "15927.60",
+      "expense": "5041.46",
+      "net": "10886.14",
+      "validation_difference": "0.00"
+    },
+    {
+      "shop_code": "5350925656",
+      "shop_name": "MOCK舟益专卖店",
+      "first_day": "2026-10-03",
+      "last_day": "2026-10-16",
+      "daily_rows": 3,
+      "income": "297.00",
+      "expense": "74.06",
+      "net": "222.94",
+      "validation_difference": "0.00"
+    }
+  ],
+  "historical_etl_tasks": [
+    {
+      "etl_run_id": "66c07657-48a5-4335-a6db-d489f82b0e3d",
+      "etl_key": "ks_gsv",
+      "status": "success",
+      "seconds": "0.553445"
+    },
+    {
+      "etl_run_id": "66c07657-48a5-4335-a6db-d489f82b0e3d",
+      "etl_key": "influencer_performance",
+      "status": "success",
+      "seconds": "73.889062"
+    },
+    {
+      "etl_run_id": "66c07657-48a5-4335-a6db-d489f82b0e3d",
+      "etl_key": "operating_sales",
+      "status": "success",
+      "seconds": "143.668939"
+    },
+    {
+      "etl_run_id": "da719277-2c6b-4e35-834e-8a6bf7a4548d",
+      "etl_key": "tmall_settlement_from_funds",
+      "status": "success",
+      "seconds": "317.423863"
+    },
+    {
+      "etl_run_id": "da719277-2c6b-4e35-834e-8a6bf7a4548d",
+      "etl_key": "settlement_shared_ads",
+      "status": "success",
+      "seconds": "0.365832"
+    },
+    {
+      "etl_run_id": "da719277-2c6b-4e35-834e-8a6bf7a4548d",
+      "etl_key": "tmall_main_business_finance",
+      "status": "success",
+      "seconds": "621.439697"
+    },
+    {
+      "etl_run_id": "da719277-2c6b-4e35-834e-8a6bf7a4548d",
+      "etl_key": "platform_main_business_income_shared_ads",
+      "status": "success",
+      "seconds": "3.102357"
+    },
+    {
+      "etl_run_id": "da719277-2c6b-4e35-834e-8a6bf7a4548d",
+      "etl_key": "platform_bank_summary",
+      "status": "success",
+      "seconds": "0.427397"
+    }
+  ],
+  "full_job": [
+    {
+      "job_code": "full_etl",
+      "enabled": true,
+      "schedule_type": "manual"
+    }
+  ],
+  "temporary_databases": [],
+  "temporary_audit": [],
+  "before": {
+    "context": {
+      "mode": "incremental",
+      "shops": {
+        "ks": [
+          "123456789",
+          "2376318498",
+          "5350925656"
+        ]
+      },
+      "months": {
+        "ks": [
+          "2026-10-01"
+        ]
+      },
+      "version": 1,
+      "batch_ids": [
+        739,
+        740,
+        741,
+        742,
+        743,
+        744,
+        745,
+        746,
+        747,
+        748,
+        749,
+        750,
+        751,
+        752,
+        753,
+        754,
+        755,
+        756,
+        757,
+        758,
+        759,
+        760,
+        761,
+        762,
+        763,
+        764,
+        765,
+        766
+      ],
+      "batch_cutoff": 766,
+      "trigger_type": "ingest_complete"
+    },
+    "snapshot": {
+      "ads.ads_platform_bank_total_revenue_company_daily_type": {
+        "outside_rows": 8575,
+        "outside_hash": "6abfe32870e8c4b7df6cf8f6254b823a"
+      },
+      "ads.ads_platform_expense_company_shop_daily_category": {
+        "outside_rows": 5418,
+        "outside_hash": "421716c81d391d39dc02ab33a04fdb9e"
+      },
+      "ads.ads_platform_operating_flow_company_shop_daily_scene": {
+        "outside_rows": 10003,
+        "outside_hash": "2d0c3f28f8d8c7771052406bf73d7963"
+      },
+      "ads.ads_settlement_expense_company_shop_daily_type": {
+        "outside_rows": 5620,
+        "outside_hash": "8179c895dbcf58dcf167f52cfed87e77"
+      },
+      "ads.ads_settlement_income_company_shop_daily_type": {
+        "outside_rows": 5707,
+        "outside_hash": "4645c4cf38593198a2045fc26af25b69"
+      },
+      "ads.ads_settlement_net_company_shop_daily": {
+        "outside_rows": 949,
+        "outside_hash": "ef9c717dadd5db00f7237945a6cc5259"
+      },
+      "ads.ads_settlement_net_company_shop_monthly": {
+        "outside_rows": 47,
+        "outside_hash": "9b13730ffa7800d15470e2252c21b4a2"
+      },
+      "dwd.dwd_ks_platform_expense_source_detail": {
+        "outside_rows": 15833,
+        "outside_hash": "fdb866698e7135b3f2da2e85b3050400"
+      },
+      "dwd.dwd_ks_settlement_expense_event_detail": {
+        "outside_rows": 1704,
+        "outside_hash": "bb52f37558113bc5c11d6f44096ae7da"
+      },
+      "dwd.dwd_ks_settlement_income_event_detail": {
+        "outside_rows": 1704,
+        "outside_hash": "7e93066e21e2fc00a8a759d142564f16"
+      },
+      "dwd.dwd_ks_settlement_net_event_detail": {
+        "outside_rows": 1704,
+        "outside_hash": "cd7d9b8e3c3c58b2b0c8d87f6b2230f3"
+      },
+      "dws.dws_douyin_operating_flow_shop_daily_scene": {
+        "outside_rows": 4209,
+        "outside_hash": "7e106992349d3a36fe20097373e71ef3"
+      },
+      "dws.dws_jd_operating_flow_shop_daily_scene": {
+        "outside_rows": 549,
+        "outside_hash": "8ce1a7a3477efc0ea267157fc79c09a4"
+      },
+      "dws.dws_ks_operating_flow_shop_daily_scene": {
+        "outside_rows": 1238,
+        "outside_hash": "e5a5c08432458cafec2959e9e1fc6296"
+      },
+      "dws.dws_ks_platform_expense_shop_daily_category": {
+        "outside_rows": 805,
+        "outside_hash": "d2b43072d79872fb8d84942fa20fb567"
+      },
+      "dws.dws_ks_settlement_expense_shop_daily_type": {
+        "outside_rows": 696,
+        "outside_hash": "528e03ad41c2e638a5b3292457bdeaea"
+      },
+      "dws.dws_ks_settlement_income_shop_daily_type": {
+        "outside_rows": 522,
+        "outside_hash": "d161b81234db2de555f7e7c865481f4a"
+      },
+      "dws.dws_ks_settlement_net_shop_daily": {
+        "outside_rows": 87,
+        "outside_hash": "acdf8f9fd87672b516b2bd7d7dac95a5"
+      },
+      "dws.dws_pdd_operating_flow_shop_daily_scene": {
+        "outside_rows": 1472,
+        "outside_hash": "9a081c2e1c7909164b559ed6b383c543"
+      },
+      "dws.dws_tmall_operating_flow_shop_daily_scene": {
+        "outside_rows": 1778,
+        "outside_hash": "02406118a6d36ca3d82472f7dc81f51f"
+      },
+      "dws.dws_wechat_channels_operating_flow_shop_daily_scene": {
+        "outside_rows": 441,
+        "outside_hash": "15f7a9118b7e336f6a59edf274a35071"
+      },
+      "dws.dws_xhs_operating_flow_shop_daily_scene": {
+        "outside_rows": 316,
+        "outside_hash": "b828ecf10377bb377ded4b21890b3c7d"
+      },
+      "ods.ods_ks_fund_raw": {
+        "rows": 2829,
+        "hash": "5af0999ed073e3cb59cb018ead054df4"
+      },
+      "ods.ods_ks_settlement_raw": {
+        "rows": 2147,
+        "hash": "2cd3eb1e4225408a648552b2bb83af9b"
+      }
+    }
+  },
+  "after": {
+    "context": {
+      "mode": "incremental",
+      "shops": {
+        "ks": [
+          "123456789",
+          "2376318498",
+          "5350925656"
+        ]
+      },
+      "months": {
+        "ks": [
+          "2026-10-01"
+        ]
+      },
+      "version": 1,
+      "batch_ids": [
+        739,
+        740,
+        741,
+        742,
+        743,
+        744,
+        745,
+        746,
+        747,
+        748,
+        749,
+        750,
+        751,
+        752,
+        753,
+        754,
+        755,
+        756,
+        757,
+        758,
+        759,
+        760,
+        761,
+        762,
+        763,
+        764,
+        765,
+        766
+      ],
+      "batch_cutoff": 766,
+      "trigger_type": "ingest_complete"
+    },
+    "snapshot": {
+      "ads.ads_platform_bank_total_revenue_company_daily_type": {
+        "outside_rows": 8575,
+        "outside_hash": "6abfe32870e8c4b7df6cf8f6254b823a"
+      },
+      "ads.ads_platform_expense_company_shop_daily_category": {
+        "outside_rows": 5418,
+        "outside_hash": "421716c81d391d39dc02ab33a04fdb9e"
+      },
+      "ads.ads_platform_operating_flow_company_shop_daily_scene": {
+        "outside_rows": 10003,
+        "outside_hash": "2d0c3f28f8d8c7771052406bf73d7963"
+      },
+      "ads.ads_settlement_expense_company_shop_daily_type": {
+        "outside_rows": 5620,
+        "outside_hash": "8179c895dbcf58dcf167f52cfed87e77"
+      },
+      "ads.ads_settlement_income_company_shop_daily_type": {
+        "outside_rows": 5707,
+        "outside_hash": "4645c4cf38593198a2045fc26af25b69"
+      },
+      "ads.ads_settlement_net_company_shop_daily": {
+        "outside_rows": 949,
+        "outside_hash": "ef9c717dadd5db00f7237945a6cc5259"
+      },
+      "ads.ads_settlement_net_company_shop_monthly": {
+        "outside_rows": 47,
+        "outside_hash": "9b13730ffa7800d15470e2252c21b4a2"
+      },
+      "dwd.dwd_ks_platform_expense_source_detail": {
+        "outside_rows": 15833,
+        "outside_hash": "fdb866698e7135b3f2da2e85b3050400"
+      },
+      "dwd.dwd_ks_settlement_expense_event_detail": {
+        "outside_rows": 1704,
+        "outside_hash": "bb52f37558113bc5c11d6f44096ae7da"
+      },
+      "dwd.dwd_ks_settlement_income_event_detail": {
+        "outside_rows": 1704,
+        "outside_hash": "7e93066e21e2fc00a8a759d142564f16"
+      },
+      "dwd.dwd_ks_settlement_net_event_detail": {
+        "outside_rows": 1704,
+        "outside_hash": "cd7d9b8e3c3c58b2b0c8d87f6b2230f3"
+      },
+      "dws.dws_douyin_operating_flow_shop_daily_scene": {
+        "outside_rows": 4209,
+        "outside_hash": "7e106992349d3a36fe20097373e71ef3"
+      },
+      "dws.dws_jd_operating_flow_shop_daily_scene": {
+        "outside_rows": 549,
+        "outside_hash": "8ce1a7a3477efc0ea267157fc79c09a4"
+      },
+      "dws.dws_ks_operating_flow_shop_daily_scene": {
+        "outside_rows": 1238,
+        "outside_hash": "e5a5c08432458cafec2959e9e1fc6296"
+      },
+      "dws.dws_ks_platform_expense_shop_daily_category": {
+        "outside_rows": 805,
+        "outside_hash": "d2b43072d79872fb8d84942fa20fb567"
+      },
+      "dws.dws_ks_settlement_expense_shop_daily_type": {
+        "outside_rows": 696,
+        "outside_hash": "528e03ad41c2e638a5b3292457bdeaea"
+      },
+      "dws.dws_ks_settlement_income_shop_daily_type": {
+        "outside_rows": 522,
+        "outside_hash": "d161b81234db2de555f7e7c865481f4a"
+      },
+      "dws.dws_ks_settlement_net_shop_daily": {
+        "outside_rows": 87,
+        "outside_hash": "acdf8f9fd87672b516b2bd7d7dac95a5"
+      },
+      "dws.dws_pdd_operating_flow_shop_daily_scene": {
+        "outside_rows": 1472,
+        "outside_hash": "9a081c2e1c7909164b559ed6b383c543"
+      },
+      "dws.dws_tmall_operating_flow_shop_daily_scene": {
+        "outside_rows": 1778,
+        "outside_hash": "02406118a6d36ca3d82472f7dc81f51f"
+      },
+      "dws.dws_wechat_channels_operating_flow_shop_daily_scene": {
+        "outside_rows": 441,
+        "outside_hash": "15f7a9118b7e336f6a59edf274a35071"
+      },
+      "dws.dws_xhs_operating_flow_shop_daily_scene": {
+        "outside_rows": 316,
+        "outside_hash": "b828ecf10377bb377ded4b21890b3c7d"
+      },
+      "ods.ods_ks_fund_raw": {
+        "rows": 2829,
+        "hash": "5af0999ed073e3cb59cb018ead054df4"
+      },
+      "ods.ods_ks_settlement_raw": {
+        "rows": 2147,
+        "hash": "2cd3eb1e4225408a648552b2bb83af9b"
+      }
+    },
+    "different": {}
+  },
+  "same_snapshot_full_baseline": [
+    {
+      "etl_key": "ks_settlement",
+      "comparison": [
+        {
+          "table": "ads.ads_settlement_expense_company_shop_daily_type",
+          "rows": 320,
+          "different_business_rows": 0
+        },
+        {
+          "table": "ads.ads_settlement_income_company_shop_daily_type",
+          "rows": 240,
+          "different_business_rows": 0
+        },
+        {
+          "table": "ads.ads_settlement_net_company_shop_daily",
+          "rows": 40,
+          "different_business_rows": 0
+        },
+        {
+          "table": "dwd.dwd_ks_settlement_expense_event_detail",
+          "rows": 318,
+          "different_business_rows": 0
+        },
+        {
+          "table": "dwd.dwd_ks_settlement_income_event_detail",
+          "rows": 318,
+          "different_business_rows": 0
+        },
+        {
+          "table": "dwd.dwd_ks_settlement_net_event_detail",
+          "rows": 318,
+          "different_business_rows": 0
+        },
+        {
+          "table": "dws.dws_ks_settlement_expense_shop_daily_type",
+          "rows": 320,
+          "different_business_rows": 0
+        },
+        {
+          "table": "dws.dws_ks_settlement_income_shop_daily_type",
+          "rows": 240,
+          "different_business_rows": 0
+        },
+        {
+          "table": "dws.dws_ks_settlement_net_shop_daily",
+          "rows": 40,
+          "different_business_rows": 0
+        }
+      ],
+      "committed": false,
+      "comparison_setup_seconds": 0.06937979999929667,
+      "compute_seconds": 2.798,
+      "result": "passed_rolled_back",
+      "wall_seconds": 2.912
+    },
+    {
+      "etl_key": "settlement_shared_ads",
+      "comparison": [
+        {
+          "table": "ads.ads_settlement_expense_company_shop_daily_type",
+          "rows": 320,
+          "different_business_rows": 0
+        },
+        {
+          "table": "ads.ads_settlement_income_company_shop_daily_type",
+          "rows": 240,
+          "different_business_rows": 0
+        },
+        {
+          "table": "ads.ads_settlement_net_company_shop_daily",
+          "rows": 40,
+          "different_business_rows": 0
+        },
+        {
+          "table": "ads.ads_settlement_net_company_shop_monthly",
+          "rows": 3,
+          "different_business_rows": 0
+        }
+      ],
+      "committed": false,
+      "comparison_setup_seconds": 0.029573699925094843,
+      "compute_seconds": 0.242,
+      "result": "passed_rolled_back",
+      "wall_seconds": 0.286
+    },
+    {
+      "etl_key": "ks_platform_expense",
+      "comparison": [
+        {
+          "table": "ads.ads_platform_expense_company_shop_daily_category",
+          "rows": 390,
+          "different_business_rows": 0
+        },
+        {
+          "table": "ads.ads_platform_main_business_income_company_shop_daily_category",
+          "rows": 73,
+          "different_business_rows": 0
+        },
+        {
+          "table": "ads.ads_platform_operating_flow_company_shop_daily_scene",
+          "rows": 552,
+          "different_business_rows": 0
+        },
+        {
+          "table": "dwd.dwd_ks_platform_expense_source_detail",
+          "rows": 3158,
+          "different_business_rows": 0
+        },
+        {
+          "table": "dws.dws_ks_operating_flow_shop_daily_scene",
+          "rows": 552,
+          "different_business_rows": 0
+        },
+        {
+          "table": "dws.dws_ks_platform_expense_shop_daily_category",
+          "rows": 390,
+          "different_business_rows": 0
+        }
+      ],
+      "committed": false,
+      "comparison_setup_seconds": 0.10555740003474057,
+      "compute_seconds": 5.491,
+      "result": "passed_rolled_back",
+      "wall_seconds": 5.689
+    },
+    {
+      "etl_key": "ks_main_business_income",
+      "comparison": [
+        {
+          "table": "dwd.dwd_ks_main_business_income_source_detail",
+          "rows": 932,
+          "different_business_rows": 0
+        },
+        {
+          "table": "dws.dws_ks_main_business_income_shop_daily_category",
+          "rows": 73,
+          "different_business_rows": 0
+        }
+      ],
+      "committed": false,
+      "comparison_setup_seconds": 0.03107789997011423,
+      "compute_seconds": 2.185,
+      "result": "passed_rolled_back",
+      "wall_seconds": 2.241
+    },
+    {
+      "etl_key": "platform_main_business_income_shared_ads",
+      "comparison": [
+        {
+          "table": "ads.ads_platform_expense_company_shop_daily_category",
+          "rows": 390,
+          "different_business_rows": 0
+        },
+        {
+          "table": "ads.ads_platform_main_business_income_company_shop_daily_category",
+          "rows": 73,
+          "different_business_rows": 0
+        },
+        {
+          "table": "ads.ads_platform_operating_flow_company_shop_daily_scene",
+          "rows": 552,
+          "different_business_rows": 0
+        },
+        {
+          "table": "dws.dws_ks_operating_flow_shop_daily_scene",
+          "rows": 552,
+          "different_business_rows": 0
+        }
+      ],
+      "committed": false,
+      "comparison_setup_seconds": 0.042739300057291985,
+      "compute_seconds": 2.918,
+      "result": "passed_rolled_back",
+      "wall_seconds": 2.996
+    },
+    {
+      "etl_key": "platform_bank_summary",
+      "comparison": [
+        {
+          "table": "ads.ads_platform_bank_total_revenue_company_daily_type",
+          "rows": 539,
+          "different_business_rows": 0
+        }
+      ],
+      "committed": false,
+      "comparison_setup_seconds": 0.018051299965009093,
+      "compute_seconds": 0.256,
+      "result": "passed_rolled_back",
+      "wall_seconds": 0.287
+    }
+  ],
+  "module_preflight": [
+    {
+      "etl_key": "ks_settlement",
+      "seconds": 0.52,
+      "result": "passed_rolled_back"
+    },
+    {
+      "etl_key": "settlement_shared_ads",
+      "seconds": 0.18,
+      "result": "passed_rolled_back"
+    },
+    {
+      "etl_key": "ks_platform_expense",
+      "seconds": 0.93,
+      "result": "passed_rolled_back"
+    },
+    {
+      "etl_key": "ks_main_business_income",
+      "seconds": 0.58,
+      "result": "passed_rolled_back"
+    },
+    {
+      "etl_key": "platform_main_business_income_shared_ads",
+      "seconds": 0.32,
+      "result": "passed_rolled_back"
+    },
+    {
+      "etl_key": "platform_bank_summary",
+      "seconds": 0.174,
+      "result": "passed_rolled_back"
+    },
+    {
+      "etl_key": "tmall_settlement_from_funds",
+      "seconds": 3.259,
+      "result": "passed_rolled_back"
+    },
+    {
+      "etl_key": "tmall_main_business_finance",
+      "seconds": 6.393,
+      "result": "passed_rolled_back"
+    },
+    {
+      "etl_key": "ks_gsv",
+      "seconds": 0.311,
+      "result": "passed_rolled_back"
+    },
+    {
+      "etl_key": "influencer_performance",
+      "seconds": 2.366,
+      "result": "passed_rolled_back"
+    },
+    {
+      "etl_key": "operating_sales",
+      "seconds": 6.956,
+      "result": "passed_rolled_back"
+    }
+  ],
+  "tests": {
+    "isolated_runtime": {
+      "passed": 26,
+      "skipped": 0
+    },
+    "file_ingest": {
+      "passed": 126,
+      "skipped": 52
+    },
+    "automation": {
+      "passed": 9,
+      "skipped": 0
+    },
+    "compileall": "passed",
+    "test_services_started": 0,
+    "temporary_test_audit_rows_hard_deleted": 1,
+    "same_transaction_receipt_registration": "passed",
+    "final_successful_etl_tasks": 6
+  },
+  "timing_summary": {
+    "formal_execution_span_seconds": 4.301331,
+    "formal_task_sum_seconds": 3.97821,
+    "same_snapshot_full_compute_seconds": 13.89,
+    "same_snapshot_incremental_compute_seconds": 2.704,
+    "compute_reduction_percent": 80.53,
+    "compute_speedup": 5.14
+  }
+}

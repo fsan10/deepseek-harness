@@ -1,0 +1,9 @@
+{
+  "id": "today",
+  "domain": "今日",
+  "title": "今日工作台",
+  "question": "我现在该动哪一件事？",
+  "kind": "overview",
+  "order": 1,
+  "owner": "工作台"
+}

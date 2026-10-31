@@ -1,0 +1,22 @@
+# 联邦单元：从 coffice-core（原一体式平台）按业务域拆出，代码为物理副本。
+id: coffice-master
+name: 主数据与治理
+form: service
+domain: 治理
+owner: 运营中台
+description: 从 mock_coffice 拆出的主数据与治理单元，保留原模块源码，外层为零依赖自检服务。
+source: coffice-core（本仓库内物理副本，非引用）
+port: 8793
+health:
+  path: /health
+  timeoutMs: 1200
+runtime:
+  command: python
+  args: [service/app.py, --port, 8793]
+  start: runtime/start.ps1
+  cwd: .
+depends: [coffice-core]
+capabilities: [身份与权限, 达人主数据, 资金拆分调整]
+levels:
+  read: L0
+  write: L2

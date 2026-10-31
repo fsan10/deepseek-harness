@@ -1,0 +1,367 @@
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 16px;
+}
+
+.formGrid :global(.form-row) {
+  min-width: 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 7px;
+}
+
+.formGrid :global(.form-row > label) {
+  width: auto;
+  flex: none;
+}
+
+.formGrid :global(.form-row .input) {
+  width: 100%;
+  min-width: 0;
+}
+
+.scheduleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  gap: 14px;
+  align-items: start;
+}
+
+.profileActions {
+  min-width: 126px;
+  white-space: nowrap;
+}
+
+.taskAnchor {
+  scroll-margin-top: 100px;
+}
+
+.controlForm,
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.controlForm {
+  gap: 16px;
+}
+
+.controlForm > :global(.btn) {
+  width: 100%;
+}
+
+.controlForm > :global(.meta) {
+  line-height: 1.7;
+}
+
+.field {
+  min-width: 0;
+  gap: 8px;
+}
+
+.field > span:first-child {
+  color: var(--secondary);
+  font-size: var(--font-sm);
+  font-weight: 500;
+}
+
+.field > :global(.dp),
+.field > :global(.select) {
+  width: 100%;
+}
+
+.scopeTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: var(--control-height);
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--secondary);
+  text-align: left;
+  font-size: var(--font-body);
+}
+
+.scopeTrigger svg {
+  flex: none;
+  color: var(--faint);
+}
+
+.scopeTrigger:hover:not(:disabled) {
+  border-color: var(--primary-line);
+}
+
+.scopeTrigger:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.scopeTrigger:focus-visible,
+.shopOption:focus-within {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.snapshotNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-2);
+}
+
+.snapshotNote svg {
+  flex: none;
+  color: var(--primary);
+  margin-top: 2px;
+}
+
+.snapshotNote strong {
+  font-size: var(--font-md);
+  font-weight: 500;
+}
+
+.snapshotNote p {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: var(--font-sm);
+  line-height: 1.7;
+}
+
+.progress {
+  margin-top: 10px;
+}
+
+.runItems {
+  max-height: 356px;
+  overflow-y: auto;
+  margin-top: 12px;
+}
+
+.runItem {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content 52px;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.runItem:last-child {
+  border-bottom: 0;
+}
+
+.itemIdentity,
+.historyIdentity,
+.shopIdentity {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 4px;
+}
+
+.itemIdentity strong,
+.historyIdentity strong,
+.shopIdentity strong {
+  font-size: var(--font-body);
+  font-weight: 500;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.itemIdentity > span,
+.historyIdentity > span,
+.shopIdentity > span {
+  font-size: var(--font-sm);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.itemCount {
+  text-align: right;
+  color: var(--secondary);
+  font-size: var(--font-md);
+  font-variant-numeric: tabular-nums;
+}
+
+.itemMessage {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: var(--font-sm);
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.runMessage {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: var(--surface-2);
+  border-radius: 8px;
+  color: var(--secondary);
+  font-size: var(--font-sm);
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.taskFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.taskFooter > :global(.meta) {
+  flex: 1 1 200px;
+  line-height: 1.7;
+}
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+}
+
+.historyRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) 32px minmax(120px, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 86px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.historyRow:last-child {
+  border-bottom: 0;
+}
+
+.historyTrigger {
+  color: var(--muted);
+  font-size: var(--font-sm);
+}
+
+.historyState {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.historyState > span:last-child {
+  font-size: var(--font-sm);
+  color: var(--muted);
+}
+
+.settingsLink {
+  display: inline-block;
+  margin-top: 16px;
+}
+
+.shopToolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.shopToolbar > :global(.search) {
+  flex: 1 1 220px;
+}
+
+.shopList {
+  max-height: 380px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.shopOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.shopOption:last-child {
+  border-bottom: 0;
+}
+
+.shopOption:has(input:checked) {
+  background: var(--primary-soft);
+}
+
+.shopOption > input {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  accent-color: var(--primary);
+}
+
+.shopIdentity {
+  flex: 1;
+}
+
+.scopeHint {
+  color: var(--muted);
+  font-size: var(--font-sm);
+  line-height: 1.7;
+  margin-top: 14px;
+}
+
+.selectionCount {
+  margin-right: auto;
+  align-self: center;
+}
+
+@media (max-width: 1180px) {
+  .controls {
+    order: -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .controls > :global(.note-card) {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .controls {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .historyRow {
+    grid-template-columns: minmax(0, 1fr) max-content;
+  }
+
+  .historyTrigger {
+    display: none;
+  }
+
+  .historyState {
+    grid-row: 2;
+    flex-direction: row;
+    align-items: center;
+    grid-column: 1 / -1;
+    gap: 10px;
+  }
+
+  .shopOption {
+    padding: 12px;
+    gap: 10px;
+  }
+}

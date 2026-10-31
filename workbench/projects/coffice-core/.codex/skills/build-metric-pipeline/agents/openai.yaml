@@ -1,0 +1,6 @@
+interface:
+  display_name: "指标加工与大屏设计"
+  short_description: "将已确认指标加工为 DataEase 可用的完整指标链路"
+  default_prompt: "Use $build-metric-pipeline to design and implement the confirmed metric from DWD through DataEase-ready ADS."
+policy:
+  allow_implicit_invocation: true

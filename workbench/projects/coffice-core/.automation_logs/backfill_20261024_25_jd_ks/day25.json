@@ -1,0 +1,48 @@
+{
+  "version": 3,
+  "description": "用户授权补跑2026-10-25京东和快手订单",
+  "destination": "C:\\Users\\win\\Desktop\\data",
+  "mcp_url": "http://127.0.0.1:19610/mcp",
+  "checkpoint_scope": "2026-10-25",
+  "checkpoint_file": "C:\\Users\\win\\Desktop\\data\\.automation_logs\\all_platform_downloads\\checkpoints\\checkpoint_2026-10-25.json",
+  "profiles": [
+    {
+      "profile_name":"JD-京东-MOCK饮品旗舰店","platform":"京东","required":true,
+      "expected_profile_id":"1a09599f-816a-479b-a8a6-2e7f26b0dd9f",
+      "expected_metadata":{"platform":"京东","company":"墨客咖时(南京)生物科技有限公司","shop":"MOCK饮品旗舰店"},
+      "steps":[
+        {"name":"订单","module":"jd_order_download","args":["--start-date","2026-09-25","--end-date","2026-10-25","--business-date","2026-10-25","--work-dir","C:\\Users\\win\\Desktop\\data\\.automation_cache\\historical_recovery\\2026-10-25\\jd_order\\MOCK饮品旗舰店"],"lanes":["interactive"]},
+        {"name":"结算","module":"jd_settlement_download","args":["--mode","day"],"lanes":["interactive"]},
+        {"name":"资金","module":"jd_fund_download","args":[],"lanes":["interactive"]},
+        {"name":"京东联盟和京东通推广费","module":"jd_promotion_fee_download","args":["--report","all"],"lanes":["interactive"]}
+      ]
+    },
+    {
+      "profile_name":"KS-快手-MOCK禧饮专卖店","platform":"快手","required":true,
+      "expected_metadata":{"platform":"快手","company":"西平县禧饮商贸有限公司","shop":"MOCK禧饮咖啡专卖店"},
+      "steps":[
+        {"name":"订单","module":"kuaishou_order_download","args":["--start-date","2026-09-26","--end-date","2026-10-25","--business-date","2026-10-25","--work-dir","C:\\Users\\win\\Desktop\\data\\.automation_cache\\historical_recovery\\2026-10-25\\kuaishou_order\\MOCK禧饮咖啡专卖店"],"lanes":["interactive"]},
+        {"name":"资金","module":"kuaishou_fund_download","args":["--mode","day"],"lanes":["interactive"]},
+        {"name":"结算","module":"kuaishou_settlement_download","args":[],"lanes":["interactive"]}
+      ]
+    },
+    {
+      "profile_name":"KS-快手-MOCK舟益专卖店","platform":"快手","required":true,
+      "expected_metadata":{"platform":"快手","company":"舟益生物科技(南京)有限公司","shop":"MOCK舟益专卖店"},
+      "steps":[
+        {"name":"订单","module":"kuaishou_order_download","args":["--start-date","2026-09-26","--end-date","2026-10-25","--business-date","2026-10-25","--work-dir","C:\\Users\\win\\Desktop\\data\\.automation_cache\\historical_recovery\\2026-10-25\\kuaishou_order\\MOCK舟益专卖店"],"lanes":["interactive"]},
+        {"name":"资金","module":"kuaishou_fund_download","args":["--mode","day"],"lanes":["interactive"]},
+        {"name":"结算","module":"kuaishou_settlement_download","args":[],"lanes":["interactive"]}
+      ]
+    },
+    {
+      "profile_name":"KS-快手-MOCK音咖专卖店","platform":"快手","required":true,
+      "expected_metadata":{"platform":"快手","company":"漯河音咖商贸有限公司","shop":"MOCK音咖专卖店"},
+      "steps":[
+        {"name":"订单","module":"kuaishou_order_download","args":["--start-date","2026-09-26","--end-date","2026-10-25","--business-date","2026-10-25","--work-dir","C:\\Users\\win\\Desktop\\data\\.automation_cache\\historical_recovery\\2026-10-25\\kuaishou_order\\MOCK音咖专卖店"],"lanes":["interactive"]},
+        {"name":"资金","module":"kuaishou_fund_download","args":["--mode","day"],"lanes":["interactive"]},
+        {"name":"结算","module":"kuaishou_settlement_download","args":[],"lanes":["interactive"]}
+      ]
+    }
+  ]
+}

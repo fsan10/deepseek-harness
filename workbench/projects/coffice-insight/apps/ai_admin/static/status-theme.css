@@ -1,0 +1,41 @@
+.status {
+  background: #fffbe6;
+  color: #d48806;
+}
+
+.status.on {
+  background: #e8f8ef;
+  color: #17844a;
+}
+
+.icon-action.success,
+.icon-action[title="启用"] {
+  color: #389e0d;
+}
+
+.icon-action.success:hover,
+.icon-action[title="启用"]:hover {
+  background: #f6ffed;
+}
+
+.icon-action.warning,
+.icon-action[title="停用"],
+.icon-action[title="禁用"] {
+  color: #fa8c16;
+}
+
+.icon-action.warning:hover,
+.icon-action[title="停用"]:hover,
+.icon-action[title="禁用"]:hover {
+  background: #fffbe6;
+}
+
+.icon-action.danger,
+.icon-action[title="删除"] {
+  color: #cf1322;
+}
+
+.icon-action.danger:hover,
+.icon-action[title="删除"]:hover {
+  background: #fff1f0;
+}

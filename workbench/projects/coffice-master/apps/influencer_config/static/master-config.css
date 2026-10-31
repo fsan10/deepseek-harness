@@ -1,0 +1,133 @@
+#influencerMasterApp [hidden], #productCategoryApp [hidden], #productMappingApp [hidden], #productSourceCodeApp [hidden] { display: none !important; }
+.master-table { min-width: 980px; table-layout: auto; }
+.master-table th, .assignment-table th, .target-table th { height: 44px; padding: 0 16px; border-bottom: 1px solid var(--border); color: var(--foreground); background: var(--muted); font-weight: 600; text-align: left; }
+.master-table td { padding: 8px 16px; }
+.assignment-table td, .target-table td { padding: 8px 16px; }
+.master-table th, .master-table td { white-space: nowrap; }
+.master-table td { max-width: 300px; overflow: hidden; text-overflow: ellipsis; }
+.master-table td.wrap-cell { width: 220px; min-width: 160px; max-width: 220px; overflow: hidden; overflow-wrap: anywhere; text-overflow: clip; white-space: normal; word-break: break-word; line-height: 1.45; }
+.master-table code { padding: 2px 6px; border-radius: 4px; color: #3b4a5a; background: #f5f7fa; font: 12px/1.5 var(--font-mono); }
+.master-table select.assignment-owner { width: 160px; height: 30px; padding: 0 30px 0 9px; border: 1px solid var(--input); border-radius: 4px; background-color: var(--card); }
+.master-table .inline-note { width: 210px; height: 30px; padding: 0 8px; border: 1px solid var(--input); border-radius: 4px; }
+.master-pagination { color: var(--muted-foreground); font-size: 12px; }
+.master-pagination .pagination-controls .pagination-size { width: 132px; min-width: 132px; height: 30px; padding: 0 32px 0 10px; border: 1px solid var(--input); border-radius: 4px; background-color: var(--card); font-size: 12px; text-overflow: clip; }
+.master-dialog form { padding: 22px 24px 20px; }
+.master-dialog .dialog-actions { margin-top: 20px; }
+.catalog-filters select[hidden] { display: none; }
+.catalog-subnav { align-items: center; overflow-x: auto; }
+.catalog-subtab { flex: 0 0 auto; }
+.product-table-shell { overflow-x: auto; transition: opacity .12s ease; }
+.product-table-shell.is-loading { opacity: .68; pointer-events: none; }
+.product-row-actions .danger, .product-row-actions .action-delete { color: var(--error); }
+.product-row-actions .warning, .product-row-actions .action-disable { color: #fa8c16; }
+.product-row-actions .action-enable { color: var(--success); }
+.master-table th:last-child, .master-table td:last-child { position: sticky; right: 0; z-index: 2; background: var(--card); box-shadow: -2px 0 4px rgba(0,0,0,.04); }
+.master-table th:last-child { z-index: 3; background: var(--muted); }
+.master-table tbody tr:hover td:last-child { background: #fafcff; }
+.button.batch-toggle-button.batch-mode-active { color: #d46b08; border-color: #ffd591; background: #fff7e6; }
+.button.batch-toggle-button.batch-mode-active:hover { color: #ad4e00; border-color: #ffa940; background: #fff2d8; }
+.master-table:not(.batch-selection-mode) .master-selection-col { display: none; }
+.master-table.batch-selection-mode tbody tr[data-index] { cursor: pointer; }
+.master-table.batch-selection-mode tbody tr.is-selected td,
+.master-table.batch-selection-mode tbody tr.is-selected:hover td,
+.master-table.batch-selection-mode tbody tr.is-selected td:last-child,
+.master-table.batch-selection-mode tbody tr.is-selected:hover td:last-child { background: #f0f7ff; }
+
+/* Batch mapping uses the same in-table confirmation interaction as fee mapping. */
+.table-popover { position: fixed; z-index: 30; width: 300px; padding: 16px; border: 1px solid var(--border); border-radius: 8px; background: #fff; box-shadow: 0 6px 16px rgba(0,0,0,.08); }
+.table-popover.batch-confirm { top: 50%; left: 50%; width: 320px; transform: translate(-50%, -50%); }
+.popover-message { display: flex; align-items: flex-start; gap: 10px; }
+.popover-icon { width: 18px; height: 18px; flex: 0 0 18px; display: grid; place-items: center; border-radius: 50%; background: transparent; color: #faad14; font-weight: 700; }
+.popover-copy p { color: var(--muted-foreground); font-size: 12px; line-height: 18px; }
+.popover-copy em { color: var(--foreground); font-style: normal; font-weight: 500; }
+.popover-copy .highlight { color: var(--primary); }
+.popover-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+.mini-button { height: 28px; display: inline-flex; align-items: center; gap: 4px; padding: 0 11px; border: 1px solid var(--border); border-radius: 4px; background: #fff; color: var(--foreground); font-size: 12px; }
+.mini-button:hover { border-color: var(--primary); color: var(--primary); }
+.mini-button.primary { color: #fff; background: var(--primary); border-color: var(--primary); }
+.mini-button.primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); color: #fff; }
+
+/* Keep operation buttons identical to the platform-fee category table. */
+.product-row-actions, .target-row-actions { display: flex; align-items: center; gap: 2px; white-space: nowrap; }
+.icon-action { height: 28px; display: inline-flex; align-items: center; gap: 4px; padding: 0 6px; border: 0; border-radius: 4px; background: transparent; color: var(--primary); font-size: 12px; transition: color .15s ease, background .15s ease, transform .15s ease; }
+.icon-action svg { width: 14px; height: 14px; }
+.icon-action span { white-space: nowrap; }
+.icon-action:hover { background: var(--primary-bg); transform: translateY(-1px); }
+.icon-action.danger, .icon-action.action-delete { color: var(--error); }
+.icon-action.danger:hover, .icon-action.action-delete:hover { background: var(--error-bg); }
+.icon-action.warning, .icon-action.action-disable { color: #fa8c16; }
+.icon-action.warning:hover, .icon-action.action-disable:hover { background: var(--warning-bg); }
+.icon-action.action-enable { color: var(--success); }
+.icon-action.action-enable:hover { background: var(--success-bg); }
+.icon-action.action-save, .icon-action.action-edit { color: var(--primary); }
+.icon-action.action-save:hover, .icon-action.action-edit:hover { color: var(--primary-hover); }
+.icon-action:active { transform: scale(.92); }
+
+/* ``styles.css`` contains legacy ``.product-row-actions .table-action`` rules
+   with higher specificity.  Keep the configuration actions at the same
+   dimensions as the platform-fee management actions after both stylesheets
+   are loaded. */
+.product-row-actions .icon-action,
+.target-row-actions .icon-action { height: 28px; gap: 4px; padding: 0 6px; }
+.product-row-actions .icon-action svg,
+.target-row-actions .icon-action svg { width: 14px; height: 14px; }
+.product-row-actions .icon-action:hover,
+.target-row-actions .icon-action:hover { text-decoration: none; }
+
+/* Mapping pickers keep the platform-fee dropdown interaction.  The table
+   controls are intentionally two-thirds of the former 190px width.  The
+   table cells reserve the same normal cell padding as the fee-mapping page
+   between the 127px control and the compact status column. */
+.master-table td.influencer-company-cell { width: 159px; min-width: 159px; max-width: 159px; overflow: visible; }
+.master-table td.product-company-cell { width: 220px; min-width: 220px; max-width: 220px; overflow: hidden; }
+.master-table td.influencer-status-cell,
+.master-table td.product-status-cell { width: 72px; min-width: 72px; max-width: 72px; padding-left: 8px; padding-right: 8px; overflow: visible; }
+.assign-combobox { position: relative; width: 100%; min-width: 0; }
+.influencer-assign-combobox,
+.product-assign-combobox { width: 127px; min-width: 127px; }
+.product-assign-combobox { width: 188px; min-width: 188px; }
+.product-company-display { width: 100%; min-width: 0; display: flex; flex-direction: column; overflow: hidden; line-height: 1.35; }
+.product-company-display strong,
+.product-company-display .subtext { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.product-mapping-table .product-status-cell { position: relative; z-index: 1; background: var(--card); }
+.product-mapping-table th:last-child,
+.product-mapping-table td:last-child { position: static; right: auto; z-index: auto; box-shadow: none; }
+.product-mapping-table tbody tr:hover td:last-child { background: inherit; }
+.influencer-assign-trigger,
+.product-assign-trigger { width: 100%; height: 28px; display: flex; align-items: center; justify-content: space-between; gap: 5px; padding: 0 7px 0 9px; border: 1px solid #d9d9d9; border-radius: 4px; background: #fff; color: var(--foreground); font-size: 12px; text-align: left; transition: border-color .15s ease, box-shadow .15s ease, background .15s ease; }
+.influencer-assign-trigger:hover,
+.influencer-assign-trigger[aria-expanded="true"],
+.product-assign-trigger:hover,
+.product-assign-trigger[aria-expanded="true"] { border-color: var(--primary); }
+.influencer-assign-trigger[aria-expanded="true"],
+.product-assign-trigger[aria-expanded="true"] { box-shadow: 0 0 0 2px rgba(22,119,255,.1); }
+.influencer-assign-trigger .assign-value,
+.product-assign-trigger .assign-value { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.influencer-assign-trigger .assign-value.empty,
+.product-assign-trigger .assign-value.empty { color: var(--foreground); }
+.influencer-assign-trigger svg,
+.product-assign-trigger svg { width: 13px; height: 13px; flex: 0 0 13px; color: var(--muted-foreground); transition: transform .18s ease; }
+.influencer-assign-trigger[aria-expanded="true"] svg,
+.product-assign-trigger[aria-expanded="true"] svg { transform: rotate(180deg); }
+.assign-dropdown { position: fixed; z-index: 100; width: 250px; max-height: 286px; padding: 6px; border: 1px solid #d9d9d9; border-radius: 6px; background: #fff; box-shadow: 0 8px 24px rgba(15,23,42,.16); animation: dropdownIn .16s ease both; }
+.assign-search { position: relative; display: block; margin-bottom: 5px; }
+.assign-search svg { position: absolute; left: 8px; top: 8px; width: 14px; height: 14px; color: #9ca3af; pointer-events: none; }
+.assign-search input { width: 100%; height: 30px; padding-left: 28px; border-color: transparent; background: #f7f8fa; }
+.assign-search input:focus { border-color: var(--primary); background: #fff; }
+.assign-options { max-height: 230px; overflow: auto; }
+.assign-option { width: 100%; min-height: 32px; display: flex; align-items: center; padding: 5px 8px; border: 0; border-radius: 4px; background: transparent; color: var(--foreground); text-align: left; transition: background .12s ease, transform .12s ease; }
+.assign-option:hover, .assign-option.active { background: #f2f3f5; }
+.assign-option:active { transform: scale(.985); }
+.assign-option span { display: inline-flex; max-width: 100%; min-height: 22px; align-items: center; padding: 1px 8px; border-radius: 11px; background: #e8f3ff; color: #245b9e; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.assign-option:nth-child(3n+2) span { background: #fff0dc; color: #8a531b; }
+.assign-option:nth-child(3n) span { background: #e9f7ef; color: #237451; }
+.assign-empty { padding: 18px 10px; color: var(--muted-foreground); font-size: 12px; text-align: center; }
+@keyframes dropdownIn { from { opacity: 0; transform: translateY(-5px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.product-refresh-notice { margin: 0 0 12px; padding: 10px 12px; border-radius: 6px; background: #fff7e6; color: #8a531b; font-size: 13px; }
+.product-refresh-notice[hidden] { display: none; }
+.product-refresh-notice .button { margin-left: 8px; }
+
+@media (max-width: 900px) {
+  .catalog-subnav { gap: 4px; }
+  .master-pagination { align-items: flex-start; flex-direction: column; gap: 8px; }
+}

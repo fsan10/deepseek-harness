@@ -1,0 +1,9 @@
+{
+  "id": "finance",
+  "domain": "经营",
+  "title": "资金与结算",
+  "question": "7 个平台的账期对上了吗？",
+  "kind": "unavailable",
+  "order": 12,
+  "owner": "工作台"
+}

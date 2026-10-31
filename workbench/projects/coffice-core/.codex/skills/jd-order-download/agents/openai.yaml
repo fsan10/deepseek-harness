@@ -1,0 +1,7 @@
+interface:
+  display_name: "京东订单报表下载"
+  short_description: "下载京东近一个月加密订单报表并归档"
+  default_prompt: "使用 $jd-order-download 下载并归档京东订单标准报表。"
+
+policy:
+  allow_implicit_invocation: true

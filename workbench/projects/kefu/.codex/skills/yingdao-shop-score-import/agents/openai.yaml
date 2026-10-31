@@ -1,0 +1,4 @@
+interface:
+  display_name: "影刀店铺分导入"
+  short_description: "按平台导入店铺分、接待量与抖音退款率"
+  default_prompt: "Use $yingdao-shop-score-import to turn captured shop-score, valid-order, reception, and Douyin refund-rate data into a validated Yingdao API import workflow."

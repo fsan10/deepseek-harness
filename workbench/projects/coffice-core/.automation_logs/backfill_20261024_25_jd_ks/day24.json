@@ -1,0 +1,23 @@
+{
+  "version": 3,
+  "description": "用户授权补跑2026-10-24京东订单，复用已下载历史ZIP",
+  "destination": "C:\\Users\\win\\Desktop\\data",
+  "mcp_url": "http://127.0.0.1:19610/mcp",
+  "checkpoint_scope": "2026-10-24",
+  "checkpoint_file": "C:\\Users\\win\\Desktop\\data\\.automation_logs\\all_platform_downloads\\checkpoints\\checkpoint_2026-10-24.json",
+  "profiles": [
+    {
+      "profile_name": "JD-京东-MOCK饮品旗舰店",
+      "platform": "京东",
+      "required": true,
+      "expected_profile_id": "1a09599f-816a-479b-a8a6-2e7f26b0dd9f",
+      "expected_metadata": {"platform":"京东","company":"墨客咖时(南京)生物科技有限公司","shop":"MOCK饮品旗舰店"},
+      "steps": [
+        {"name":"订单","module":"jd_order_download","args":["--start-date","2026-09-24","--end-date","2026-10-24","--business-date","2026-10-24","--work-dir","C:\\Users\\win\\Desktop\\data\\.automation_cache\\historical_recovery\\2026-10-24\\jd_order\\MOCK饮品旗舰店"],"lanes":["interactive"]},
+        {"name":"结算","module":"jd_settlement_download","args":["--mode","day"],"lanes":["interactive"]},
+        {"name":"资金","module":"jd_fund_download","args":[],"lanes":["interactive"]},
+        {"name":"京东联盟和京东通推广费","module":"jd_promotion_fee_download","args":["--report","all"],"lanes":["interactive"]}
+      ]
+    }
+  ]
+}

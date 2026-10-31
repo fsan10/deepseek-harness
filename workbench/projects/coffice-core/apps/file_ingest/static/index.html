@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>经营配置中心 · 数据导入</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/ingest/ingest.css">
+  <link rel="stylesheet" href="/identity-assets/shell.css">
+</head>
+<body data-health-interval="5000">
+  <svg class="svg-sprite" aria-hidden="true">
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M20 7V6a2 2 0 0 0-2-2H5a3 3 0 0 0 0 6h15v9a1 1 0 0 1-1 1H5a3 3 0 0 1-3-3V7"/><path d="M16 14h.01"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></symbol>
+    <symbol id="i-task" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></symbol>
+    <symbol id="i-tags" viewBox="0 0 24 24"><path d="M9.5 4H4v5.5L14.5 20 20 14.5 9.5 4Z"/><path d="M6.5 6.5h.01"/></symbol>
+    <symbol id="i-branch" viewBox="0 0 24 24"><circle cx="6" cy="4" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="6" cy="20" r="2"/><path d="M6 6v12M8 8c5 0 4-2 8-2"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></symbol>
+    <symbol id="i-log" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7h-5V2M4 17h5v5"/><path d="M5.5 9a7 7 0 0 1 11.8-3L20 7M4 17l2.7 1A7 7 0 0 0 18.5 15"/></symbol>
+    <symbol id="i-file-sheet" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h8M11 10H8"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-check-square" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m7 12 3 3 7-7"/></symbol>
+    <symbol id="i-x-square" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m8 8 8 8M16 8l-8 8"/></symbol>
+    <symbol id="i-loader" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14zM10 11v6M14 11v6"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m5 3 14 9-14 9V3z"/></symbol>
+    <symbol id="i-power" viewBox="0 0 24 24"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></symbol>
+  </svg>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="appSidebar">
+      <div class="brand"><svg><use href="#i-grid"/></svg><strong>经营配置中心</strong></div>
+      <div class="sidebar-menu">
+        <section class="nav-group open" data-nav-group="bank">
+          <div class="nav-group-header"><a class="nav-group-link" href="/#statement"><svg><use href="#i-wallet"/></svg><span>银行资金</span></a><button class="nav-group-toggle" type="button" aria-expanded="true" aria-label="收起银行资金菜单"><svg class="nav-chevron"><use href="#i-chevron-down"/></svg></button></div>
+          <div class="nav-group-items"><nav aria-label="银行资金功能"><a class="nav-item" href="/#statement"><span>主编辑表</span></a><a class="nav-item" href="/#types"><span>类型管理</span></a><a class="nav-item" href="/#accounts"><span>入账管理</span></a><a class="nav-item" href="/#imports"><span>导入记录</span></a><a class="nav-item" href="/#logs"><span>操作日志</span></a></nav></div>
+        </section>
+        <section class="nav-group open" data-nav-group="influencer">
+          <div class="nav-group-header"><a class="nav-group-link" href="/influencer/#assignmentPanel"><svg><use href="#i-users"/></svg><span>达播运营</span></a><button class="nav-group-toggle" type="button" aria-expanded="true" aria-label="收起达播运营菜单"><svg class="nav-chevron"><use href="#i-chevron-down"/></svg></button></div>
+          <div class="nav-group-items"><nav aria-label="达播运营功能"><a class="nav-item" href="/influencer/#assignmentPanel"><span>达人商务归属</span></a><a class="nav-item" href="/influencer/#targetPanel"><span>商务月度目标</span></a><a class="nav-item" href="/influencer/#productCategoryPanel"><span>商品品类配置</span></a><a class="nav-item" href="/influencer/#productMappingPanel"><span>商品编码映射</span></a></nav></div>
+        </section>
+
+        <section class="nav-group open active" data-nav-group="ingest">
+          <div class="nav-group-header"><a class="nav-group-link" href="/ingest/#upload"><svg><use href="#i-upload"/></svg><span>数据导入</span></a><button class="nav-group-toggle" type="button" aria-expanded="true" aria-label="收起数据导入菜单"><svg class="nav-chevron"><use href="#i-chevron-down"/></svg></button></div>
+          <div class="nav-group-items">
+            <button class="nav-item active" data-page="upload" aria-current="page"><span>数据上传</span></button>
+            <button class="nav-item" data-page="runs"><span>导入记录</span></button>
+            <button class="nav-item" data-page="etl"><span>ETL任务</span></button>
+            <button class="nav-item" data-page="logs"><span>操作日志</span></button>
+          </div>
+        </section>
+
+        <section class="nav-group open" data-nav-group="platform-fees">
+          <div class="nav-group-header"><a class="nav-group-link" href="/ingest/#feeCategories"><svg><use href="#i-tags"/></svg><span>经营收支管理</span></a><button class="nav-group-toggle" type="button" aria-expanded="true" aria-label="收起经营收支管理菜单"><svg class="nav-chevron"><use href="#i-chevron-down"/></svg></button></div>
+          <div class="nav-group-items">
+            <button class="nav-item" data-page="feeCategories"><span>一级分类管理</span></button>
+            <button class="nav-item" data-page="feeMappings"><span>平台收支配置</span></button>
+            <button class="nav-item" data-page="sceneRules"><span>收支场景清洗规则</span></button>
+            <button class="nav-item" data-page="rawFees"><span>全部收支类型</span></button>
+          </div>
+        </section>
+        <section class="nav-group open" data-nav-group="operating-config">
+          <div class="nav-group-header"><a class="nav-group-link" href="/ingest/#financeOverview" aria-label="🎯 经营配置"><svg><use href="#i-target"/></svg><span>经营配置</span></a><button class="nav-group-toggle" type="button" aria-expanded="true" aria-label="收起经营配置菜单"><svg class="nav-chevron"><use href="#i-chevron-down"/></svg></button></div>
+          <div class="nav-group-items">
+            <button class="nav-item" data-page="financeOverview"><span>经营指标总览</span></button>
+            <button class="nav-item" data-page="financeGsv"><span>GSV目标管理</span></button>
+            <button class="nav-item" data-page="financePromotion"><span>推广预算管理</span></button>
+            <button class="nav-item" data-page="financeAdjustments"><span>预算调整记录</span></button>
+            <button class="nav-item" data-page="financeRecharges"><span>充值流水</span></button>
+            <button class="nav-item" data-page="financeSpend"><span>推广消耗</span></button>
+            <button class="nav-item" data-page="financeMarketing"><span>营销预算管理</span></button>
+            <button class="nav-item" data-page="financeExpenseTypes"><span>营销费用类型管理</span></button>
+          </div>
+        </section>
+      </div>
+    </aside>
+
+    <div class="content-shell">
+      <header class="topbar">
+        <div class="page-heading stacked"><h1 id="pageTitle">数据上传</h1><p id="pageSubtitle">支持文件名自动识别与表格内快速修正</p></div>
+        <div class="top-actions"><label class="finance-topbar-month" id="financeTopbarControls" hidden><svg><use href="#i-log"/></svg><input id="financeMonth" type="month" aria-label="经营配置月份"></label><button class="button" id="refreshPage"><svg><use href="#i-refresh"/></svg>刷新</button></div>
+        <div id="healthBadge" class="health-badge is-loading"><span class="health-dot"></span><span>连接中</span></div>
+      </header>
+
+      <main>
+        <section class="page active" id="uploadPage">
+          <div class="runtime-alert warning" id="workerAlert" hidden><strong>导入 Worker 未运行</strong><span>文件可以上传，但不会继续写入 ODS 或刷新 ETL。请重启经营配置中心。</span></div>
+          <div class="panel upload-panel">
+            <h2 class="upload-section-title">上传文件</h2>
+            <div class="drop-zone" id="dropZone"><span class="drop-icon"><svg><use href="#i-upload"/></svg></span><strong>拖拽文件到此处，或点击选择</strong><small>支持 CSV / XLS / XLSX / XLSM，可一次选择多个文件；未提交文件会保留在当前浏览器中</small><input id="fileInput" type="file" multiple accept=".csv,.xls,.xlsx,.xlsm"></div>
+            <div class="upload-file-list" id="uploadFileList"></div>
+          </div>
+          <div class="panel file-panel">
+            <div class="coverage-settings upload-coverage-settings">
+              <div class="coverage-settings-head"><strong>本次导入设置</strong><span class="muted">有新文件：补缺或替换；同批文件须为相同查询范围</span><button type="button" class="text-button" id="openRecalculation">重新计算已入库文件</button></div>
+              <div class="coverage-fields">
+                <label class="coverage-field"><span>处理方式</span><select id="uploadImportMode" class="select-chevron"><option value="fill_gaps">补入缺失日期（默认）</option><option value="replace_range">替换所选范围的来源</option></select></label>
+                <div class="coverage-field"><span id="uploadCoverageLabel">平台查询范围</span><div class="date-range" data-date-range="uploadCoverageStart,uploadCoverageEnd" data-max-date="yesterday"><button type="button" class="date-range-trigger" aria-labelledby="uploadCoverageLabel" aria-haspopup="dialog" aria-expanded="false"><svg><use href="#i-calendar"/></svg><span class="date-start empty">开始日期</span><b>→</b><span class="date-end empty">结束日期</span><svg class="date-chevron"><use href="#i-down"/></svg></button><input id="uploadCoverageStart" type="hidden"><input id="uploadCoverageEnd" type="hidden"></div></div>
+                <label class="coverage-complete"><input id="uploadCompleteExport" type="checkbox"><span>已核对为该范围的完整导出</span></label>
+              </div>
+              <p class="coverage-help" id="uploadCoverageHint">仅补入缺失日期，已有来源保留；内容一致自动跳过计算重叠，有差异时再核对。</p>
+            </div>
+            <div class="panel-title"><div><strong>待提交文件</strong><span id="fileCount">0 个文件</span></div><div class="submit-actions"><span id="selectedFileSummary">已勾选 0 个文件</span><button class="button primary" id="submitFiles" disabled>确认并提交</button></div></div>
+            <div class="table-wrap upload-table-wrap"><table class="data-table upload-data-table"><colgroup><col class="check-col"><col class="filename-col"><col class="platform-col"><col class="company-col"><col class="shop-col"><col class="report-col"><col class="recognition-col"><col class="operation-col"></colgroup><thead><tr><th><input id="selectAllFiles" type="checkbox" aria-label="全选文件"></th><th>文件名</th><th>平台</th><th>公司</th><th>店铺</th><th>报表名称</th><th>识别状态</th><th>操作</th></tr></thead><tbody id="fileBody"></tbody></table></div>
+          </div>
+        </section>
+
+        <section class="page" id="runsPage">
+          <div class="toolbar ingest-filter-toolbar" id="runsToolbar">
+            <div class="toolbar-group">
+              <label class="inline-field"><span>时间字段</span><select id="runDateField"><option value="created_at">开始时间</option><option value="completed_at">完成时间</option></select></label>
+              <label class="inline-field"><span>时间范围</span><div class="date-range" data-date-range="runDateFrom,runDateTo"><button type="button" class="date-range-trigger" aria-haspopup="dialog" aria-expanded="false"><svg><use href="#i-calendar"/></svg><span class="date-start empty">开始日期</span><b>→</b><span class="date-end empty">结束日期</span><svg class="date-chevron"><use href="#i-down"/></svg></button><input type="hidden" id="runDateFrom"><input type="hidden" id="runDateTo"></div></label>
+              <div class="finance-filter-picker ingest-operator-picker" id="runOperatorField"><span class="finance-filter-label">操作人</span><button type="button" class="finance-filter-trigger" data-finance-filter="run_operator" id="runOperatorTrigger" aria-haspopup="listbox" aria-expanded="false"><span id="runOperatorLabel">全部操作人</span><svg><use href="#i-chevron-down"/></svg></button><input id="runOperator" type="hidden"></div>
+              <label class="inline-field"><span>状态</span><select id="runStatus"><option value="">全部状态</option><option value="draft">待确认</option><option value="ready">待入库</option><option value="processing">入库处理中</option><option value="success">入库完成</option><option value="no_change">无变化</option><option value="failed">失败</option></select></label>
+              <label class="search-field grow ingest-search-field"><svg><use href="#i-search"/></svg><input id="runKeyword" type="search" placeholder="搜索操作人、会话ID或触发来源"></label>
+              <button class="button primary query-button" id="searchRuns" type="button"><svg><use href="#i-search"/></svg>查询</button><button class="button reset-button" id="resetRuns" type="button"><svg><use href="#i-refresh"/></svg>重置</button>
+            </div>
+          </div>
+          <div class="panel"><div class="table-wrap"><table class="data-table"><thead><tr><th>会话</th><th>来源</th><th>文件进度</th><th>状态</th><th>操作人</th><th>开始时间</th><th>完成时间</th><th>操作</th></tr></thead><tbody id="runBody"></tbody></table></div><div class="pagination-bar" id="runPagination" aria-label="导入记录分页">
+              <span id="runTotal" class="pagination-summary">共 0 条</span>
+              <div class="pagination-controls">
+                <select id="runPageSize" class="select-chevron pagination-size" aria-label="每页条数"><option value="10" selected>10 条/页</option><option value="20">20 条/页</option><option value="50">50 条/页</option><option value="100">100 条/页</option></select>
+                <button id="runPrevPage" class="pagination-nav" type="button" aria-label="上一页" disabled><svg><use href="#i-left"/></svg></button>
+                <div id="runPageNumbers" class="pagination-pages" aria-label="页码"></div>
+                <button id="runNextPage" class="pagination-nav" type="button" aria-label="下一页" disabled><svg><use href="#i-right"/></svg></button>
+                <span id="runPageInfo" class="pagination-page">第 1/1 页</span>
+              </div>
+            </div></div></section>
+
+        <section class="page" id="etlPage">
+          <div class="source-note"><strong>状态说明</strong><span>“部分失败”表示同一运行中至少一个节点成功，同时存在失败或因依赖失败被跳过的节点。点击“查看详情”可查看每个节点的错误和输出。</span></div>
+          <div class="toolbar etl-toolbar etl-filter-toolbar">
+            <div class="toolbar-group etl-filter-group">
+              <label class="inline-field"><span>时间字段</span><select id="etlDateField"><option value="started_at">开始时间</option><option value="completed_at">完成时间</option></select></label>
+              <label class="inline-field"><span>时间范围</span><div class="date-range" data-date-range="etlDateFrom,etlDateTo"><button type="button" class="date-range-trigger" aria-haspopup="dialog" aria-expanded="false"><svg><use href="#i-calendar"/></svg><span class="date-start empty">开始日期</span><b>→</b><span class="date-end empty">结束日期</span><svg class="date-chevron"><use href="#i-down"/></svg></button><input type="hidden" id="etlDateFrom"><input type="hidden" id="etlDateTo"></div></label>
+              <div class="finance-filter-picker ingest-operator-picker" id="etlOperatorField"><span class="finance-filter-label">操作人</span><button type="button" class="finance-filter-trigger" data-finance-filter="etl_operator" id="etlOperatorTrigger" aria-haspopup="listbox" aria-expanded="false"><span id="etlOperatorLabel">全部操作人</span><svg><use href="#i-chevron-down"/></svg></button><input id="etlOperator" type="hidden"></div>
+              <label class="inline-field"><span>状态</span><select id="etlStatus"><option value="">全部状态</option><option value="queued">排队中</option><option value="running">执行中</option><option value="success">成功</option><option value="partial_failed">部分失败</option><option value="failed">失败</option><option value="no_change">无变化</option></select></label>
+              <label class="search-field grow ingest-search-field"><svg><use href="#i-search"/></svg><input id="etlKeyword" type="search" placeholder="搜索操作人、会话ID或触发来源"></label>
+              <button class="button primary query-button" id="searchEtls" type="button"><svg><use href="#i-search"/></svg>查询</button><button class="button reset-button" id="resetEtls" type="button"><svg><use href="#i-refresh"/></svg>重置</button>
+            </div>
+          </div>
+          <div class="panel"><div class="table-wrap"><table class="data-table etl-run-table"><thead><tr><th>任务</th><th>触发来源</th><th>范围</th><th>状态</th><th>ETL节点</th><th>开始时间</th><th>完成时间</th><th>操作</th></tr></thead><tbody id="etlBody"></tbody></table></div><div class="pagination-bar" id="etlPagination" aria-label="ETL任务分页">
+              <span id="etlTotal" class="pagination-summary">共 0 条</span>
+              <div class="pagination-controls">
+                <select id="etlPageSize" class="select-chevron pagination-size" aria-label="每页条数"><option value="10" selected>10 条/页</option><option value="20">20 条/页</option><option value="50">50 条/页</option><option value="100">100 条/页</option></select>
+                <button id="etlPrevPage" class="pagination-nav" type="button" aria-label="上一页" disabled><svg><use href="#i-left"/></svg></button>
+                <div id="etlPageNumbers" class="pagination-pages" aria-label="页码"></div>
+                <button id="etlNextPage" class="pagination-nav" type="button" aria-label="下一页" disabled><svg><use href="#i-right"/></svg></button>
+                <span id="etlPageInfo" class="pagination-page">第 1/1 页</span>
+              </div>
+            </div></div>
+        </section>
+
+        <section class="page" id="logsPage">
+          <div class="toolbar logs-toolbar">
+            <div class="toolbar-group">
+              <label class="inline-field"><span>操作时间</span><div class="date-range" data-date-range="logDateFrom,logDateTo"><button type="button" class="date-range-trigger" aria-haspopup="dialog" aria-expanded="false"><svg><use href="#i-calendar"/></svg><span class="date-start empty">开始日期</span><b>→</b><span class="date-end empty">结束日期</span><svg class="date-chevron"><use href="#i-down"/></svg></button><input type="hidden" id="logDateFrom"><input type="hidden" id="logDateTo"></div></label>
+              <label class="inline-field"><span>操作类型</span><select id="logType"><option value="">全部操作类型</option></select></label>
+              <div class="finance-filter-picker ingest-operator-picker log-operator-picker" id="logOperatorField"><span class="finance-filter-label">操作人</span><button type="button" class="finance-filter-trigger" data-finance-filter="log_operator" id="logOperatorTrigger" aria-haspopup="listbox" aria-expanded="false"><span id="logOperatorLabel">全部操作人</span><svg><use href="#i-chevron-down"/></svg></button><input id="logOperator" type="hidden"></div>
+              <label class="search-field log-search"><svg><use href="#i-search"/></svg><input id="logKeyword" type="search" placeholder="搜索操作人、操作类型或说明"></label><button class="button primary query-button" id="searchLogs" type="button"><svg><use href="#i-search"/></svg>查询</button><button class="button reset-button" id="resetLogs" type="button"><svg><use href="#i-refresh"/></svg>重置</button>
+            </div>
+          </div>
+          <div class="panel"><div class="table-wrap"><table class="data-table"><thead><tr><th>时间</th><th>操作类型</th><th>操作人</th><th>对象</th><th>说明</th><th>IP</th></tr></thead><tbody id="logBody"></tbody></table></div><div class="pagination-bar" id="logPagination" aria-label="操作日志分页">
+              <span id="logTotal" class="pagination-summary">共 0 条</span>
+              <div class="pagination-controls">
+                <select id="logPageSize" class="select-chevron pagination-size" aria-label="每页条数"><option value="10" selected>10 条/页</option><option value="20">20 条/页</option><option value="50">50 条/页</option><option value="100">100 条/页</option></select>
+                <button id="logPrevPage" class="pagination-nav" type="button" aria-label="上一页" disabled><svg><use href="#i-left"/></svg></button>
+                <div id="logPageNumbers" class="pagination-pages" aria-label="页码"></div>
+                <button id="logNextPage" class="pagination-nav" type="button" aria-label="下一页" disabled><svg><use href="#i-right"/></svg></button>
+                <span id="logPageInfo" class="pagination-page">第 1/1 页</span>
+              </div>
+            </div></div>
+        </section>
+
+        <section class="page" id="feeCategoriesPage">
+          <div class="toolbar fee-page-toolbar"><div class="toolbar-group"><label class="inline-field"><span>平台</span><select id="categoryPlatform"><option value="">全部平台</option></select></label><label class="inline-field"><span>状态</span><select id="categoryStatus"><option value="">全部</option><option value="active">启用</option><option value="inactive">停用</option></select></label><label class="search-field"><svg><use href="#i-search"/></svg><input id="categoryKeyword" type="search" placeholder="搜索分类编码、分类名称或备注"></label><button type="button" class="button primary query-button" id="searchCategories"><svg><use href="#i-search"/></svg>查询</button><button type="button" class="button reset-button" id="resetCategories"><svg><use href="#i-refresh"/></svg>重置</button></div><div class="toolbar-group actions"><button type="button" class="button primary" id="addCategory"><svg><use href="#i-plus"/></svg>新增分类</button></div></div>
+          <div class="panel fee-list-panel">
+            <div class="table-wrap"><table class="data-table category-table"><thead><tr><th>排序</th><th>分类编码</th><th>分类名称</th><th>映射场景</th><th>经营收支归属</th><th>涉及平台</th><th>状态</th><th>备注</th><th>更新时间</th><th>操作</th></tr></thead><tbody id="categoryBody"></tbody></table></div>
+            <div class="pagination-bar" id="categoryPagination" aria-label="一级分类分页">
+              <span id="categoryTotal" class="pagination-summary">共 0 条</span>
+              <div class="pagination-controls">
+                <select id="categoryPageSize" class="select-chevron pagination-size" aria-label="每页条数"><option value="10" selected>10 条/页</option><option value="20">20 条/页</option><option value="50">50 条/页</option><option value="100">100 条/页</option></select>
+                <button id="categoryPrevPage" class="pagination-nav" type="button" aria-label="上一页" disabled><svg><use href="#i-left"/></svg></button>
+                <div id="categoryPageNumbers" class="pagination-pages" aria-label="页码"></div>
+                <button id="categoryNextPage" class="pagination-nav" type="button" aria-label="下一页" disabled><svg><use href="#i-right"/></svg></button>
+                <span id="categoryPageInfo" class="pagination-page">第 1/1 页</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="feeMappingsPage">
+          <div class="toolbar fee-page-toolbar"><div class="toolbar-group"><label class="inline-field"><span>平台</span><select id="feePlatform"><option value="">全部平台</option></select></label><label class="inline-field"><span>来源</span><select id="feeDocument"><option value="">全部</option><option value="settlement">结算</option><option value="fund">资金</option></select></label><label class="inline-field"><span>经营归属</span><select id="feeTreatment"><option value="">全部</option><option value="income">收入</option><option value="expense">支出</option><option value="excluded">不计入</option><option value="pending">归属待确认</option></select></label><label class="inline-field"><span>分类状态</span><select id="feeStatus"><option value="">全部</option><option value="unmapped">未映射</option><option value="mapped">已映射</option><option value="inactive">已停用</option></select></label><label class="search-field"><svg><use href="#i-search"/></svg><input id="feeKeyword" type="search" placeholder="搜索原始费用、业务类型或分类"></label><button type="button" class="button primary query-button" id="searchFees"><svg><use href="#i-search"/></svg>查询</button><button type="button" class="button reset-button" id="resetFees"><svg><use href="#i-refresh"/></svg>重置</button></div><div class="toolbar-group actions"><button type="button" class="button" id="exportFees"><svg><use href="#i-file-sheet"/></svg>导出映射表</button><button type="button" class="button primary batch-toggle-button" id="batchMapFees"><svg><use href="#i-check-square"/></svg><span id="batchMapFeesLabel">开启批量勾选</span></button></div></div>
+          <div class="panel fee-main">
+            <div class="table-wrap fee-table-wrap"><table id="feeMappingTable" class="data-table fee-mapping-table"><thead><tr><th><input id="selectAllFees" type="checkbox" aria-label="全选费用场景"></th><th>平台</th><th>来源</th><th>原始收支场景</th><th>当前一级分类</th><th>经营收支归属</th><th>状态</th><th>操作</th></tr></thead><tbody id="feeBody"></tbody></table></div>
+            <div class="pagination-bar" id="feePagination" aria-label="费用映射分页">
+              <span id="feeTotal" class="pagination-summary">共 0 条</span>
+              <div class="pagination-controls">
+                <select id="feePageSize" class="select-chevron pagination-size" aria-label="每页条数"><option value="10" selected>10 条/页</option><option value="20">20 条/页</option><option value="50">50 条/页</option><option value="100">100 条/页</option></select>
+                <button id="feePrevPage" class="pagination-nav" type="button" aria-label="上一页" disabled><svg><use href="#i-left"/></svg></button>
+                <div id="feePageNumbers" class="pagination-pages" aria-label="页码"></div>
+                <button id="feeNextPage" class="pagination-nav" type="button" aria-label="下一页" disabled><svg><use href="#i-right"/></svg></button>
+                <span id="feePageInfo" class="pagination-page">第 1/1 页</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="sceneRulesPage">
+          <div class="toolbar fee-page-toolbar"><div class="toolbar-group">
+            <label class="inline-field"><span>平台</span><select id="sceneRuleFilterPlatform"><option value="">全部平台</option></select></label>
+            <label class="inline-field"><span>来源</span><select id="sceneRuleFilterDocument"><option value="">全部</option><option value="fund">资金</option><option value="settlement">结算</option></select></label>
+            <label class="inline-field"><span>状态</span><select id="sceneRuleFilterActive"><option value="">全部</option><option value="true">启用</option><option value="false">停用</option></select></label>
+            <label class="search-field"><svg><use href="#i-search"/></svg><input id="sceneRuleKeyword" type="search" placeholder="搜索规则名称、业务类型或正则"></label>
+            <button type="button" class="button primary" id="searchSceneRules">查询</button><button type="button" class="button" id="resetSceneRules">重置</button>
+          </div><div class="toolbar-group actions"><button type="button" class="button primary" id="newSceneRule" data-permission="platform_fee.mappings.manage">新增规则</button></div></div>
+          <div class="panel fee-list-panel"><p class="muted">规则按执行顺序清洗场景名称。原始业务描述、流水身份、金额、经营归属和分类保留；保存后重算历史数据。</p>
+            <div class="table-wrap scene-rule-list"><table class="data-table"><thead><tr><th>平台 / 来源</th><th>规则名称</th><th>业务类型范围</th><th>匹配正则</th><th>替换内容</th><th>执行顺序</th><th>启用状态</th><th>重算状态</th><th>更新时间</th><th>操作</th></tr></thead><tbody id="sceneRuleRows"></tbody></table></div>
+            <div class="pagination-bar"><span id="sceneRuleTotal" class="pagination-summary">共0条规则</span></div>
+          </div>
+        </section>
+
+        <section class="page" id="rawFeesPage">
+          <div class="toolbar fee-page-toolbar"><div class="toolbar-group"><label class="inline-field"><span>平台</span><select id="rawPlatform"><option value="">全部平台</option></select></label><label class="inline-field"><span>来源</span><select id="rawDocument"><option value="">全部</option><option value="settlement">结算</option><option value="fund">资金</option></select></label><label class="inline-field"><span>经营归属</span><select id="rawTreatment"><option value="">全部</option><option value="income">收入</option><option value="expense">支出</option><option value="excluded">不计入</option><option value="pending">归属待确认</option></select></label><label class="inline-field"><span>分类状态</span><select id="rawStatus"><option value="">全部</option><option value="unmapped">未映射</option><option value="mapped">已映射</option><option value="inactive">已停用</option></select></label><label class="inline-field"><span>时间范围</span><div class="date-range" data-date-range="rawDateFrom,rawDateTo"><button type="button" class="date-range-trigger" aria-haspopup="dialog" aria-expanded="false"><svg><use href="#i-calendar"/></svg><span class="date-start empty">开始日期</span><b>→</b><span class="date-end empty">结束日期</span><svg class="date-chevron"><use href="#i-down"/></svg></button><input type="hidden" id="rawDateFrom"><input type="hidden" id="rawDateTo"></div></label><label class="search-field"><svg><use href="#i-search"/></svg><input id="rawKeyword" type="search" placeholder="搜索原始费用名称或业务类型"></label><button type="button" class="button primary query-button" id="searchRawFees"><svg><use href="#i-search"/></svg>查询</button><button type="button" class="button reset-button" id="resetRawFees"><svg><use href="#i-refresh"/></svg>重置</button></div><div class="toolbar-group actions"><button type="button" class="button" id="exportRawFees"><svg><use href="#i-file-sheet"/></svg>导出</button></div></div>
+          <div class="panel fee-list-panel">
+            <p class="muted" id="rawOperatingSummary">全部类型保留不计入项目；经营合计只包含收入和支出。</p>
+            <div class="table-wrap raw-fee-table-wrap"><table class="data-table"><thead><tr><th>日期</th><th>平台 / 店铺</th><th>来源</th><th>原始收支场景</th><th>一级分类</th><th>经营归属</th><th>不计入原因</th><th>原公式净额</th><th>经营收入</th><th>经营支出</th><th>映射状态</th></tr></thead><tbody id="rawFeeBody"></tbody></table></div>
+            <div class="pagination-bar" id="rawFeePagination" aria-label="原始费用分页">
+              <span id="rawFeeTotal" class="pagination-summary">共 0 条</span>
+              <div class="pagination-controls">
+                <select id="rawFeePageSize" class="select-chevron pagination-size" aria-label="每页条数"><option value="10" selected>10 条/页</option><option value="20">20 条/页</option><option value="50">50 条/页</option><option value="100">100 条/页</option></select>
+                <button id="rawFeePrevPage" class="pagination-nav" type="button" aria-label="上一页" disabled><svg><use href="#i-left"/></svg></button>
+                <div id="rawFeePageNumbers" class="pagination-pages" aria-label="页码"></div>
+                <button id="rawFeeNextPage" class="pagination-nav" type="button" aria-label="下一页" disabled><svg><use href="#i-right"/></svg></button>
+                <span id="rawFeePageInfo" class="pagination-page">第 1/1 页</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page finance-page" id="financeBudgetPage">
+          <div class="finance-view active" id="financeOverviewView" data-finance-view="financeOverview">
+            <div class="finance-summary-grid" id="financeSummaryCards" aria-live="polite"></div>
+            <div class="finance-execution-grid" id="financeExecutionCards" aria-live="polite"></div>
+            <div class="finance-overview-bottom">
+              <section class="panel finance-alert-panel">
+                <div class="finance-section-head"><div><span class="finance-section-icon danger"><svg><use href="#i-info"/></svg></span><div><h3>预算预警</h3><p>自动识别待充值、超预算与目标进度风险</p></div></div><button class="text-button" type="button" data-permission="finance_budget.promotion.view" data-finance-route="financePromotion">查看店铺详情 <svg><use href="#i-right"/></svg></button></div>
+                <div class="finance-alert-list" id="financeAlertList"></div>
+              </section>
+              <section class="panel finance-quick-panel">
+                <div class="finance-section-head"><div><span class="finance-section-icon"><svg><use href="#i-task"/></svg></span><div><h3>快捷操作</h3><p>常用配置一步直达</p></div></div></div>
+                <div class="finance-quick-actions">
+                  <button class="finance-total-manage-action" type="button" data-permission="finance_budget.gsv_total.manage" data-page-permission="finance_budget.gsv.view" data-finance-total="gsv-total"><span class="quick-action-icon purple"><svg><use href="#i-task"/></svg></span><span><strong>设置总 GSV 目标</strong><small>直接设置本月总 GSV 目标</small></span><svg class="quick-arrow"><use href="#i-right"/></svg></button>
+                  <button class="finance-total-manage-action" type="button" data-permission="finance_budget.promotion_total.manage" data-page-permission="finance_budget.promotion.view" data-finance-total="promotion-total"><span class="quick-action-icon blue"><svg><use href="#i-branch"/></svg></span><span><strong>设置推广总预算</strong><small>直接设置/调整推广总预算</small></span><svg class="quick-arrow"><use href="#i-right"/></svg></button>
+                  <button class="finance-total-manage-action" type="button" data-permission="finance_budget.marketing_budget.manage" data-page-permission="finance_budget.marketing.view" data-finance-total="marketing-budget"><span class="quick-action-icon orange"><svg><use href="#i-tags"/></svg></span><span><strong>设置营销总预算</strong><small>直接设置/调整营销总预算</small></span><svg class="quick-arrow"><use href="#i-right"/></svg></button>
+                </div>
+                <div class="finance-definition"><svg><use href="#i-info"/></svg><p><strong>口径说明</strong> GSV 实际值与推广消耗来自 ADS；预算、目标、充值及营销费用由经营配置维护。</p></div>
+              </section>
+            </div>
+          </div>
+
+          <div class="finance-view" id="financeGsvView" data-finance-view="financeGsv">
+            <section class="panel finance-page-intro">
+              <div><h2>GSV目标管理</h2><p>财务设置月度总目标，DIM 当前月份全部有效店铺均展示，部门按「月份 × 平台 × 公司 × 店铺」维护明细；实际 GSV 从订单数据自动汇总。</p></div>
+               <div class="finance-page-actions"><button class="button" type="button" data-finance-export><svg><use href="#i-upload"/></svg>导出</button><button class="button finance-detail-manage-action" type="button" id="importGsvTargets" data-permission="finance_budget.gsv_detail.manage" data-page-permission="finance_budget.gsv.view"><svg><use href="#i-file-sheet"/></svg>批量导入</button><button class="button finance-total-manage-action" type="button" id="addGsvTotalTarget" data-permission="finance_budget.gsv_total.manage" data-page-permission="finance_budget.gsv.view" data-finance-total="gsv-total"><svg><use href="#i-task"/></svg>设置总目标</button></div>
+            </section>
+            <div class="finance-view-stat-grid" id="financeGsvStats" aria-live="polite"></div>
+          </div>
+
+          <div class="finance-view" id="financePromotionView" data-finance-view="financePromotion">
+            <section class="panel finance-promotion-summary">
+              <div class="finance-promotion-flow-section"><div class="finance-promotion-flow-title"><svg><use href="#i-grid"/></svg><span>预算执行流程（当月）</span></div><div class="finance-promotion-flow" id="financePromotionFlow" aria-live="polite"></div></div>
+              <div class="finance-view-stat-grid six" id="financePromotionStats" aria-live="polite"></div>
+            </section>
+          </div>
+
+          <div class="finance-view" id="financeMarketingView" data-finance-view="financeMarketing">
+            <section class="panel finance-page-intro">
+              <div><h2>营销预算管理</h2><p>营销费用为整体月度粒度，不拆分平台、店铺和部门维度。</p></div>
+              <div class="finance-page-actions"><button class="button" type="button" data-finance-export><svg><use href="#i-upload"/></svg>导出</button><button class="button finance-total-manage-action" type="button" id="editMarketingBudgetTop" data-permission="finance_budget.marketing_budget.manage" data-page-permission="finance_budget.marketing.view" data-finance-total="marketing-budget"><svg><use href="#i-task"/></svg>设置总预算</button><button class="button primary finance-total-manage-action" type="button" id="addMarketingExpense" data-permission="finance_budget.marketing_expense.manage" data-page-permission="finance_budget.marketing.view" data-finance-expense-add><svg><use href="#i-plus"/></svg>登记费用</button></div>
+            </section>
+            <div class="finance-marketing-summary" id="financeMarketingStats" aria-live="polite"></div>
+             <section class="panel finance-marketing-progress"><div class="finance-section-head"><div><span class="finance-section-icon orange"><svg><use href="#i-tags"/></svg></span><div><h3>营销预算执行进度</h3><p id="financeMarketingProgressCopy">已执行 0.0%</p></div></div><button class="text-button finance-total-manage-action" type="button" id="editMarketingBudget" data-permission="finance_budget.marketing_budget.manage" data-page-permission="finance_budget.marketing.view" data-finance-total="marketing-budget">修改预算 <svg><use href="#i-right"/></svg></button></div><div id="financeMarketingProgressBar"></div><div class="finance-budget-note"><svg><use href="#i-info"/></svg>营销费用独立于平台费用映射中的“营销优惠费”，由财务按实际合同或付款登记。</div></section>
+          </div>
+
+          <div class="finance-view" id="financeAdjustmentsView" data-finance-view="financeAdjustments">
+            <div class="finance-subpage-tabs" role="tablist" aria-label="预算调整记录子页面" data-description="集中查看调整历史，不再存在待审批"><button type="button" class="finance-subpage-tab active" data-finance-adjustment-tab="promotion" role="tab" aria-selected="true">推广预算调整</button><button type="button" class="finance-subpage-tab" data-finance-adjustment-tab="marketing" role="tab" aria-selected="false">营销预算调整</button></div>
+          </div>
+
+          <div class="finance-view" id="financeRechargesView" data-finance-view="financeRecharges">
+          </div>
+
+          <div class="finance-view" id="financeSpendView" data-finance-view="financeSpend">
+          </div>
+
+          <div class="finance-view" id="financeExpenseTypesView" data-finance-view="financeExpenseTypes">
+          </div>
+
+          <section class="finance-management-panel" id="financeManagementPanel" hidden>
+            <div class="prototype-toolbar finance-toolbar">
+              <div class="finance-toolbar-filters">
+              <div class="finance-filter-picker" id="financePlatformField"><span class="finance-filter-label">平台</span><button type="button" class="finance-filter-trigger" data-finance-filter="platform" id="financePlatformTrigger" aria-haspopup="listbox" aria-expanded="false"><span id="financePlatformLabel">全部平台</span><svg><use href="#i-chevron-down"/></svg></button><input id="financePlatform" type="hidden"></div>
+              <div class="finance-filter-picker" id="financeCompanyField"><span class="finance-filter-label">公司</span><button type="button" class="finance-filter-trigger" data-finance-filter="company" id="financeCompanyTrigger" aria-haspopup="listbox" aria-expanded="false"><span id="financeCompanyLabel">全部公司</span><svg><use href="#i-chevron-down"/></svg></button><input id="financeCompany" type="hidden"></div>
+              <div class="finance-filter-picker" id="financeShopField"><span class="finance-filter-label">店铺</span><button type="button" class="finance-filter-trigger" data-finance-filter="shop" id="financeShopTrigger" aria-haspopup="listbox" aria-expanded="false"><span id="financeShopLabel">全部店铺</span><svg><use href="#i-chevron-down"/></svg></button><input id="financeShop" type="hidden"></div>
+              <div class="finance-filter-picker" id="financeExpenseTypeField"><span class="finance-filter-label">费用类型</span><button type="button" class="finance-filter-trigger" data-finance-filter="expense_type" id="financeExpenseTypeFilterTrigger" aria-haspopup="listbox" aria-expanded="false"><span id="financeExpenseTypeFilterLabel">全部类型</span><svg><use href="#i-chevron-down"/></svg></button><input id="financeExpenseTypeFilter" type="hidden"></div>
+              <div class="finance-filter-picker finance-operator-field" id="financeOperatorField"><span class="finance-filter-label">操作人</span><button type="button" class="finance-filter-trigger" data-finance-filter="finance_operator" id="financeOperatorTrigger" aria-haspopup="listbox" aria-expanded="false"><span id="financeOperatorLabel">全部操作人</span><svg><use href="#i-chevron-down"/></svg></button><input id="financeOperator" type="hidden"></div>
+              <label class="inline-field finance-date-field" id="financeDateField"><span class="finance-filter-label">操作时间</span><div class="date-range" data-date-range="financeDateFrom,financeDateTo"><button type="button" class="date-range-trigger" aria-haspopup="dialog" aria-expanded="false"><svg><use href="#i-calendar"/></svg><span class="date-start empty">开始日期</span><b>→</b><span class="date-end empty">结束日期</span><svg class="date-chevron"><use href="#i-down"/></svg></button><input type="hidden" id="financeDateFrom"><input type="hidden" id="financeDateTo"></div></label>
+              <label class="inline-field finance-status-field" id="financeStatusField"><span class="finance-filter-label">状态</span><select id="financeStatus"><option value="">全部状态</option><option value="active">启用</option><option value="inactive">停用</option></select></label>
+              <label class="search-field grow" id="financeKeywordField"><svg><use href="#i-search"/></svg><input id="financeKeyword" placeholder="搜索配置内容"></label>
+              <button class="button primary query-button" type="button" id="searchFinanceConfig"><svg><use href="#i-search"/></svg>查询</button><button class="button reset-button" type="button" id="resetFinanceConfig"><svg><use href="#i-refresh"/></svg>重置</button>
+              </div><div class="toolbar-group actions finance-toolbar-actions" id="financeToolbarActions"></div>
+            </div>
+            <div class="panel fee-list-panel finance-table-panel">
+              <div class="table-wrap finance-table-wrap"><table class="data-table category-table finance-data-table"><thead><tr id="financeConfigHead"></tr></thead><tbody id="financeConfigBody"></tbody></table></div>
+              <div class="pagination-bar" id="financeConfigPagination" aria-label="经营配置分页">
+              <span id="financeConfigTotal" class="pagination-summary">共 0 条</span>
+              <div class="pagination-controls">
+                <select id="financeConfigPageSize" class="select-chevron pagination-size" aria-label="每页条数"><option value="10" selected>10 条/页</option><option value="20">20 条/页</option><option value="50">50 条/页</option><option value="100">100 条/页</option></select>
+                <button id="financeConfigPrevPage" class="pagination-nav" type="button" aria-label="上一页" disabled><svg><use href="#i-left"/></svg></button>
+                <div id="financeConfigPageNumbers" class="pagination-pages" aria-label="页码"></div>
+                <button id="financeConfigNextPage" class="pagination-nav" type="button" aria-label="下一页" disabled><svg><use href="#i-right"/></svg></button>
+                <span id="financeConfigPageInfo" class="pagination-page">第 1/1 页</span>
+              </div>
+              </div>
+            </div>
+          </section>
+          <section class="panel finance-methodology-card" id="financeMethodologyCard" hidden><div class="finance-methodology-title"><svg><use href="#i-info"/></svg><span>计算口径说明</span></div><div class="finance-methodology-content" id="financeMethodologyContent"></div></section>
+          <input id="financeBatchFile" type="file" accept=".csv,text/csv" hidden>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="etlDetailDialog" class="wide-dialog">
+    <div class="modal-head"><div><h3>ETL运行详情</h3><small id="etlDetailMeta"></small></div><button class="icon-button" data-close-dialog="etlDetailDialog" aria-label="关闭">×</button></div>
+    <div class="modal-body etl-detail-body"><div id="etlDetailSummary"></div><div class="table-wrap"><table class="data-table etl-task-table"><thead><tr><th>序号</th><th>节点</th><th>状态</th><th>耗时</th><th>错误或输出摘要</th><th>操作</th></tr></thead><tbody id="etlTaskBody"></tbody></table></div></div>
+    <div class="modal-actions"><button class="button" data-close-dialog="etlDetailDialog">关闭</button></div>
+  </dialog>
+
+  <dialog id="ingestDetailDialog" class="wide-dialog">
+    <div class="modal-head"><div><h3>导入会话详情</h3><small id="ingestDetailMeta"></small></div><button class="icon-button" data-close-dialog="ingestDetailDialog" aria-label="关闭">×</button></div>
+    <div class="modal-body ingest-detail-body">
+      <div id="ingestDetailSummary" class="etl-detail-summary"></div>
+      <div class="table-wrap"><table class="data-table ingest-file-detail-table"><colgroup><col class="file-detail-file-col"><col class="file-detail-report-col"><col class="file-detail-context-col"><col class="file-detail-status-col"><col class="file-detail-batches-col"><col class="file-detail-message-col"><col class="file-detail-operation-col"></colgroup><thead><tr><th>文件</th><th>报表</th><th>平台 / 公司 / 店铺</th><th>ODS状态</th><th>批次 / 目标表</th><th>错误或输出摘要</th><th>操作</th></tr></thead><tbody id="ingestFileDetailBody"></tbody></table></div>
+    </div>
+    <div class="modal-actions"><button type="button" class="button" id="recalculateIngestFiles" disabled title="复用已入库文件，重新计算本记录对应的店铺和月份">重新计算</button><button type="button" class="button" id="reuseIngestFiles" disabled>使用这些文件重新核对</button><button class="button" data-close-dialog="ingestDetailDialog">关闭</button></div>
+  </dialog>
+
+  <dialog id="categoryDialog">
+    <div class="modal-head"><h3 id="categoryDialogTitle">新增一级分类</h3><button class="icon-button" data-close-dialog="categoryDialog" aria-label="关闭">×</button></div>
+    <form id="categoryForm">
+      <div class="modal-body"><div class="form-grid"><label class="full"><span>平台 <b class="required">*</b></span><select id="categoryFormPlatform"><option value="">请选择平台</option></select></label><label class="full"><span>分类名称 <b class="required">*</b></span><input id="categoryFormName" required maxlength="100"></label><label><span>排序</span><input id="categoryFormOrder" type="number" min="0" value="0"></label><label class="switch-field"><span>启用</span><span class="switch-control"><input id="categoryFormActive" name="is_active" type="checkbox"><span class="switch-track"></span></span></label><label class="full"><span>财务口径说明</span><textarea id="categoryFormNote" maxlength="500" rows="4"></textarea></label></div><input id="categoryFormUpdatedAt" type="hidden"></div>
+      <div class="modal-actions"><button type="button" class="button" data-close-dialog="categoryDialog">取消</button><button type="submit" class="button primary">保存</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="financeConfigDialog" class="finance-config-dialog">
+    <div class="modal-head"><div><h3 id="financeConfigDialogTitle">新增经营配置</h3><small id="financeDialogDescription">填写后将即时刷新经营配置指标。</small></div><button class="icon-button" data-close-dialog="financeConfigDialog" aria-label="关闭">×</button></div>
+    <form id="financeConfigForm">
+      <div class="modal-body"><div class="finance-dialog-notice" id="financeDialogNotice" hidden><svg><use href="#i-info"/></svg><span></span></div><div class="form-grid">
+        <label data-finance-field="budget_month"><span>月份 <b class="required">*</b></span><input id="financeFormBudgetMonth" type="month"></label>
+        <label data-finance-field="business_date"><span id="financeBusinessDateLabel">业务日期</span><input id="financeFormBusinessDate" type="date"></label>
+        <div class="finance-form-field" data-finance-field="platform_context"><span>平台 <b class="required">*</b></span><strong id="financeFormPlatformText" class="finance-form-context">—</strong><input id="financeFormPlatform" type="hidden"></div>
+        <div class="finance-form-field" data-finance-field="company_context"><span>公司</span><strong id="financeFormCompanyText" class="finance-form-context">—</strong><input id="financeFormCompany" type="hidden"></div>
+        <div class="finance-form-field" data-finance-field="shop_code"><span>店铺 <b class="required">*</b></span><strong id="financeFormShopText" class="finance-form-context">—</strong><input id="financeFormShopCode" type="hidden"><small id="financeShopContext" class="muted"></small></div>
+        <label data-finance-field="promotion_budget_amount"><span>推广预算（元）</span><input id="financeFormPromotionBudget" type="number" min="0" step="0.01"></label>
+        <label data-finance-field="marketing_budget_amount"><span>整体营销预算（元）</span><input id="financeFormMarketingBudget" type="number" min="0" step="0.01"></label>
+        <label data-finance-field="gsv_target_amount"><span>目标 GSV 金额（元）</span><input id="financeFormGsvTarget" type="number" min="0" step="0.01" placeholder="请输入目标金额"></label>
+        <label data-finance-field="amount"><span id="financeAmountLabel">金额（元）</span><input id="financeFormAmount" type="number" step="0.01"></label>
+        <label data-finance-field="expense_type"><span>费用类型 <b class="required">*</b></span><button type="button" class="finance-form-picker" id="financeExpenseTypeTrigger" aria-haspopup="listbox" aria-expanded="false"><span id="financeFormExpenseTypeLabel">请选择费用类型</span><svg><use href="#i-chevron-down"/></svg></button><input id="financeFormExpenseType" type="hidden"><small class="muted">只能选择已启用类型；搜索不到不会创建新数据</small></label>
+        <label data-finance-field="counterparty"><span>合作方/收款方</span><input id="financeFormCounterparty" maxlength="255"></label>
+        <label data-finance-field="document_no"><span id="financeDocumentLabel">审批 / 单据号</span><input id="financeFormDocumentNo" maxlength="100"></label>
+        <label class="full" data-finance-field="remark"><span>备注说明</span><textarea id="financeFormRemark" maxlength="500" rows="3" placeholder="请输入备注信息（选填）"></textarea></label>
+      </div><input id="financeFormUpdatedAt" type="hidden"></div>
+      <div class="modal-actions"><button type="button" class="button" data-close-dialog="financeConfigDialog">取消</button><button type="submit" class="button primary" id="financeDialogSubmit">保存</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="financeRechargeHistoryDialog" class="wide-dialog finance-recharge-history-dialog">
+    <div class="modal-head"><div><h3 id="financeRechargeHistoryTitle">历史充值记录</h3><small id="financeRechargeHistoryMeta"></small></div><button class="icon-button" data-close-dialog="financeRechargeHistoryDialog" aria-label="关闭">×</button></div>
+    <div class="modal-body finance-recharge-history-body"><div class="finance-recharge-history-summary"><span id="financeRechargeHistoryTotal">共 0 条</span><small>按充值日期倒序展示该店铺的全部充值流水</small></div><div class="table-wrap"><table class="data-table finance-recharge-history-table"><thead><tr><th>充值日期</th><th>充值金额（元）</th><th>单据号</th><th>备注</th><th>登记人</th><th>更新时间</th></tr></thead><tbody id="financeRechargeHistoryBody"></tbody></table></div></div>
+    <div class="pagination-bar" aria-label="历史充值记录分页"><span class="pagination-summary">明细记录</span><div class="pagination-controls"><select id="financeRechargeHistoryPageSize" class="select-chevron pagination-size" aria-label="历史记录每页条数"><option value="10" selected>10 条/页</option><option value="20">20 条/页</option><option value="50">50 条/页</option></select><button id="financeRechargeHistoryPrevPage" class="pagination-nav" type="button" aria-label="上一页" disabled><svg><use href="#i-left"/></svg></button><div id="financeRechargeHistoryPageNumbers" class="pagination-pages" aria-label="历史记录页码"></div><button id="financeRechargeHistoryNextPage" class="pagination-nav" type="button" aria-label="下一页" disabled><svg><use href="#i-right"/></svg></button><span id="financeRechargeHistoryPageInfo" class="pagination-page">第 1/1 页</span></div></div>
+    <div class="modal-actions"><button class="button" data-close-dialog="financeRechargeHistoryDialog">关闭</button></div>
+  </dialog>
+
+  <dialog id="financeExpenseTypeDialog" class="finance-config-dialog finance-expense-type-dialog">
+    <div class="modal-head"><div><h3 id="financeExpenseTypeDialogTitle">新增营销费用类型</h3><small>费用类型新增、编辑和启停只能在本页面完成。</small></div><button class="icon-button" data-close-dialog="financeExpenseTypeDialog" aria-label="关闭">×</button></div>
+    <form id="financeExpenseTypeForm">
+      <div class="modal-body"><div class="form-grid">
+        <label class="full"><span>类型名称 <b class="required">*</b></span><input id="financeExpenseTypeName" maxlength="100" required></label>
+        <label class="switch-field"><span>启用</span><span class="switch-control"><input id="financeExpenseTypeActive" name="is_active" type="checkbox"><span class="switch-track"></span></span></label>
+        <label class="full"><span>备注</span><textarea id="financeExpenseTypeRemark" maxlength="500" rows="3"></textarea></label>
+      </div><input id="financeExpenseTypeId" type="hidden"><input id="financeExpenseTypeUpdatedAt" type="hidden"></div>
+      <div class="modal-actions"><button type="button" class="button" data-close-dialog="financeExpenseTypeDialog">取消</button><button type="submit" class="button primary">保存</button></div>
+    </form>
+  </dialog>
+
+  <div class="cell-dropdown" id="cellDropdown" hidden><div class="cell-dropdown-search"><svg><use href="#i-search"/></svg><input id="cellDropdownSearch" placeholder="搜索选项"></div><div class="cell-dropdown-options" id="cellDropdownOptions"></div></div>
+  <div class="date-range-dropdown" id="dateRangeDropdown" role="dialog" aria-label="选择操作日期范围" hidden></div>
+  <div class="assign-dropdown" id="assignDropdown" hidden><label class="assign-search"><svg><use href="#i-search"/></svg><input id="assignSearch" placeholder="查找一级分类管理名称" autocomplete="off"></label><div class="assign-options" id="assignOptions"></div></div>
+  <div class="assign-dropdown finance-assign-dropdown" id="financeAssignDropdown" hidden><label class="assign-search"><svg><use href="#i-search"/></svg><input id="financeAssignSearch" placeholder="搜索选项" autocomplete="off"></label><div class="assign-options" id="financeAssignOptions"></div><div class="finance-assign-footer"><span id="financeAssignSelectedSummary">未选择</span><button type="button" class="button" id="financeAssignCancel">取消</button><button type="button" class="button primary" id="financeAssignConfirm">确定</button></div></div>
+  <div class="table-popover" id="tablePopover" hidden></div>
+
+  <dialog id="feeMappingDialog">
+    <div class="modal-head"><h3 id="feeMappingDialogTitle">编辑经营收支配置</h3><button class="icon-button" data-close-dialog="feeMappingDialog" aria-label="关闭">×</button></div>
+    <form id="feeMappingForm">
+      <div class="modal-body">
+        <div class="form-grid">
+          <label class="full"><span>原始收支场景</span><input id="feeMappingFeeName" readonly></label>
+          <label class="full"><span>原始业务类型</span><input id="feeMappingBizType" readonly></label>
+          <label class="full"><span>一级分类（可不配置）</span><div class="assign-combobox fee-modal-category"><button type="button" class="assign-trigger" id="feeMappingCategoryTrigger" aria-expanded="false" data-value="" data-name=""><span id="feeMappingCategoryValue" class="assign-value empty">选择一级分类</span><svg><use href="#i-down"/></svg></button></div></label>
+          <input id="feeMappingCategory" type="hidden"><input id="feeMappingCategoryCode" type="hidden">
+          <label class="full"><span>描述匹配方式</span><select id="feeMappingMatchType"><option value="">保持原值</option><option value="none">按二级分类</option><option value="exact">精确</option><option value="prefix">前缀</option><option value="contains">包含</option><option value="any">业务类型全部描述</option></select></label>
+          <label class="full"><span>描述匹配值</span><input id="feeMappingMatchValue" placeholder="留空保持原值"></label>
+          <label><span>匹配优先级</span><input id="feeMappingPriority" type="number" placeholder="留空保持原值"></label>
+          <label><span>经营收支归属</span><select id="feeMappingInclude"><option value="pending">归属待确认</option><option value="income">收入（含冲减）</option><option value="expense">支出（含冲减）</option><option value="excluded">不计入</option></select></label>
+          <label class="full"><span>财务分类说明</span><textarea id="feeMappingNote" rows="4" maxlength="500"></textarea></label>
+        </div>
+        <input id="feeMappingEditId" type="hidden"><input id="feeMappingUpdatedAt" type="hidden">
+      </div>
+      <div class="modal-actions"><button type="button" class="button" data-close-dialog="feeMappingDialog">取消</button><button type="submit" class="button primary">保存</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="sceneRuleEditor" class="scene-rule-dialog">
+    <div class="modal-head"><h3 id="sceneRuleTitle">编辑场景清洗规则</h3><button class="icon-button" data-close-dialog="sceneRuleEditor" aria-label="关闭">×</button></div>
+    <form id="sceneRuleForm"><div class="modal-body"><div class="form-grid">
+      <label><span>平台</span><select id="sceneRulePlatform" required></select></label>
+      <label><span>来源</span><select id="sceneRuleDocument"><option value="fund">资金</option><option value="settlement">结算</option></select></label>
+      <label class="full"><span>规则名称</span><input id="sceneRuleName" required maxlength="128"></label>
+      <label class="full"><span>原始业务类型（留空为该平台来源下全部类型）</span><input id="sceneRuleBusiness"></label>
+      <label class="full"><span>匹配正则（PostgreSQL语法，作用于完整场景名称）</span><input id="sceneRulePattern" required maxlength="500" placeholder="例如：-订单号[：:]?.*$"></label>
+      <label class="full"><span>替换内容（留空表示删除匹配部分）</span><input id="sceneRuleReplacement" maxlength="500" placeholder="支持捕获组引用，如 \1"></label>
+      <label><span>执行顺序（小的先执行）</span><input id="sceneRulePriority" type="number" min="0" max="10000" required></label>
+      <label><span>启用状态</span><select id="sceneRuleActive"><option value="true">启用</option><option value="false">停用</option></select></label>
+      <label class="full"><span>规则说明</span><textarea id="sceneRuleNote" rows="2" maxlength="1000"></textarea></label>
+      <label class="full"><span>补充测试样本（每行一个完整场景，可测试尚未导入的新类型）</span><textarea id="sceneRuleSamples" rows="3"></textarea></label>
+    </div><div id="sceneRulePreview" class="scene-rule-preview" hidden><p id="sceneRulePreviewSummary"></p><p id="sceneRuleConflicts" class="error"></p><div class="table-wrap"><table class="data-table"><thead><tr><th>原始场景</th><th>清洗后场景</th></tr></thead><tbody id="sceneRuleExamples"></tbody></table></div><p class="muted">预览使用当前规则、已有场景及补充样本；未来新描述仍受来源校验和场景匹配约束。</p></div>
+    </div><div class="modal-actions"><button type="button" class="button" data-close-dialog="sceneRuleEditor">取消</button><button type="button" class="button" id="previewSceneRule">预览匹配结果</button><button type="submit" class="button primary" id="saveSceneRule" disabled>确认保存并重算</button></div></form>
+  </dialog>
+
+  <dialog id="operatingPreviewDialog" class="operating-policy-dialog">
+    <div class="modal-head"><h3>经营归属变更预览</h3><button class="icon-button" data-close-dialog="operatingPreviewDialog" aria-label="关闭">×</button></div>
+    <div class="modal-body"><p id="operatingPreviewScope"></p><p id="operatingPreviewTotals"></p><div class="table-wrap"><table class="data-table"><thead><tr><th>月份 / 店铺</th><th>收入变化</th><th>费用变化</th></tr></thead><tbody id="operatingPreviewRows"></tbody></table></div><p class="muted">保存后需要重算；平台收支配置显示重算状态，成功后看板金额才生效。</p></div>
+    <div class="modal-actions"><button class="button" data-close-dialog="operatingPreviewDialog">取消</button><button class="button primary" id="applyOperatingPreview">确认保存</button></div>
+  </dialog>
+  <dialog id="feeSourceDialog" class="operating-policy-dialog">
+    <div class="modal-head"><h3>来源依据与经营归属</h3><button class="icon-button" data-close-dialog="feeSourceDialog" aria-label="关闭">×</button></div>
+    <div class="modal-body"><div id="feeSourceContent"></div><div id="feeSourceCorrection" hidden><label><span>更正为独立业务金额的依据</span><textarea id="feeSourceReason" rows="3" minlength="5" placeholder="说明该来源为何是独立金额，而非主来源已统计的到账或退款表示"></textarea></label><button type="button" class="button" id="correctFeeSource">确认独立来源并预览</button></div></div>
+    <div class="modal-actions"><button class="button" data-close-dialog="feeSourceDialog">关闭</button></div>
+  </dialog>
+
+  <div class="toast" id="toast" hidden></div>
+  <dialog id="coverageDialog" class="coverage-dialog">
+    <div class="modal-head"><div><h3 id="coverageTitle">核对导入内容</h3><p class="muted" id="coverageDescription">确认需要处理的差异后，再提交入库与刷新。</p></div><button type="button" class="icon-button" id="coverageClose" aria-label="保存草稿并关闭">×</button></div>
+    <div class="modal-body">
+      <div class="coverage-context"><div id="coverageContext"></div><button type="button" class="text-button" id="coverageEdit">调整导入设置</button></div>
+      <div class="coverage-settings coverage-editor" id="coverageEditor" hidden>
+        <div class="coverage-fields">
+          <label class="coverage-field"><span>处理方式</span><select id="coverageMode" class="select-chevron"><option value="fill_gaps">补入缺失日期（默认）</option><option value="replace_range">替换所选范围的来源</option><option value="refresh_only">使用已入库文件重新刷新</option></select></label>
+          <div class="coverage-field"><span id="coverageRangeLabel">平台查询范围</span><div class="date-range" data-date-range="coverageStart,coverageEnd" data-max-date="yesterday"><button type="button" class="date-range-trigger" aria-labelledby="coverageRangeLabel" aria-haspopup="dialog" aria-expanded="false"><svg><use href="#i-calendar"/></svg><span class="date-start empty">开始日期</span><b>→</b><span class="date-end empty">结束日期</span><svg class="date-chevron"><use href="#i-down"/></svg></button><input id="coverageStart" type="hidden"><input id="coverageEnd" type="hidden"></div></div>
+          <label class="coverage-complete"><input id="coverageComplete" type="checkbox"><span>已核对为该范围的完整导出</span></label>
+        </div>
+      </div>
+      <label class="coverage-reason" id="coverageReasonField" hidden><span>替换原因 <b class="required">*</b></span><input id="coverageReason" maxlength="2000" placeholder="说明本次完整报表为何应替换现有来源"><small class="muted">仅替换所选店铺和日期的计算来源，原始文件与流水保留。</small></label>
+      <div id="coverageSummary" class="coverage-notice" role="status" aria-live="polite"></div>
+      <p class="coverage-help" id="coverageEmptyHelp" hidden>下列日期旧来源有交易、本次完整导出为空。仅在已确认平台当日确无交易时勾选；确认后该日将按零交易计算，原始流水仍保留。</p>
+      <div class="table-wrap coverage-table-wrap"><table class="data-table"><thead><tr><th>店铺 / 报表</th><th>业务日期</th><th>核对结果</th><th>已有来源：行数 / 金额</th><th>本次文件：行数 / 金额</th></tr></thead><tbody id="coverageRows"></tbody></table></div>
+      <p class="coverage-help">金额为原始金额列合计。内容一致需全部业务字段及相同行的数量一致，不按金额或订单号删减流水。</p>
+    </div>
+    <div class="modal-actions"><span class="coverage-action-hint" id="coverageActionHint">正在核对…</span><button type="button" class="button" id="coverageCancel">保存草稿，稍后继续</button><button type="button" class="button" id="coverageRecheck">重新核对</button><button type="button" class="button primary" id="coverageApply" disabled>确认导入并刷新</button></div>
+  </dialog>
+  <script src="/identity-assets/shell.js" defer></script>
+  <script src="/ingest/app.js" defer></script>
+</body>
+</html>

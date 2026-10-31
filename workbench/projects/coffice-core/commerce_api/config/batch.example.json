@@ -1,0 +1,7 @@
+{
+  "name": "isolated-report-downloads",
+  "reports": [
+    {"platform": "xiaohongshu", "kind": "order", "profile": "REPLACE_WITH_EXACT_PROFILE_NAME", "date": "2026-10-28"},
+    {"platform": "jd", "kind": "settlement", "backend": "merchant", "profile": "REPLACE_WITH_EXACT_PROFILE_NAME", "month": "2026-09"}
+  ]
+}

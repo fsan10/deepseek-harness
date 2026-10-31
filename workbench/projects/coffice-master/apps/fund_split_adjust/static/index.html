@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>经营配置中心 · 银行资金</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/identity-assets/shell.css">
+</head>
+<body>
+  <svg class="svg-sprite" aria-hidden="true">
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M20 7V6a2 2 0 0 0-2-2H5a3 3 0 0 0 0 6h15v9a1 1 0 0 1-1 1H5a3 3 0 0 1-3-3V7"/><path d="M16 14h.01"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></symbol>
+    <symbol id="i-tags" viewBox="0 0 24 24"><path d="M9.5 4H4v5.5L14.5 20 20 14.5 9.5 4Z"/><path d="M6.5 6.5h.01M14 4h3l3 3v3"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13Z"/><path d="M8 7h8M8 11h6"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></symbol>
+    <symbol id="i-upload-success" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6M8 15l2.2 2.2L16 12"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7h-5V2M4 17h5v5"/><path d="M5.5 9a7 7 0 0 1 11.8-3L20 7M4 17l2.7 1A7 7 0 0 0 18.5 15"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M5 20h14"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-chevrons" viewBox="0 0 24 24"><path d="m7 13 5 5 5-5M7 6l5 5 5-5"/></symbol>
+    <symbol id="i-corner" viewBox="0 0 24 24"><path d="M5 4v6a4 4 0 0 0 4 4h10M15 10l4 4-4 4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.8 2.5 18a2 2 0 0 0 1.8 3h15.4a2 2 0 0 0 1.8-3L13.7 3.8a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/></symbol>
+    <symbol id="i-power" viewBox="0 0 24 24"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 15H6L5 6M10 11v6M14 11v6"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1v.08h-4V21a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1-.4h-.08v-4H3A1.7 1.7 0 0 0 4.6 8.5a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1v-.08h4V3A1.7 1.7 0 0 0 15.5 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.15.37.37.7.6 1 .28.28.63.4 1 .4h.08v4H21a1.7 1.7 0 0 0-1.6.6Z"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  </svg>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><svg><use href="#i-grid"/></svg><strong>经营配置中心</strong></div>
+      <div class="sidebar-menu">
+        <section class="nav-group open active" data-nav-group="bank">
+          <div class="nav-group-header"><a class="nav-group-link" href="/#statement"><svg><use href="#i-wallet"/></svg><span>银行资金</span></a><button class="nav-group-toggle" type="button" aria-expanded="true" aria-label="收起银行资金菜单"><svg class="nav-chevron"><use href="#i-chevron-down"/></svg></button></div>
+          <div class="nav-group-items"><nav id="nav">
+            <button class="nav-item active" data-page="statement"><span>主编辑表</span></button>
+            <button class="nav-item" data-page="types"><span>类型管理</span></button>
+            <button class="nav-item" data-page="accounts"><span>入账管理</span></button>
+            <button class="nav-item" data-page="imports"><span>导入记录</span></button>
+            <button class="nav-item" data-page="logs"><span>操作日志</span></button>
+          </nav></div>
+        </section>
+        <section class="nav-group open" data-nav-group="influencer">
+          <div class="nav-group-header"><a class="nav-group-link" href="/influencer/#assignmentPanel"><svg><use href="#i-users"/></svg><span>达播运营</span></a><button class="nav-group-toggle" type="button" aria-expanded="true" aria-label="收起达播运营菜单"><svg class="nav-chevron"><use href="#i-chevron-down"/></svg></button></div>
+          <div class="nav-group-items"><nav aria-label="达播运营功能"><a class="nav-item" href="/influencer/#assignmentPanel"><span>达人商务归属</span></a><a class="nav-item" href="/influencer/#targetPanel"><span>商务月度目标</span></a><a class="nav-item" href="/influencer/#productCategoryPanel"><span>商品品类配置</span></a><a class="nav-item" href="/influencer/#productMappingPanel"><span>商品编码映射</span></a></nav></div>
+        </section>
+        <section class="nav-group open" data-nav-group="ingest">
+          <div class="nav-group-header"><a class="nav-group-link" href="/ingest/#upload"><svg><use href="#i-upload"/></svg><span>数据导入</span></a><button class="nav-group-toggle" type="button" aria-expanded="true" aria-label="收起数据导入菜单"><svg class="nav-chevron"><use href="#i-chevron-down"/></svg></button></div>
+          <div class="nav-group-items"><nav aria-label="数据导入功能"><a class="nav-item" href="/ingest/#upload"><span>数据上传</span></a><a class="nav-item" href="/ingest/#runs"><span>导入记录</span></a><a class="nav-item" href="/ingest/#etl"><span>ETL任务</span></a><a class="nav-item" href="/ingest/#logs"><span>操作日志</span></a></nav></div>
+        </section>
+        <section class="nav-group open" data-nav-group="platform-fees">
+          <div class="nav-group-header"><a class="nav-group-link" href="/ingest/#feeCategories"><svg><use href="#i-tags"/></svg><span>平台费用管理</span></a><button class="nav-group-toggle" type="button" aria-expanded="true" aria-label="收起平台费用管理菜单"><svg class="nav-chevron"><use href="#i-chevron-down"/></svg></button></div>
+          <div class="nav-group-items"><nav aria-label="平台费用管理功能"><a class="nav-item" href="/ingest/#feeCategories"><span>一级分类管理</span></a><a class="nav-item" href="/ingest/#feeMappings"><span>费用映射</span></a><a class="nav-item" href="/ingest/#rawFees"><span>原始费用</span></a></nav></div>
+        </section>
+      </div>
+    </aside>
+
+    <div class="content-shell">
+      <header class="topbar">
+        <div class="page-heading">
+          <h1 id="pageTitle">资金流水编辑</h1>
+          <p id="pageSubtitle">墨客咖时（南京）生物科技有限公司</p>
+        </div>
+        <div class="top-actions page-actions" id="statementActions">
+          <button class="button primary" id="openImport"><svg><use href="#i-upload"/></svg>导入源表</button>
+          <button class="button withdraw" id="withdrawSubmit" hidden>撤回提交</button>
+          <div class="submit-stack"><button class="button" id="submitBatch" disabled>提交</button><small id="submitHelper">待分配金额不为0，无法提交</small></div>
+        </div>
+        <div class="top-actions page-actions" id="importsActions" hidden><button class="button primary" id="openImport2"><svg><use href="#i-upload"/></svg>导入源表</button></div>
+        <div class="top-actions page-actions" id="logsActions" hidden><button class="button" id="exportLogs"><svg><use href="#i-download"/></svg>导出日志</button></div>
+        <div id="healthBadge" class="health-badge is-loading"><span class="health-dot"></span><span>连接中</span></div>
+      </header>
+
+      <main>
+        <input id="operatorInput" value="财务用户" hidden>
+        <span id="batchMeta" hidden></span>
+
+        <section class="page active" id="statementPage">
+          <div class="allocation-alert" id="allocationAlert" hidden><span class="allocation-alert-icon"><svg><use href="#i-alert"/></svg></span><p>待分配金额：<strong>¥0.00</strong><small id="allocationDetail"></small></p></div>
+          <div class="metric-grid statement-metrics" id="summaryCards">
+            <article><div class="metric-label">流水总笔数</div><strong>—</strong></article>
+            <article><div class="metric-label">借方合计</div><strong>—</strong></article>
+            <article><div class="metric-label">贷方合计</div><strong>—</strong></article>
+          </div>
+
+          <div class="toolbar statement-toolbar">
+            <div class="toolbar-group">
+              <label class="inline-field batch-selector"><span>当前导入资金</span><select id="batchSelect" aria-label="当前导入资金"><option value="">暂无导入批次</option></select></label>
+              <label class="inline-field"><span>交易日</span><div class="date-range" data-date-range="dateFrom,dateTo"><button type="button" class="date-range-trigger"><svg><use href="#i-calendar"/></svg><span class="date-start">开始日期</span><b>→</b><span class="date-end">结束日期</span><svg class="date-chevron"><use href="#i-down"/></svg></button><input type="hidden" id="dateFrom"><input type="hidden" id="dateTo"></div></label>
+              <label class="inline-field"><span>费用类型</span><select id="expenseTypeFilter"><option value="">全部费用类型</option><option value="unassigned">未分配</option></select></label>
+              <label class="search-field statement-search"><svg><use href="#i-search"/></svg><input type="search" id="statementKeyword" placeholder="搜索时间、日期、类型、账号、金额、费用类型、入账或摘要"></label><button class="button primary query-button" id="applyStatementFilter"><svg><use href="#i-search"/></svg>查询</button><button class="button reset-button" id="resetStatement"><svg><use href="#i-refresh"/></svg>重置</button>
+            </div>
+            <div class="toolbar-group actions"><button class="button primary expand-all-button" id="expandAll"><svg class="expand-all-icon"><use href="#i-chevrons"/></svg><span>全部展开</span></button><button class="button" id="refreshStatement" hidden><svg><use href="#i-refresh"/></svg>刷新</button></div>
+          </div>
+
+          <div class="selection-bar" id="selectionBar" hidden><strong>已选 <span id="selectedCount">0</span> 项</strong><span>修改费用类型或入账将应用到全部选中流水</span><button class="text-button" id="clearSelection">取消选择</button></div>
+          <div class="panel statement-panel">
+            <div class="table-popover" id="tablePopover" hidden></div>
+            <div class="table-wrap main-table-wrap">
+              <table class="data-table main-table">
+                <colgroup><col class="col-check"><col class="col-expand"><col class="col-time"><col class="col-date"><col class="col-type"><col class="col-bank-account"><col class="col-money"><col class="col-money"><col class="col-balance"><col class="col-expense"><col class="col-entry"><col class="col-summary"><col class="col-actions"></colgroup>
+                <thead><tr><th class="check"><input type="checkbox" id="selectAll"><small>全选</small></th><th class="expand-col">展开</th><th>交易时间</th><th>交易日</th><th>交易类型</th><th>账号名称</th><th class="amount">借方金额</th><th class="amount">贷方金额</th><th class="amount">余额</th><th>费用类型</th><th>入账</th><th>摘要</th><th class="actions">操作</th></tr></thead>
+                <tbody id="statementBody"><tr><td colspan="13" class="empty">请先导入银行流水</td></tr></tbody>
+              </table>
+            </div>
+            <div class="panel-foot"><span id="statementTotal">共 0 条</span><div class="pager" id="statementPager"></div></div>
+          </div>
+        </section>
+
+        <section class="page" id="typesPage">
+          <div class="toolbar"><div class="toolbar-group"><label class="inline-field"><span>状态</span><select id="typeStatus"><option value="">全部</option><option value="true">启用</option><option value="false">停用</option></select></label><label class="search-field"><svg><use href="#i-search"/></svg><input id="typeKeyword" type="search" placeholder="搜索类型名称 / 编码"></label><button class="button primary query-button" id="searchTypes"><svg><use href="#i-search"/></svg>查询</button><button class="button reset-button" id="resetTypes"><svg><use href="#i-refresh"/></svg>重置</button></div><button class="button primary" id="addType"><svg><use href="#i-plus"/></svg>新增费用类型</button></div>
+          <div class="panel"><div class="table-wrap"><table class="data-table"><thead><tr><th>类型编码</th><th>类型名称</th><th>类型说明</th><th class="center">关联入账数</th><th class="center">排序</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead><tbody id="typeBody"></tbody></table></div><div class="panel-foot"><span id="typeTotal">共 0 条</span><div class="pager" id="typePager"></div></div></div>
+        </section>
+
+        <section class="page" id="accountsPage">
+          <select id="accountStatus" hidden><option value="">全部</option><option value="true">启用</option><option value="false">停用</option></select>
+          <div class="toolbar"><div class="toolbar-group"><label class="inline-field"><span>所属费用类型</span><select id="accountTypeFilter"><option value="">全部</option></select></label><label class="search-field"><svg><use href="#i-search"/></svg><input id="accountKeyword" type="search" placeholder="搜索编码 / 名称"></label><button class="button primary query-button" id="searchAccounts"><svg><use href="#i-search"/></svg>查询</button><button class="button reset-button" id="resetAccounts"><svg><use href="#i-refresh"/></svg>重置</button></div><button class="button primary" id="addAccount"><svg><use href="#i-plus"/></svg>新增入账</button></div>
+          <div class="panel"><div class="table-wrap"><table class="data-table"><thead><tr><th>入账编码</th><th>入账名称</th><th>所属费用类型</th><th>入账说明</th><th class="center">排序</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead><tbody id="accountBody"></tbody></table></div><div class="panel-foot"><span id="accountTotal">共 0 条</span><div class="pager" id="accountPager"></div></div></div>
+        </section>
+
+        <section class="page" id="importsPage">
+          <div class="metric-grid import-metrics" id="importCards"></div>
+          <div class="toolbar"><div class="toolbar-group"><label class="inline-field"><span>导入时间</span><div class="date-range" data-date-range="importDateFrom,importDateTo"><button type="button" class="date-range-trigger"><svg><use href="#i-calendar"/></svg><span class="date-start">开始日期</span><b>→</b><span class="date-end">结束日期</span><svg class="date-chevron"><use href="#i-down"/></svg></button><input type="hidden" id="importDateFrom"><input type="hidden" id="importDateTo"></div></label><label class="inline-field"><span>状态</span><select id="importStatus"><option value="">全部状态</option><option value="success">成功</option><option value="failed">失败</option></select></label><label class="search-field"><svg><use href="#i-search"/></svg><input id="importKeyword" type="search" placeholder="搜索文件名 / 编号"></label><button class="button primary query-button" id="searchImports"><svg><use href="#i-search"/></svg>查询</button><button class="button reset-button" id="resetImports"><svg><use href="#i-refresh"/></svg>重置</button></div></div>
+          <div class="panel"><div class="table-wrap"><table class="data-table"><thead><tr><th>导入编号</th><th>源文件名</th><th>导入时间</th><th class="center">流水笔数</th><th class="amount">金额合计</th><th>时间范围</th><th>状态</th><th>操作人</th><th>操作</th></tr></thead><tbody id="importBody"></tbody></table></div><div class="panel-foot"><span id="importTotal">共 0 条</span><div class="pager" id="importPager"></div></div></div>
+        </section>
+
+        <section class="page" id="logsPage">
+          <div class="toolbar logs-toolbar"><div class="toolbar-group"><label class="inline-field"><span>操作时间</span><div class="date-range" data-date-range="logDateFrom,logDateTo"><button type="button" class="date-range-trigger"><svg><use href="#i-calendar"/></svg><span class="date-start">开始日期</span><b>→</b><span class="date-end">结束日期</span><svg class="date-chevron"><use href="#i-down"/></svg></button><input id="logDateFrom" type="hidden"><input id="logDateTo" type="hidden"></div></label><label class="inline-field"><span>操作类型</span><select id="logType"><option value="">全部操作类型</option></select></label><div class="log-operator-picker" id="logOperatorField"><span class="log-operator-label">操作人</span><button type="button" class="log-operator-trigger" id="logOperatorTrigger" aria-haspopup="listbox" aria-expanded="false"><span id="logOperatorLabel">全部操作人</span><svg><use href="#i-down"/></svg></button><input id="logOperator" type="hidden"></div><label class="search-field log-search"><svg><use href="#i-search"/></svg><input id="logKeyword" type="search" placeholder="搜索日志编号、时间、操作人、类型、对象、金额或IP"></label><button class="button primary query-button" id="searchLogs"><svg><use href="#i-search"/></svg>查询</button><button class="button reset-button" id="resetLogs"><svg><use href="#i-refresh"/></svg>重置</button></div></div>
+          <div class="panel"><div class="table-wrap"><table class="data-table"><thead><tr><th>日志编号</th><th>操作时间</th><th>操作人</th><th>操作类型</th><th>操作对象</th><th>变更详情</th><th class="amount">变更金额</th><th>IP地址</th></tr></thead><tbody id="logBody"></tbody></table></div><div class="panel-foot"><span id="logTotal">共 0 条</span><div class="pager" id="logPager"></div></div></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="modal"><form method="dialog" id="modalForm"><div class="modal-head"><h3 id="modalTitle">编辑</h3><p id="modalKicker" hidden>编辑</p><button class="icon-button" value="cancel" formnovalidate aria-label="关闭">×</button></div><div id="modalBody" class="modal-body"></div><div class="modal-actions"><button class="button" value="cancel" formnovalidate>取消</button><button class="button primary" id="modalConfirm" value="default">确定</button></div></form></dialog>
+  <dialog id="importDialog"><form id="importForm"><div class="modal-head"><h3>导入银行流水</h3><button type="button" class="icon-button" id="closeImport" aria-label="关闭">×</button></div><div class="modal-body"><label class="upload-zone" id="uploadZone"><input id="fileInput" type="file" accept=".xlsx" required><span class="upload-icon" aria-hidden="true"><svg class="upload-icon-default"><use href="#i-upload"/></svg><svg class="upload-icon-success"><use href="#i-upload-success"/></svg></span><strong id="uploadTitle">选择或拖入银行 Excel 文件</strong><small id="uploadHint">支持包含“原数据”和可选“整理后”的 .xlsx，最大 50MB</small></label><div class="import-rule"><strong>导入规则</strong><span>原数据完整进入 ODS；整理后按流水号识别拆分和调账并写入 DWD。</span></div></div><div class="modal-actions"><button type="button" class="button" id="cancelImport">取消</button><button type="submit" class="button primary" id="importSubmit">开始导入</button></div></form></dialog>
+  <div class="assign-dropdown" id="assignDropdown" hidden><label class="assign-search"><svg><use href="#i-search"/></svg><input id="assignSearch" placeholder="查找或创建选项" autocomplete="off"></label><div class="assign-options" id="assignOptions"></div></div>
+  <div class="assign-dropdown log-operator-dropdown" id="logOperatorDropdown" hidden><label class="assign-search"><svg><use href="#i-search"/></svg><input id="logOperatorSearch" placeholder="搜索操作人" autocomplete="off"></label><div class="assign-options" id="logOperatorOptions"></div><div class="log-operator-footer"><span id="logOperatorSelectedSummary">未选择</span><button type="button" class="button" id="logOperatorCancel">取消</button><button type="button" class="button primary" id="logOperatorConfirm">确定</button></div></div>
+  <div class="date-range-dropdown" id="dateRangeDropdown" hidden></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/identity-assets/shell.js" defer></script>
+  <script src="/identity-assets/date-range.js" defer></script>
+  <script src="/split_payload.js" defer></script>
+  <script src="/app.js" defer></script>
+</body>
+</html>

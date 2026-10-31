@@ -1,0 +1,4 @@
+interface:
+  display_name: "电商 WebAPI 下载器开发"
+  short_description: "只需平台、报表和 Profile 即可开发混合式 WebAPI 下载器"
+  default_prompt: "使用 $ecommerce-webapi-builder，根据我提供的平台、报表和 Profile 名称自动取得 CDP，并开发混合式 WebAPI 下载脚本。"

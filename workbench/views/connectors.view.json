@@ -1,0 +1,9 @@
+{
+  "id": "connectors",
+  "domain": "平台",
+  "title": "数据与连接",
+  "question": "7 套连接器谁没就绪？",
+  "kind": "table",
+  "order": 31,
+  "owner": "工作台"
+}

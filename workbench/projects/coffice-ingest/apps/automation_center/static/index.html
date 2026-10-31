@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>经营配置中心 · 自动化工作台</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/identity-assets/shell.css">
+  <link rel="stylesheet" href="/automation/styles.css">
+  <link rel="stylesheet" href="/automation/flow-studio.css">
+</head>
+<body>
+  <svg class="svg-sprite" aria-hidden="true">
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7h-5V2M4 17h5v5"/><path d="M5.5 9a7 7 0 0 1 11.8-3L20 7M4 17l2.7 1A7 7 0 0 0 18.5 15"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m5 3 14 9-14 9V3z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20L12 3z"/><path d="M12 9v5M12 17h.01"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.6"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h9M17 6h3M4 12h4M12 12h8M4 18h9M17 18h3"/><circle cx="15" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="15" cy="18" r="2"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></symbol>
+    <symbol id="i-power" viewBox="0 0 24 24"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v5M14 11v5"/></symbol>
+  </svg>
+  <div class="app-shell">
+    <aside class="sidebar"><div class="brand"><svg><use href="#i-grid"/></svg><strong>经营配置中心</strong></div><div class="sidebar-menu nav-loading"></div></aside>
+    <div class="content-shell">
+      <header class="topbar">
+        <div class="page-heading stacked"><h1 id="pageTitle">报表任务</h1><p id="pageSubtitle">按执行日期查看任务进度，按业务日期核对报表覆盖范围</p></div>
+        <div class="top-actions"><button class="button" id="refreshPage" type="button"><svg><use href="#i-refresh"/></svg>刷新</button></div>
+      </header>
+      <main>
+
+        <section class="page active" id="reportsPage">
+          <div class="report-viewbar">
+            <div class="segmented" id="reportViewSwitch" role="tablist" aria-label="报表任务视图">
+              <button class="segmented-item is-active" type="button" data-report-view="list" role="tab" aria-selected="true">列表视图</button>
+              <button class="segmented-item" type="button" data-report-view="calendar" role="tab" aria-selected="false">日历视图</button>
+            </div>
+          </div>
+
+          <div class="toolbar report-toolbar" id="reportToolbar">
+            <div class="toolbar-group">
+              <label class="inline-field"><span>日期口径</span><select id="reportDateBasis"><option value="execution" selected>执行日期</option><option value="business">业务日期</option></select></label>
+              <label class="inline-field" id="reportDateField"><span id="reportDateLabel">执行日期</span><input class="date-field" id="reportDate" type="date"></label>
+              <label class="inline-field" id="calendarMonthField" hidden><span>月份</span><input id="calendarMonth" type="month"></label>
+              <label class="inline-field"><span>公司</span><select id="reportCompany"><option value="">全部公司</option></select></label>
+              <label class="inline-field"><span>平台</span><select id="reportPlatform"><option value="">全部平台</option></select></label>
+              <label class="search-field" id="reportSearchField"><svg><use href="#i-search"/></svg><input id="reportKeyword" type="search" placeholder="搜索店铺 / 公司"></label>
+              <button class="button primary query-button" id="queryReports" type="button"><svg><use href="#i-search"/></svg>查询</button>
+              <button class="button reset-button" id="resetReports" type="button"><svg><use href="#i-refresh"/></svg>重置</button>
+            </div>
+          </div>
+
+          <div class="report-summary" id="reportSummary"></div>
+
+          <div id="reportListView">
+            <section class="panel report-panel">
+              <div class="report-table" id="reportTable">
+                <div class="report-grid report-head">
+                  <span class="report-cell-check"></span>
+                  <span class="report-cell-platform">平台</span>
+                  <span>店铺 / 公司</span>
+                  <span class="num">报表</span>
+                  <span class="num">下载</span>
+                  <span class="num">上传</span>
+                  <span>核验状态</span>
+                  <span class="center">自动下载</span>
+                  <span class="center">操作</span>
+                </div>
+                <div id="reportShopRows"></div>
+              </div>
+              <div class="pagination-bar report-pagination" id="reportPagination" aria-label="店铺报表分页">
+                <span class="pagination-summary" id="reportTableTotal">共 0 家店铺</span>
+                <div class="pagination-controls">
+                  <select id="reportPageSize" class="select-chevron pagination-size" aria-label="每页店铺数">
+                    <option value="10">10 条/页</option><option value="20" selected>20 条/页</option><option value="50">50 条/页</option>
+                  </select>
+                  <button id="reportPrevPage" class="pagination-nav" type="button" aria-label="上一页" disabled><svg><use href="#i-left"/></svg></button>
+                  <div id="reportPageNumbers" class="pagination-pages" aria-label="页码"></div>
+                  <button id="reportNextPage" class="pagination-nav" type="button" aria-label="下一页" disabled><svg><use href="#i-right"/></svg></button>
+                  <span id="reportPageInfo" class="pagination-page">第 1/1 页</span>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div id="reportCalendarView" hidden>
+            <div class="rc-selection" id="calendarSelectionBar">
+              <span class="rc-badge" id="calendarSelectionCount">未选择</span>
+              <span class="rc-text" id="calendarSelectionText">点击日期选择补跑范围</span>
+              <span class="toolbar-spacer"></span>
+              <button class="button compact" id="calendarSelectMissing" type="button">选择有缺口日期</button>
+              <button class="button compact" id="calendarClearSelection" type="button">清空</button>
+              <button class="button primary" id="calendarBackfill" type="button" disabled><svg><use href="#i-play"/></svg>补跑所选</button>
+            </div>
+            <section class="panel rc-panel">
+              <div class="rc-week" id="calendarWeekHead">
+                <span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>周五</span><span>周六</span><span>周日</span>
+              </div>
+              <div class="rc-grid" id="calendarGrid"></div>
+              <div class="rc-legend">
+                <span><i class="dot ok"></i>下载成功</span>
+                <span><i class="dot upload"></i>上传成功</span>
+                <span><i class="dot bad"></i>未获取 / 失败</span>
+                <span><i class="dot warn"></i>映射待修复</span>
+                <span class="muted" id="reportDateHint">按执行日期统计任务结果；业务日期查看报表覆盖范围。每5秒自动同步</span>
+              </div>
+            </section>
+            <section class="panel rc-detail">
+              <div class="panel-heading"><div><h2 id="calendarDetailTitle">当日缺口明细</h2><p id="calendarDetailMeta">选择日期查看失败店铺与报表</p></div><button class="button compact" id="calendarOpenShop" type="button" hidden>在列表中定位</button></div>
+              <div class="table-wrap" id="calendarDayDetail"></div>
+            </section>
+          </div>
+
+          <section class="panel report-batch-panel" id="reportBatchPanel" hidden>
+            <div class="panel-heading"><div><h2>补跑进度</h2><p id="reportBatchProgress" aria-live="polite"></p></div><button class="button compact" id="reportBatchRefresh" type="button">刷新进度</button></div>
+            <div class="table-wrap" id="reportBatchRuns"></div>
+          </section>
+        </section>
+
+        <section class="page" id="runsPage">
+          <div class="toolbar runs-toolbar" id="runsToolbar">
+            <div class="toolbar-group">
+              <label class="inline-field"><span>时间范围</span><div class="date-range" data-date-range="runDateFrom,runDateTo"><button type="button" class="date-range-trigger" aria-haspopup="dialog" aria-expanded="false"><svg><use href="#i-calendar"/></svg><span class="date-start empty">开始日期</span><b>→</b><span class="date-end empty">结束日期</span><svg class="date-chevron"><use href="#i-down"/></svg></button><input type="hidden" id="runDateFrom"><input type="hidden" id="runDateTo"></div></label>
+              <label class="inline-field"><span>状态</span><select id="runStatus"><option value="">全部状态</option></select></label>
+              <label class="inline-field"><span>任务</span><select id="runJob"><option value="">全部任务</option></select></label>
+              <label class="search-field" id="runSearchField"><svg><use href="#i-search"/></svg><input id="runKeyword" type="search" placeholder="搜索 Run / 任务 / 店铺"></label>
+              <button class="button primary query-button" id="queryRuns" type="button"><svg><use href="#i-search"/></svg>查询</button>
+              <button class="button reset-button" id="resetRuns" type="button"><svg><use href="#i-refresh"/></svg>重置</button>
+              <div class="toolbar-stats" id="runToolbarStats"></div>
+            </div>
+          </div>
+          <section class="panel">
+            <div class="table-wrap"><table class="data-table run-table"><thead><tr><th>运行</th><th>任务 / 版本</th><th>触发 · lane</th><th>状态</th><th>业务日</th><th>开始 → 完成</th><th>步骤 / 文件</th><th>操作</th></tr></thead><tbody id="runRows"></tbody></table></div>
+            <div class="pagination-bar" id="runPagination" aria-label="执行记录分页">
+              <span id="runTotal" class="pagination-summary">共 0 条执行记录 · 保留每次重试与恢复</span>
+              <div class="pagination-controls">
+                <select id="runPageSize" class="select-chevron pagination-size" aria-label="每页条数"><option value="10">10 条/页</option><option value="20" selected>20 条/页</option><option value="50">50 条/页</option><option value="100">100 条/页</option></select>
+                <button id="runPrevPage" class="pagination-nav" type="button" aria-label="上一页" disabled><svg><use href="#i-left"/></svg></button>
+                <div id="runPageNumbers" class="pagination-pages" aria-label="页码"></div>
+                <button id="runNextPage" class="pagination-nav" type="button" aria-label="下一页" disabled><svg><use href="#i-right"/></svg></button>
+                <span id="runPageInfo" class="pagination-page">第 1/1 页</span>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="page" id="schedulesPage">
+          <div class="toolbar schedules-toolbar" id="schedulesToolbar">
+            <div class="toolbar-group">
+              <label class="inline-field"><span>状态</span><select id="jobStatus"><option value="">全部状态</option><option value="enabled">启用</option><option value="disabled">停用</option></select></label>
+              <label class="inline-field"><span>类型</span><select id="jobPlatform"><option value="">全部平台</option></select></label>
+              <label class="inline-field"><span>报表</span><select id="jobReport"><option value="">全部报表</option></select></label>
+              <label class="inline-field"><span>调度</span><select id="jobSchedule"><option value="">全部调度</option><option value="manual">手工</option><option value="daily">每日定时</option></select></label>
+              <label class="search-field"><svg><use href="#i-search"/></svg><input id="jobKeyword" type="search" placeholder="搜索任务名称、平台、报表"></label>
+              <button class="button primary query-button" id="searchJobs" type="button"><svg><use href="#i-search"/></svg>查询</button>
+              <button class="button reset-button" id="resetJobs" type="button"><svg><use href="#i-refresh"/></svg>重置</button>
+            </div>
+          </div>
+          <section class="panel">
+            <div class="table-wrap"><table class="data-table"><thead><tr><th>任务</th><th>类型 · lane</th><th>调度</th><th>超时 / 重试</th><th>启用</th><th>最近运行</th><th>7 日健康</th><th>操作</th></tr></thead><tbody id="jobRows"></tbody></table></div>
+            <div class="pagination-bar" aria-label="任务分页">
+              <span id="jobTotal" class="pagination-summary">共 0 条</span>
+              <div class="pagination-controls">
+                <select id="jobPageSize" class="select-chevron pagination-size" aria-label="每页条数"><option value="10">10 条/页</option><option value="20">20 条/页</option><option value="50">50 条/页</option><option value="100">100 条/页</option></select>
+                <button id="jobPrevPage" class="pagination-nav" type="button" aria-label="上一页"><svg><use href="#i-left"/></svg></button>
+                <div id="jobPageNumbers" class="pagination-pages"></div>
+                <button id="jobNextPage" class="pagination-nav" type="button" aria-label="下一页"><svg><use href="#i-right"/></svg></button>
+                <span id="jobPageInfo" class="pagination-page">第 1/1 页</span>
+              </div>
+            </div>
+          </section>
+          <p class="page-note">本页只定义“何时执行”。某店铺某报表是否下载 → 报表任务；这次执行卡在哪一步 → 运行中心。</p>
+        </section>
+
+        <section class="page" id="flow-studioPage">
+          <div class="flow-top-actions">
+            <div class="left">
+              <div class="flow-picker" id="flowPicker"><button id="flowPickerTrigger" class="button flow-select" type="button" aria-haspopup="listbox" aria-expanded="false"><span id="flowPickerLabel">请选择流程</span><svg><use href="#i-down"/></svg></button><div id="flowPickerOptions" class="flow-picker-options" role="listbox" aria-label="流程" hidden></div><select id="flowSelect" hidden aria-hidden="true" tabindex="-1"></select></div>
+              <button class="button" id="flowNewBtn" type="button">＋ 新建流程</button>
+              <button class="button" id="flowImportBtn" type="button">导入 JSON</button>
+              <button class="button" id="flowExportBtn" type="button">导出 JSON</button>
+              <input id="flowImportFile" type="file" accept=".json,application/json" hidden>
+            </div>
+            <div class="right">
+              <button class="button" id="flowRuntimeRefreshBtn" type="button" title="清除本次测试的节点和连线运行状态">清除运行状态</button>
+              <button class="button" id="flowFullscreenBtn" type="button">全屏</button>
+              <button class="button" id="flowValidateBtn" type="button">检查流程</button>
+              <button class="button" id="flowVersionsBtn" type="button">版本历史</button>
+              <button class="button" id="flowSaveBtn" type="button">保存草稿</button>
+              <button class="button primary" id="flowPublishBtn" type="button">发布版本</button>
+              <button class="button primary" id="flowRunBtn" type="button">▶ 运行流程</button>
+            </div>
+          </div>
+          <div class="flow-studio-shell">
+            <aside class="flow-sidebar">
+              <div class="flow-side-head"><h3>组件库</h3><p>仅展示可独立编排、可发布执行的组件；内部观测步骤请在运行详情中查看</p><input id="flowComponentSearch" class="flow-library-search" placeholder="搜索验证码、下载、京东…"></div>
+              <div id="flowLibrary"></div>
+              <div class="flow-custom"><p>可创建 custom.* 草稿占位组件；实现后加入后端 Registry 才允许发布执行。</p><button class="button" id="flowCustomBtn" type="button">＋ 自定义草稿组件</button></div>
+            </aside>
+            <section class="flow-workspace">
+              <div class="flow-toolbar">
+                <div class="group"><button class="button compact" id="flowUndoBtn" type="button" title="撤销 Ctrl/Cmd+Z">↶ 撤销</button><button class="button compact" id="flowRedoBtn" type="button" title="恢复 Ctrl/Cmd+Shift+Z / Ctrl+Y">↷ 恢复</button><button class="button compact" id="flowZoomOut" type="button">−</button><span id="flowZoomLabel" class="flow-zoom">100%</span><button class="button compact" id="flowZoomIn" type="button">＋</button><button class="button compact" id="flowFitBtn" type="button">适应画布</button><button class="button compact" id="flowPreviewToggle" type="button">隐藏小地图</button></div>
+                <div class="group"><span class="muted">从任意圆点拖线，松到目标节点自动吸附最近连接点 · 空格+拖动平移 · 空白处左键拖框多选</span></div>
+              </div>
+              <div id="flowViewport" class="flow-viewport">
+                <div class="flow-drop-hint"></div>
+                <div id="flowWorld" class="flow-world"><svg id="flowEdges" class="flow-edges"></svg><div id="flowNodes"></div></div>
+                <div id="flowSelectionBox" class="flow-selection-box" hidden></div>
+                <div id="flowMinimap" class="flow-minimap"><div class="flow-minimap-title">画布预览</div><svg id="flowMinimapSvg" aria-label="流程小地图"></svg></div>
+              </div>
+              <div id="flowConsole" class="flow-console"></div>
+            </section>
+            <aside class="flow-inspector">
+              <div class="flow-inspector-head"><h3>属性面板</h3><p>组件参数、超时、重试、条件与失败策略</p></div>
+              <div id="flowInspectorBody" class="flow-inspector-body"></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="page" id="runtimePage">
+          <section class="panel runtime-summary-panel">
+            <div class="runtime-summary" id="runtimeSummary"></div>
+          </section>
+          <div class="runtime-grid">
+            <section class="panel">
+              <div class="panel-heading"><div><h2>Automation Workers</h2><p>15 秒内有心跳视为在线；busy 显示当前 Run</p></div></div>
+              <div class="runtime-list" id="runtimeWorkers"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-heading"><div><h2>资源锁</h2><p>同一 Browser Profile、全量 ETL 或系统任务通过数据库锁串行执行</p></div></div>
+              <div class="runtime-list" id="runtimeLocks"></div>
+            </section>
+          </div>
+          <section class="panel runtime-queue-panel">
+            <div class="panel-heading"><div><h2>运行队列（资源等待不是 Worker 不工作）</h2><p>相同 resource_key 正被其他 Run 占用时显示“资源等待”</p></div></div>
+            <div class="table-wrap runtime-queue"><table class="data-table"><thead><tr><th>Run</th><th>任务</th><th>资源</th><th>排队时间</th><th>状态</th></tr></thead><tbody id="runtimeQueueRows"></tbody></table></div>
+          </section>
+          <section class="panel notification-panel">
+            <div class="panel-heading">
+              <div><h2>飞书运行通知</h2><p>按平台匹配群聊；按下方勾选的事件逐条推送</p></div>
+              <label class="switch"><input id="notificationEnabled" type="checkbox"><span></span></label>
+            </div>
+            <form id="notificationPolicyForm" class="notification-form">
+              <div class="notification-list">
+                <div class="notification-row"><div><strong>失败通知</strong><p>运行失败立即推送</p></div><label class="switch"><input type="checkbox" data-notification-event="failed"><span></span></label></div>
+                <div class="notification-row"><div><strong>待人工通知</strong><p>等待人工处理时推送</p></div><label class="switch"><input type="checkbox" data-notification-event="needs_human"><span></span></label></div>
+                <div class="notification-row"><div><strong>成功有提醒</strong><p>完成但有异常提醒时推送</p></div><label class="switch"><input type="checkbox" data-notification-event="success_with_warnings"><span></span></label></div>
+                <div class="notification-row"><div><strong>成功通知</strong><p>运行成功时推送</p></div><label class="switch"><input type="checkbox" data-notification-event="success"><span></span></label></div>
+                <div class="notification-row"><div><strong>无数据通知</strong><p>平台没有数据时推送</p></div><label class="switch"><input type="checkbox" data-notification-event="no_data"><span></span></label></div>
+                <div class="notification-row"><div><strong>取消通知</strong><p>运行被取消时推送</p></div><label class="switch"><input type="checkbox" data-notification-event="cancelled"><span></span></label></div>
+                <div class="notification-row"><div><strong>长时间运行通知</strong><p>超过运行时长阈值推送</p></div><label class="switch"><input type="checkbox" data-notification-event="stalled"><span></span></label></div>
+              </div>
+              <div class="notification-foot"><span id="notificationOutboxInfo" class="muted"></span><span class="toolbar-spacer"></span><button class="button primary" type="submit">保存通知策略</button></div>
+            </form>
+          </section>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <div class="drawer-backdrop" id="reportDrawerBackdrop" hidden></div>
+  <aside class="drawer" id="reportDrawer" hidden aria-label="店铺报表配置">
+    <div class="drawer-head">
+      <div><div class="drawer-title-row"><span class="platform-tag" id="reportDrawerPlatform">抖音</span><h2 id="reportDrawerTitle">店铺</h2></div><p id="reportDrawerSubtitle"></p></div>
+      <button class="icon-button" id="reportDrawerClose" type="button" aria-label="关闭"><svg><use href="#i-close"/></svg></button>
+    </div>
+    <div class="drawer-body" id="reportDrawerBody"></div>
+    <div class="drawer-foot">
+      <span class="muted" id="reportDrawerHint">保存后下一次调度生效</span>
+      <div class="drawer-actions"><button class="button" id="reportDrawerCancel" type="button">取消</button><button class="button primary" id="reportDrawerSave" type="button">保存</button></div>
+    </div>
+  </aside>
+
+  <dialog id="reportPreviewDialog" class="automation-dialog">
+    <form method="dialog" class="dialog-shell">
+      <div class="dialog-header"><div><h2>历史报表补跑预览</h2><p class="muted">只补缺口；可显式重新获取已完成报表</p></div><button class="dialog-close" type="button" id="reportPreviewClose" aria-label="关闭">×</button></div>
+      <div class="dialog-body">
+        <label class="switch-line"><input id="reportForce" type="checkbox"><span>重新获取已完成报表（保留旧文件）</span></label>
+        <div id="reportPreviewContent"></div>
+      </div>
+      <div class="dialog-actions dialog-footer"><button class="button" type="button" id="reportPreviewRefresh">更新预览</button><button class="button primary" type="button" id="reportSubmit">开始补跑</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="flowRunDialog" class="automation-dialog small">
+    <form id="flowRunForm" class="dialog-shell">
+      <div class="dialog-header">
+        <div><h2 id="flowRunDialogTitle">测试运行 Flow</h2><p class="muted" id="flowRunHint">测试运行会留在当前画布显示节点、连线和实时耗时，不进入正式执行记录。</p></div>
+        <button class="dialog-close" type="button" id="closeFlowRunDialog" aria-label="关闭">×</button>
+      </div>
+      <div class="dialog-body">
+        <p class="muted">运行参数只保存 Profile 名称和业务日期，不保存验证码、密码、Cookie 或 Token。</p>
+        <label>Cloak Login Profile 完整名称<input id="flowRunProfile" required autocomplete="off" placeholder="JD-京东-MOCK饮品旗舰店"></label>
+        <label>业务基准日<input id="flowRunBusinessDate" type="date" required></label>
+        <div class="flow-grid2">
+          <label>自定义开始日期（可选）<input id="flowRunStartDate" type="date"></label>
+          <label>自定义结束日期（可选）<input id="flowRunEndDate" type="date"></label>
+        </div>
+        <div class="flow-help">开始/结束日期必须同时填写；留空时由 Flow 的日期组件按业务基准日计算默认范围。</div>
+      </div>
+      <div class="dialog-actions dialog-footer">
+        <button type="button" class="button" id="cancelFlowRunDialog">取消</button>
+        <button class="button primary" id="flowRunSubmitBtn" type="submit">开始测试运行</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="detailDialog" class="automation-dialog">
+    <div class="dialog-shell">
+      <div class="dialog-header"><div><h2>执行详情</h2><p class="muted">运行时间线、原子组件、Artifact 与下游状态</p></div><form method="dialog"><button class="dialog-close" aria-label="关闭">×</button></form></div>
+      <div id="detailContent" class="dialog-body"></div>
+    </div>
+  </dialog>
+
+  <dialog id="jobDialog" class="automation-dialog small">
+    <form id="jobForm" class="dialog-shell">
+      <div class="dialog-header"><div><h2 id="jobDialogTitle">编辑调度</h2><p class="muted">触发时间、超时与重试策略</p></div><button class="dialog-close" type="button" id="closeJobDialog" aria-label="关闭">×</button></div>
+      <div class="dialog-body">
+        <input id="jobId" type="hidden"><input id="jobSourceKind" type="hidden" value="job"><input id="jobFlowId" type="hidden">
+        <label id="jobProfileField" hidden>默认 Cloak Profile<input id="jobProfile" autocomplete="off" placeholder="JD-京东-MOCK饮品旗舰店"></label>
+        <label>调度类型<select id="jobScheduleType"><option value="manual">仅手工</option><option value="daily">每日固定时间</option></select></label>
+        <label>执行时间（多个用逗号）<input id="jobTimes" placeholder="05:00, 09:20"></label>
+        <label>时区<input id="jobTimezone" value="Asia/Shanghai"></label>
+        <label>超时秒数<input id="jobTimeout" type="number" min="60" max="86400"></label>
+        <label>最大尝试次数<input id="jobAttempts" type="number" min="1" max="5"></label>
+        <label>说明<textarea id="jobDescription" rows="3"></textarea></label>
+      </div>
+      <div class="dialog-actions dialog-footer job-dialog-footer"><button type="button" class="button danger" id="deleteJobBtn" hidden><svg><use href="#i-trash"/></svg>删除任务</button><span class="toolbar-spacer"></span><button type="button" class="button" id="cancelJobDialog">取消</button><button class="button primary" type="submit">保存</button></div>
+    </form>
+  </dialog>
+
+  <script src="/identity-assets/shell.js"></script>
+  <script src="/identity-assets/date-range.js"></script>
+  <script src="/automation/common.js"></script>
+  <script src="/automation/flow-studio.js"></script>
+  <script src="/automation/reports.js"></script>
+  <script src="/automation/runtime.js"></script>
+  <script src="/automation/app.js"></script>
+</body>
+</html>

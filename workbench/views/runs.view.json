@@ -1,0 +1,9 @@
+{
+  "id": "runs",
+  "domain": "平台",
+  "title": "调度运行",
+  "question": "哪条任务失败了、重试过没有？",
+  "kind": "table",
+  "order": 32,
+  "owner": "工作台"
+}

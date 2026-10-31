@@ -1,0 +1,9 @@
+{
+  "id": "projects",
+  "domain": "平台",
+  "title": "项目矩阵",
+  "question": "哪个项目、哪条公共能力在掉链子？",
+  "kind": "control",
+  "order": 30,
+  "owner": "工作台"
+}

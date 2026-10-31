@@ -1,0 +1,121 @@
+{
+  "version": 3,
+  "description": "六个平台所有商家 profile 的每日报表串行下载规则；支持凌晨与上午可交互通道并共用每日检查点，profile 名称优先用于选择，未带标准前缀时按 Cloak Login profile note 兜底，平台、公司、店铺仍以 note 为唯一业务参数来源。",
+  "destination": "C:\\Users\\win\\Desktop\\data",
+  "mcp_url": "http://127.0.0.1:19610/mcp",
+  "strict_profile_coverage": true,
+  "strict_profile_status": true,
+  "profile_status": {
+    "DY-抖音-MOCK吉饮咖啡专卖店": {
+      "enabled": false,
+      "status": "停业整顿",
+      "reason": "店铺停业整顿，暂不执行每日报表下载"
+    },
+    "KS-快手-MOCK陌时专卖店": {
+      "enabled": false,
+      "status": "停业整顿",
+      "reason": "店铺停业整顿，暂不执行每日报表下载"
+    },
+    "XHS-小红书-MOCK旗舰店-推广费": {
+      "enabled": false,
+      "status": "暂不执行",
+      "reason": "用户要求暂时不处理小红书推广费"
+    }
+  },
+  "managed_profile_name_prefixes": [
+    "DY-抖音-",
+    "DY-千川-",
+    "JD-",
+    "PDD-",
+    "KS-",
+    "XHS-",
+    "TMALL-天猫-"
+  ],
+  "profile_rules": [
+    {
+      "name": "抖音店铺报表",
+      "platform": "抖音",
+      "profile_name_prefixes": ["DY-抖音-"],
+      "match_all_profiles_with_platform": true,
+      "steps": [
+        {"name": "订单", "module": "douyin_order_download", "args": [], "lanes": ["interactive"]},
+        {"name": "资金", "module": "douyin_bill_download", "args": ["--report", "资金", "--mode", "day"], "lanes": ["interactive"]},
+        {"name": "结算", "module": "douyin_bill_download", "args": ["--report", "结算", "--mode", "day"], "lanes": ["interactive"]}
+      ]
+    },
+    {
+      "name": "千川推广费",
+      "platform": "抖音",
+      "profile_name_prefixes": ["DY-千川-"],
+      "steps": [
+        {"name": "千川推广费", "module": "qianchuan_promotion_fee_download", "args": ["--aavid", "auto"], "lanes": ["interactive"]}
+      ]
+    },
+    {
+      "name": "京东报表",
+      "platform": "京东",
+      "profile_name_prefixes": ["JD-"],
+      "match_all_profiles_with_platform": true,
+      "steps": [
+        {"name": "订单", "module": "jd_order_download", "args": [], "lanes": ["interactive"]},
+        {"name": "资金", "module": "jd_fund_download", "args": [], "lanes": ["overnight", "interactive"]},
+        {"name": "结算", "module": "jd_settlement_download", "args": ["--mode", "day"], "lanes": ["overnight", "interactive"]},
+        {"name": "京东联盟和京东通推广费", "module": "jd_promotion_fee_download", "args": ["--report", "all"], "lanes": ["overnight", "interactive"]}
+      ]
+    },
+    {
+      "name": "拼多多报表",
+      "platform": "拼多多",
+      "profile_name_prefixes": ["PDD-"],
+      "match_all_profiles_with_platform": true,
+      "steps": [
+        {"name": "订单", "module": "pinduoduo_order_download", "args": [], "lanes": ["overnight", "interactive"]},
+        {"name": "结算", "module": "pinduoduo_settlement_download", "args": [], "lanes": ["overnight", "interactive"]},
+        {"name": "推广费", "module": "pinduoduo_promotion_fee_download", "args": [], "lanes": ["overnight", "interactive"]}
+      ]
+    },
+    {
+      "name": "快手报表",
+      "platform": "快手",
+      "profile_name_prefixes": ["KS-"],
+      "match_all_profiles_with_platform": true,
+      "steps": [
+        {"name": "订单", "module": "kuaishou_order_download", "args": [], "lanes": ["interactive"]},
+        {"name": "资金", "module": "kuaishou_fund_download", "args": ["--mode", "day"], "lanes": ["overnight", "interactive"]},
+        {"name": "结算", "module": "kuaishou_settlement_download", "args": [], "lanes": ["overnight", "interactive"]}
+      ]
+    },
+    {
+      "name": "小红书报表",
+      "platform": "小红书",
+      "profile_name_prefixes": ["XHS-"],
+      "match_all_profiles_with_platform": true,
+      "steps": [
+        {"name": "订单", "module": "xiaohongshu_order_download", "args": [], "lanes": ["overnight", "interactive"]},
+        {"name": "资金", "module": "xiaohongshu_fund_download", "args": ["--mode", "day"], "lanes": ["overnight", "interactive"]},
+        {"name": "结算", "module": "xiaohongshu_settlement_download", "args": ["--mode", "day"], "lanes": ["overnight", "interactive"]}
+      ]
+    },
+    {
+      "name": "天猫商家报表",
+      "platform": "天猫",
+      "profile_name_prefixes": ["TMALL-天猫-"],
+      "exclude_profile_name_suffixes": ["-财务账号"],
+      "match_all_profiles_with_platform": true,
+      "steps": [
+        {"name": "订单", "module": "tmall_order_download", "args": [], "lanes": ["overnight", "interactive"]},
+        {"name": "聚合账户资金", "module": "tmall_aggregate_fund_download", "args": ["--mode", "day"], "lanes": ["overnight", "interactive"]}
+      ]
+    },
+    {
+      "name": "天猫财务账号报表",
+      "platform": "天猫",
+      "profile_name_regex": "^TMALL-天猫-.+-财务账号$",
+      "steps": [
+        {"name": "支付宝账户资金", "module": "tmall_alipay_fund_download", "args": ["--mode", "day"], "lanes": ["overnight", "interactive"]},
+        {"name": "淘宝联盟推广费", "module": "tmall_taobao_union_promotion_download", "args": ["--mode", "day"], "lanes": ["overnight", "interactive"]},
+        {"name": "万相台推广费", "module": "tmall_wanxiangtai_promotion_download", "args": ["--mode", "day"], "lanes": ["overnight", "interactive"]}
+      ]
+    }
+  ]
+}

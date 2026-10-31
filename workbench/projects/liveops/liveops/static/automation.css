@@ -1,0 +1,32 @@
+.automation-switches{display:grid;gap:0;margin-bottom:18px}
+.settings-card .automation-switch{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 0;margin:0;border-bottom:1px solid var(--line)}
+.automation-switch strong{display:block;color:var(--ink);font-size:14px;font-weight:600}
+.automation-switch small{display:block;color:#66758e;font-size:12px;line-height:1.7;margin-top:4px}
+.settings-card .automation-switch input{appearance:none;position:relative;flex:0 0 40px;width:40px;height:23px;padding:0;margin:0;border:0;border-radius:20px;background:#c6cfdd;cursor:pointer;transition:background-color .15s}
+.automation-switch input::before{content:"";position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #14213a25;transition:transform .15s}
+.settings-card .automation-switch input:checked{background:var(--blue)}
+.automation-switch input:checked::before{transform:translateX(17px)}
+.settings-card .automation-switch input:focus-visible{outline:3px solid #4269ee55;outline-offset:3px}
+.queue-caption{min-height:42px;max-width:340px;line-height:1.6!important}
+.state-missed{background:#fff3de;color:#a86d18}.state-skipped{background:#eff2f6;color:#748197}
+.sync-status-list+button{margin-top:14px}
+#settings-compatibility[hidden]{display:none}.settings-card .setting-unavailable{opacity:.6}.settings-card .setting-unavailable input{cursor:not-allowed;background:#f1f4f8}
+.hour-toggle{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;background:#eef2ff;color:#3558bd;border:0;border-radius:7px;padding:7px 10px;font-size:12px}
+.hour-chevron{display:block;flex:0 0 14px;width:14px;height:14px;transform-origin:center;transition:transform .2s}.hour-chevron.is-open{transform:rotate(90deg)}
+.hour-baseline-note{display:block;margin-top:5px;color:#64748c;font-size:11px;white-space:nowrap}
+.report-tools{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.run-page-intro>div:first-child{flex:1 1 200px;min-width:0}.run-page-intro>.toolbar{flex:0 1 auto;min-width:0}.run-filter-controls{max-width:100%}.run-time-range{width:350px}
+.sync-range-label{color:#47566f}.sync-mode-options{display:block;margin:18px 0}.sync-mode-options .ant-radio-wrapper{align-items:flex-start;line-height:1.7}.sync-mode-help{display:block;max-width:390px;font-size:12px;color:#748197;margin-top:4px}
+.sync-mode-options .ant-radio{align-self:flex-start;margin-top:4px}
+@media(max-width:760px){.run-page-intro>div:first-child{flex:0 0 auto}.run-time-range{width:100%}.report-tools{width:100%}.report-tools .ant-picker-range{width:100%}.run-filter-controls .ant-space-item:has(.run-time-range){width:100%}.page-intro:has(#reports-tools){align-items:flex-start;flex-wrap:wrap}}
+/* 小时抽屉以主表可见宽度为准，不随主表的全部列变宽。 */
+#report-table{container-type:inline-size}
+.hour-drawer-row>td{padding:0!important;border-bottom:0!important}.hour-drawer{position:sticky;left:0;width:100cqw;display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .24s ease,opacity .2s ease}.hour-drawer.is-open{grid-template-rows:1fr;opacity:1}
+.hour-drawer-clip{overflow:hidden;min-height:0}.hour-drawer-content{padding:18px 22px 22px;background:#f4f7fc;border-left:3px solid #7d96e8}
+.hour-detail-heading{display:flex;flex-wrap:wrap;gap:9px 18px;align-items:center;margin-bottom:14px;color:#283c60;font-size:13px;white-space:normal}.hour-detail-heading span{color:#64748c;font-size:12px}.hour-scroll-hint{margin-left:auto;color:#7182a0;font-size:12px;white-space:nowrap}
+.hour-detail-scroll{overflow:auto;overscroll-behavior-x:contain;max-height:470px}.hour-detail-scroll:focus-visible{outline:2px solid #7895f6;outline-offset:2px}
+.hour-detail-table{background:white}.hour-detail-table thead{position:sticky;top:0;z-index:3}.hour-detail-table tr>:first-child{position:sticky;left:0;z-index:2;background:#fff}.hour-detail-table thead tr>:first-child{z-index:4;background:#fafbfd}.hour-detail-table tbody tr:hover>:first-child{background:#fafbff}.hour-missing{display:block;margin-top:5px;color:#bd7826;font-size:11px}.shift-summary-row:has(.hour-toggle){cursor:pointer}
+.hour-drawer.is-open .hour-detail-table tbody tr{animation:hour-row-reveal .2s ease both}.hour-detail-table tbody tr:nth-child(2){animation-delay:25ms}.hour-detail-table tbody tr:nth-child(3){animation-delay:50ms}.hour-detail-table tbody tr:nth-child(n+4){animation-delay:75ms}
+@keyframes hour-row-reveal{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.hour-drawer,.hour-chevron{transition:none}.hour-drawer.is-open .hour-detail-table tbody tr{animation:none}}
+@media(prefers-reduced-motion:reduce){.automation-switch input,.automation-switch input::before{transition:none}}

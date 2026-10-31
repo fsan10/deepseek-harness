@@ -1,0 +1,9 @@
+{
+  "id": "shops",
+  "domain": "经营",
+  "title": "店铺全景",
+  "question": "哪家公司、哪个平台、哪项能力缺？",
+  "kind": "matrix",
+  "order": 11,
+  "owner": "工作台"
+}

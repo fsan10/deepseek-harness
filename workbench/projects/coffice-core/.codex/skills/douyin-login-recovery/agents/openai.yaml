@@ -1,0 +1,4 @@
+interface:
+  display_name: "抖店登录态恢复"
+  short_description: "恢复抖店登录并选择 profile 对应店铺"
+  default_prompt: "请使用 $douyin-login-recovery 检查并恢复抖店 profile 登录态。"

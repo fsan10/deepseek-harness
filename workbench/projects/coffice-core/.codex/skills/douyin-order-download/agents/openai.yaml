@@ -1,0 +1,4 @@
+interface:
+  display_name: "抖音订单报表下载"
+  short_description: "下载并归档抖店近30日订单标准报表"
+  default_prompt: "请使用 $douyin-order-download 下载并归档抖店近30日订单报表。"

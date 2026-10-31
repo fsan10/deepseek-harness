@@ -1,0 +1,6 @@
+interface:
+  display_name: "ODS 数据探查"
+  short_description: "探查 ODS，锁定指标字段、维度、口径与数据基准"
+  default_prompt: "Use $explore-ods-data to inspect the requested platform metric sources and produce a decision-ready ODS profiling report."
+policy:
+  allow_implicit_invocation: true

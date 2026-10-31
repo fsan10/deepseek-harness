@@ -1,0 +1,20 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "skills": {
+    "paths": [".codex/skills"]
+  },
+  "mcp": {
+    "cloak-login": {
+      "type": "local",
+      "command": [
+        "C:\\Users\\win\\AppData\\Local\\Programs\\maskr\\Cloak Login.exe",
+        "C:\\Users\\win\\AppData\\Local\\Programs\\maskr\\resources\\mcp-stdio-bridge.mjs"
+      ],
+      "enabled": true,
+      "environment": {
+        "ELECTRON_RUN_AS_NODE": "1",
+        "CLOAK_MCP_URL": "http://127.0.0.1:19610/mcp"
+      }
+    }
+  }
+}

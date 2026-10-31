@@ -1,0 +1,37 @@
+# 角色 × 工具等级：授权范围写「公司 · 模块」，不写权限点串。
+# maxLevel 是该角色在一次会话里能达到的最高危险等级；L3 永不由 AI 执行。
+roles:
+  - name: 集团管理员
+    scope: 全部公司 · 全部模块
+    maxLevel: L3
+    abilities:
+      - 查看全部视图
+      - 启停服务与任务
+      - 治理页读写
+      - 跨公司批量调整（需双人复核）
+  - name: 财务
+    scope: 3 家公司 · 资金与结算
+    maxLevel: L2
+    abilities:
+      - 查看经营与资金视图
+      - 提交对账差异处理
+      - 导出结算明细
+  - name: 运营负责人
+    scope: 单公司 · 经营/业务域
+    maxLevel: L2
+    abilities:
+      - 查看本公司的店铺与商品
+      - 分派差评与售后工单
+      - 重启本项目服务
+  - name: 直播组
+    scope: 单公司 · 内容与达人
+    maxLevel: L1
+    abilities:
+      - 查看排班与场次
+      - 触发一次采集
+  - name: 客服
+    scope: 单公司 · 客服中心
+    maxLevel: L1
+    abilities:
+      - 查看会话与差评
+      - 标记已跟进

@@ -1,0 +1,7 @@
+# kefu 差评采集、共享登录模块和 Excel 导出所需依赖。
+# 浏览器由 Cloak Login 提供；无需 playwright install 下载额外浏览器。
+playwright==1.62.0
+openpyxl==3.1.5
+requests==2.34.2
+tzdata==2026.5
+httpx==0.28.1

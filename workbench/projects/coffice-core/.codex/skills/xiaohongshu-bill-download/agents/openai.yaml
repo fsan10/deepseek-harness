@@ -1,0 +1,4 @@
+interface:
+  display_name: "小红书资金结算账单下载"
+  short_description: "自动登录小红书千帆并下载归档日月资金与结算账单，支持失败接管"
+  default_prompt: "请使用 $xiaohongshu-bill-download 下载并归档小红书资金和结算账单。"

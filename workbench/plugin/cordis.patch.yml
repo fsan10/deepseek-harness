@@ -1,0 +1,5 @@
+# 把工作台作为一条普通插件行插入当前 profile。
+# 只插入，不覆盖、不禁用任何官方行。
+- insert:
+    - id: dsh-workbench
+      name: dsh-workbench

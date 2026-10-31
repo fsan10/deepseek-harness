@@ -1,0 +1,39 @@
+.codex_tmp/
+.uploads/
+apps/fund_split_adjust/uploads/
+
+# Local environment files. Keep only non-secret templates in Git.
+.env
+.env.*
+!.env.example
+!**/.env.example
+
+# JavaScript dependencies (never commit vendored packages)
+node_modules/
+
+# Python bytecode and tool caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Local temporary files and dependency caches
+tmp/
+.tmp_monthly_report
+.tmp
+.venv/
+.tmp_monthly_performance
+.tmp_sept_report
+
+outputs
+
+.workbuddy/
+
+mock_coffice_architecture.html
+mock_coffice_architecture.visual-check.json
+# Design workspace (prototypes & design drafts, not shipped)
+design/

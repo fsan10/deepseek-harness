@@ -1,0 +1,40 @@
+name: Automation component static checks
+
+# Disabled automatic triggers to avoid exhausting GitHub Actions minutes and
+# failure emails on every push. Re-enable push/PR triggers only when requested.
+on:
+  workflow_dispatch:
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+      - name: Install automation test dependencies
+        run: python -m pip install -r apps/fund_split_adjust/requirements.txt playwright
+      - name: Compile changed Python areas
+        run: |
+          python -m compileall -q apps/automation_center apps/feishu_ai apps/identity_access scripts/auto_download
+      - name: Check Automation Workbench JavaScript
+        run: |
+          node --check apps/automation_center/static/app.js
+          node --check apps/automation_center/static/ops-center.js
+          node --check apps/automation_center/static/flow-studio.js
+          node --check apps/file_ingest/static/app.js
+      - name: Run automation component unit tests
+        run: |
+          python -m unittest scripts.auto_download.tests.test_component_runtime
+          python -m unittest scripts.auto_download.tests.test_jd_challenge_resume
+          python -m unittest apps.automation_center.tests.test_resume_contract
+          python apps/automation_center/tests/test_component_registry.py
+          python apps/automation_center/tests/test_atomic_flow_contract.py
+          python apps/automation_center/tests/test_frontend_contract.py
+          python -m unittest apps.automation_center.tests.test_registry_and_scheduler
+          python -m unittest apps.automation_center.tests.test_worker_contract
+          python apps/automation_center/tests/test_v2_contract.py

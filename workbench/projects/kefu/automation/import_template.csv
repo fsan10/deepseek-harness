@@ -1,0 +1,4 @@
+reportDate,platform,shopName,shopKind,metricName,metricCategory,unit,value,targetOperator,targetValue,note,source
+2026-07-14,抖音,元养颜旗舰店,own,接待量,运营,单,128,,,影刀自动导入,影刀RPA
+2026-07-14,抖音,元养颜旗舰店,own,飞鸽平均响应时长,服务体验,秒,13.2,≤,15,影刀自动导入,影刀RPA
+2026-07-14,抖音,元养颜旗舰店,own,售后处理时长达成率,服务体验,%,98.6%,≥,84.73%,影刀自动导入,影刀RPA

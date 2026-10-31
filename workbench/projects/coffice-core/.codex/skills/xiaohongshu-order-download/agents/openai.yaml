@@ -1,0 +1,7 @@
+interface:
+  display_name: "小红书订单报表下载"
+  short_description: "下载并归档小红书近30天订单标准报表"
+  default_prompt: "使用 $xiaohongshu-order-download 下载并归档小红书订单标准报表；失败时按日志修复，必要时再用 Cloak Login MCP 诊断。"
+
+policy:
+  allow_implicit_invocation: true

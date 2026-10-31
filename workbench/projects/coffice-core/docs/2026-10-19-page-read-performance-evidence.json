@@ -1,0 +1,279 @@
+{
+  "date": "2026-10-19",
+  "timezone": "Asia/Shanghai",
+  "scope": "Local isolated HTTP and browser; real PostgreSQL and archive reads; test IAM/bootstrap; all test writes rolled back",
+  "before_browser": [
+    {
+      "operation": "fees_initial",
+      "elapsed_ms": 1930.8
+    },
+    {
+      "operation": "reports_initial",
+      "elapsed_ms": 2984.8
+    },
+    {
+      "operation": "calendar_initial",
+      "elapsed_ms": 2918.6
+    }
+  ],
+  "before_server": [
+    {
+      "path": "/api/ingest/report-types",
+      "server_ms": 0.1,
+      "bytes": 1529
+    },
+    {
+      "path": "/api/ingest/shops",
+      "server_ms": 0.0,
+      "bytes": 34
+    },
+    {
+      "path": "/api/ingest/finance-config/expense-types?page=1&page_size=200",
+      "server_ms": 0.0,
+      "bytes": 34
+    },
+    {
+      "path": "/api/ingest/fee-categories?status=active",
+      "server_ms": 33.0,
+      "bytes": 17587
+    },
+    {
+      "path": "/api/ingest/fee-mappings?page=1&page_size=10",
+      "server_ms": 1588.8,
+      "bytes": 17627
+    },
+    {
+      "path": "/api/ingest/fee-mappings?page=1&page_size=10",
+      "server_ms": 1566.0,
+      "bytes": 17627
+    },
+    {
+      "path": "/api/automation/report-targets",
+      "server_ms": 33.2,
+      "bytes": 73550
+    },
+    {
+      "path": "/api/automation/report-day?date=2026-10-19&page=1&page_size=20",
+      "server_ms": 2517.6,
+      "bytes": 134275
+    },
+    {
+      "path": "/api/automation/report-calendar?month=2026-10",
+      "server_ms": 2735.9,
+      "bytes": 4277456
+    }
+  ],
+  "after_browser": [
+    {
+      "operation": "fees_initial",
+      "elapsed_ms": 954.6
+    },
+    {
+      "operation": "fees_query_all",
+      "elapsed_ms": 382.0
+    },
+    {
+      "operation": "fees_query_all",
+      "elapsed_ms": 398.6
+    },
+    {
+      "operation": "fees_query_all",
+      "elapsed_ms": 401.4
+    },
+    {
+      "operation": "fees_query_pdd",
+      "elapsed_ms": 126.0
+    },
+    {
+      "operation": "reports_initial",
+      "elapsed_ms": 366.8
+    },
+    {
+      "operation": "reports_query",
+      "elapsed_ms": 315.6
+    },
+    {
+      "operation": "reports_query",
+      "elapsed_ms": 289.8
+    },
+    {
+      "operation": "reports_query",
+      "elapsed_ms": 278.5
+    },
+    {
+      "operation": "calendar_initial",
+      "elapsed_ms": 867.5
+    },
+    {
+      "operation": "calendar_query",
+      "elapsed_ms": 407.3
+    },
+    {
+      "operation": "calendar_query",
+      "elapsed_ms": 421.3
+    },
+    {
+      "operation": "calendar_query",
+      "elapsed_ms": 454.8
+    }
+  ],
+  "after_server": [
+    {
+      "path": "/api/ingest/report-types",
+      "server_ms": 0.1,
+      "bytes": 1529
+    },
+    {
+      "path": "/api/ingest/shops",
+      "server_ms": 0.0,
+      "bytes": 34
+    },
+    {
+      "path": "/api/ingest/finance-config/expense-types?page=1&page_size=200",
+      "server_ms": 0.0,
+      "bytes": 34
+    },
+    {
+      "path": "/api/ingest/fee-categories?status=active",
+      "server_ms": 28.8,
+      "bytes": 17587
+    },
+    {
+      "path": "/api/ingest/fee-mappings?page=1&page_size=10",
+      "server_ms": 374.3,
+      "bytes": 17627
+    },
+    {
+      "path": "/api/ingest/fee-mappings?page=1&page_size=10",
+      "server_ms": 342.1,
+      "bytes": 17627
+    },
+    {
+      "path": "/api/ingest/fee-mappings?page=1&page_size=10",
+      "server_ms": 361.0,
+      "bytes": 17627
+    },
+    {
+      "path": "/api/ingest/fee-mappings?page=1&page_size=10",
+      "server_ms": 362.2,
+      "bytes": 17627
+    },
+    {
+      "path": "/api/ingest/fee-mappings?page=1&page_size=10&platform_code=pdd&keyword=%E6%89%A3%E6%AC%BE",
+      "server_ms": 87.9,
+      "bytes": 9472
+    },
+    {
+      "path": "/api/automation/report-day?date=2026-10-19&page=1&page_size=20",
+      "server_ms": 246.4,
+      "bytes": 139581
+    },
+    {
+      "path": "/api/automation/report-day?date=2026-10-19&page=1&page_size=20",
+      "server_ms": 250.2,
+      "bytes": 139581
+    },
+    {
+      "path": "/api/automation/report-day?date=2026-10-19&page=1&page_size=20",
+      "server_ms": 239.2,
+      "bytes": 139581
+    },
+    {
+      "path": "/api/automation/report-day?date=2026-10-19&page=1&page_size=20",
+      "server_ms": 232.9,
+      "bytes": 139581
+    },
+    {
+      "path": "/api/automation/report-day?date=2026-10-19&page=2&page_size=20",
+      "server_ms": 244.2,
+      "bytes": 108510
+    },
+    {
+      "path": "/api/automation/report-day?date=2026-10-19&page=1&page_size=20",
+      "server_ms": 263.5,
+      "bytes": 139581
+    },
+    {
+      "path": "/api/automation/report-day?platform=%E6%8B%BC%E5%A4%9A%E5%A4%9A&date=2026-10-19&page=1&page_size=20",
+      "server_ms": 278.2,
+      "bytes": 24460
+    },
+    {
+      "path": "/api/automation/report-day?date=2026-10-19&page=1&page_size=20",
+      "server_ms": 228.0,
+      "bytes": 139581
+    },
+    {
+      "path": "/api/automation/report-calendar?month=2026-10&compact=1",
+      "server_ms": 375.4,
+      "bytes": 548767
+    },
+    {
+      "path": "/api/automation/report-calendar?month=2026-10&compact=1",
+      "server_ms": 345.6,
+      "bytes": 548767
+    },
+    {
+      "path": "/api/automation/report-calendar?month=2026-10&compact=1",
+      "server_ms": 363.9,
+      "bytes": 548767
+    },
+    {
+      "path": "/api/automation/report-calendar?month=2026-10&compact=1",
+      "server_ms": 372.3,
+      "bytes": 548767
+    }
+  ],
+  "after_page_errors": [],
+  "equivalence": [
+    {
+      "operation": "fees",
+      "query": {
+        "export": "true",
+        "page_size": 5000
+      },
+      "rows": 186,
+      "equal": true
+    },
+    {
+      "operation": "fees",
+      "query": {
+        "platform_code": "pdd",
+        "keyword": "扣款"
+      },
+      "rows": 5,
+      "equal": true
+    },
+    {
+      "operation": "day",
+      "date": "2026-09-30",
+      "reports": 67,
+      "equal": true
+    },
+    {
+      "operation": "day",
+      "date": "2026-10-19",
+      "reports": 67,
+      "equal": true
+    },
+    {
+      "operation": "month",
+      "month": "2026-09",
+      "days": 30,
+      "report_day_pairs": 2010,
+      "equal": true
+    },
+    {
+      "operation": "month",
+      "month": "2026-10",
+      "days": 31,
+      "report_day_pairs": 2077,
+      "equal": true
+    }
+  ],
+  "cleanup_audit": {
+    "fixture_steps": 0,
+    "fixture_runs": 0,
+    "fixture_connections": 0
+  }
+}

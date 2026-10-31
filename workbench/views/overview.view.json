@@ -1,0 +1,9 @@
+{
+  "id": "overview",
+  "domain": "经营",
+  "title": "经营总览",
+  "question": "钱在哪个店、哪个环节卡住？",
+  "kind": "overview",
+  "order": 10,
+  "owner": "工作台"
+}

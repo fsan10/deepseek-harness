@@ -1,0 +1,9 @@
+{
+  "id": "fulfillment",
+  "domain": "业务",
+  "title": "履约与售后",
+  "question": "货发得出去、退得回来吗？",
+  "kind": "table",
+  "order": 21,
+  "owner": "工作台"
+}

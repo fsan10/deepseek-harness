@@ -1,0 +1,30 @@
+{
+  "id": "coffice-master",
+  "title": "主数据与治理",
+  "domain": "治理",
+  "owner": "运营中台",
+  "port": 8793,
+  "splitFrom": "coffice-core",
+  "modules": [
+    {
+      "name": "身份与权限",
+      "path": "apps/identity_access",
+      "kind": "模块"
+    },
+    {
+      "name": "达人主数据",
+      "path": "apps/influencer_config",
+      "kind": "模块"
+    },
+    {
+      "name": "资金拆分调整",
+      "path": "apps/fund_split_adjust",
+      "kind": "模块"
+    }
+  ],
+  "assets": [],
+  "handoff": [
+    "公司/店铺/账号的 DIM 是唯一映射源，工作台的公司页只读它",
+    "资金拆分属 L2 写操作，必须走确认卡与审计"
+  ]
+}

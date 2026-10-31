@@ -1,0 +1,4 @@
+interface:
+  display_name: "天猫支付宝账户资金下载"
+  short_description: "登录天猫财务账号并下载解压归档支付宝账户资金账单明细"
+  default_prompt: "使用 $tmall-alipay-fund-download 下载指定天猫财务账号最新支付宝账户资金账单并归档。"

@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "common": {
+    "capture_resource_types": [
+      "XHR",
+      "Fetch",
+      "Preflight",
+      "Document",
+      "Other",
+      "EventSource",
+      "WebSocket",
+      "Script"
+    ],
+    "ignore_resource_types": [
+      "Image",
+      "Media",
+      "Font",
+      "Stylesheet"
+    ],
+    "ignore_extensions": [
+      ".png",
+      ".jpg",
+      ".jpeg",
+      ".gif",
+      ".webp",
+      ".avif",
+      ".svg",
+      ".ico",
+      ".bmp",
+      ".mp3",
+      ".wav",
+      ".aac",
+      ".flac",
+      ".mp4",
+      ".webm",
+      ".m3u8",
+      ".ts",
+      ".woff",
+      ".woff2",
+      ".ttf",
+      ".otf",
+      ".eot",
+      ".css",
+      ".js",
+      ".map"
+    ],
+    "exclude_domains": [
+      "google-analytics.com",
+      "googletagmanager.com",
+      "doubleclick.net",
+      "sentry.io",
+      "hm.baidu.com"
+    ],
+    "exclude_url_regex": [
+      "(?i)/favicon(?:\\.|/)",
+      "(?i)/sockjs-node(?:/|$)"
+    ]
+  },
+  "platforms": {
+    "generic": {
+      "description": "捕获当前浏览器全部非静态 HTTP 请求；用于未知平台或排查过滤遗漏",
+      "aliases": [
+        "all",
+        "通用"
+      ],
+      "include_domains": [],
+      "exclude_domains": [],
+      "exclude_url_regex": []
+    },
+    "pinduoduo": {
+      "description": "拼多多商家后台、对账中心和推广平台",
+      "aliases": [
+        "pdd",
+        "拼多多"
+      ],
+      "include_domains": [
+        "pinduoduo.com",
+        "yangkeduo.com"
+      ],
+      "exclude_domains": [
+        "apm.pinduoduo.com"
+      ],
+      "exclude_url_regex": [
+        "(?i)/api/pmm/"
+      ]
+    },
+    "douyin": {
+      "description": "抖店商家后台",
+      "aliases": [
+        "dy",
+        "抖音",
+        "抖店"
+      ],
+      "include_domains": [
+        "jinritemai.com",
+        "bytedance.com",
+        "byteimg.com",
+        "douyincdn.com",
+        "snssdk.com"
+      ],
+      "exclude_domains": [],
+      "exclude_url_regex": []
+    },
+    "qianchuan": {
+      "description": "巨量千川和抖店关联页面",
+      "aliases": [
+        "qc",
+        "千川",
+        "巨量千川"
+      ],
+      "include_domains": [
+        "jinritemai.com",
+        "oceanengine.com",
+        "bytedance.com",
+        "byteimg.com"
+      ],
+      "exclude_domains": [],
+      "exclude_url_regex": []
+    },
+    "jd": {
+      "description": "京东、京麦和京准通后台",
+      "aliases": [
+        "jingdong",
+        "京东",
+        "京麦"
+      ],
+      "include_domains": [
+        "jd.com",
+        "jingxi.com",
+        "jcloudcs.com",
+        "jdcloud.com"
+      ],
+      "exclude_domains": [],
+      "exclude_url_regex": []
+    },
+    "kuaishou": {
+      "description": "快手小店商家后台",
+      "aliases": [
+        "ks",
+        "快手"
+      ],
+      "include_domains": [
+        "kwaixiaodian.com",
+        "kuaishou.com",
+        "gifshow.com"
+      ],
+      "exclude_domains": [],
+      "exclude_url_regex": []
+    },
+    "xiaohongshu": {
+      "description": "小红书千帆商家后台",
+      "aliases": [
+        "xhs",
+        "小红书"
+      ],
+      "include_domains": [
+        "xiaohongshu.com",
+        "xhscdn.com"
+      ],
+      "exclude_domains": [],
+      "exclude_url_regex": []
+    },
+    "tmall": {
+      "description": "天猫、淘宝、支付宝及阿里妈妈相关后台",
+      "aliases": [
+        "taobao",
+        "淘宝",
+        "天猫"
+      ],
+      "include_domains": [
+        "tmall.com",
+        "taobao.com",
+        "alibaba.com",
+        "alipay.com",
+        "alimama.com"
+      ],
+      "exclude_domains": [],
+      "exclude_url_regex": []
+    }
+  }
+}

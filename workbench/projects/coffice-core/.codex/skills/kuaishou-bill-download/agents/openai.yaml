@@ -1,0 +1,4 @@
+interface:
+  display_name: "快手资金与结算账单下载"
+  short_description: "下载快手日月资金与结算账单，解压归档并支持失败接管"
+  default_prompt: "使用 $kuaishou-bill-download 下载快手最新资金或结算账单，并在失败时接管修复。"

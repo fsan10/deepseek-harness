@@ -1,0 +1,4 @@
+interface:
+  display_name: "拼多多结算账单下载"
+  short_description: "下载并归档拼多多昨天结算账单，支持自动化失败接管与重跑"
+  default_prompt: "请使用 $pinduoduo-settlement-download 下载并归档拼多多昨天的结算账单。"

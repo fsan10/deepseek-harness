@@ -1,0 +1,4 @@
+interface:
+  display_name: "天猫推广费下载"
+  short_description: "下载并归档淘宝联盟、万相台日月推广费"
+  default_prompt: "请使用 $tmall-promotion-download 下载天猫昨日淘宝联盟和万相台推广费。"

@@ -1,0 +1,77 @@
+name: coffice-production
+
+x-app: &app
+  image: coffice-production:${APP_IMAGE_TAG:-latest}
+  build:
+    context: ../..
+    dockerfile: deploy/production/Dockerfile
+  env_file:
+    - ${COFFICE_ENV_FILE:-../../.env}
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+  init: true
+  restart: unless-stopped
+
+services:
+  create-db:
+    <<: *app
+    command: ["python", "-m", "scripts.production_db.create_database", "--target-db", "${PGDATABASE:-coffice_production}"]
+    restart: "no"
+    profiles: ["tools"]
+
+  bootstrap:
+    <<: *app
+    command: ["python", "-m", "scripts.production_db.bootstrap_database"]
+    restart: "no"
+
+  init-admin:
+    <<: *app
+    command: ["python", "-m", "scripts.deployment.init_admin"]
+    restart: "no"
+    depends_on:
+      bootstrap:
+        condition: service_completed_successfully
+
+  web:
+    <<: *app
+    command:
+      - python
+      - -m
+      - apps.fund_split_adjust.server
+      - --bind
+      - 0.0.0.0
+      - --port
+      - "8770"
+      - --no-ingest-worker
+    depends_on:
+      init-admin:
+        condition: service_completed_successfully
+    ports:
+      - "${WEB_PORT:-8770}:8770"
+      - "${DATAEASE_PROXY_PORT:-8101}:8101"
+    volumes:
+      - ingest_files:/app/.uploads/file_ingest
+      - bank_uploads:/app/apps/fund_split_adjust/uploads
+    healthcheck:
+      test: ["CMD", "python", "-m", "scripts.deployment.healthcheck", "--port", "8770"]
+      interval: 15s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    stop_grace_period: 45s
+
+  worker:
+    <<: *app
+    command: ["python", "-m", "apps.file_ingest.worker", "--poll-seconds", "2"]
+    depends_on:
+      bootstrap:
+        condition: service_completed_successfully
+    volumes:
+      - ingest_files:/app/.uploads/file_ingest
+    stop_grace_period: 30s
+
+volumes:
+  ingest_files:
+    name: coffice-production-ingest-files
+  bank_uploads:
+    name: coffice-production-bank-uploads

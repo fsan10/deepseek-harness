@@ -1,0 +1,41 @@
+# 工作台运行目录（不入库）
+#
+# 逻辑：代码与清单入库；依赖、原始数据、数据库、日志、pid、审计留在本机。
+# 换机器后先跑 scripts/clone-projects.sh 重新物理克隆源项目，再跑 scripts/bootstrap.ps1 装依赖。
+
+# 工作台自身运行态
+var/
+projects/registry.json
+
+# 依赖与构建产物
+projects/*/.venv/
+projects/*/node_modules/
+projects/*/.next/
+projects/*/.next-build/
+projects/*/__pycache__/
+projects/*/*.egg-info/
+projects/*/build/
+projects/*/dist/
+
+# 原始数据与缓存（体积大、可再生；工作台页面直接读本机文件）
+projects/*/data/
+projects/*/tmp/
+projects/*/.tmp*/
+projects/*/outputs/
+projects/*/artifacts/
+projects/*/work/
+projects/*/commerce_api/.runtime/
+projects/*/docs/production_database/
+
+# 本地库（真实业务数据，不入库）
+projects/*/var/*.sqlite*
+projects/*/data/*.sqlite*
+
+# 密钥与日志
+projects/*/.env
+projects/*/.env.local
+projects/*/*.log
+
+# 根仓库的 `lib/` 规则用于忽略编译产物；工作台的 plugin/lib 是手写源码，必须入库
+!plugin/lib/
+!plugin/lib/*.js

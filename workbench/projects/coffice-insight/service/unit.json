@@ -1,0 +1,40 @@
+{
+  "id": "coffice-insight",
+  "title": "分析与看板",
+  "domain": "数据",
+  "owner": "数据组",
+  "port": 8792,
+  "splitFrom": "coffice-core",
+  "modules": [
+    {
+      "name": "AI 管理",
+      "path": "apps/ai_admin",
+      "kind": "模块"
+    },
+    {
+      "name": "自然语言分析",
+      "path": "apps/ai_analysis",
+      "kind": "模块"
+    },
+    {
+      "name": "AI 前端资源",
+      "path": "apps/ai_web",
+      "kind": "模块"
+    },
+    {
+      "name": "飞书助手",
+      "path": "apps/feishu_ai",
+      "kind": "模块"
+    },
+    {
+      "name": "看板代理",
+      "path": "apps/dashboard_center",
+      "kind": "模块"
+    }
+  ],
+  "assets": [],
+  "handoff": [
+    "自然语言查询要经过工作台的 L0 只读工具，不直连数据库",
+    "看板代理保留 DataEase 原样，门户只嵌入不重画"
+  ]
+}
