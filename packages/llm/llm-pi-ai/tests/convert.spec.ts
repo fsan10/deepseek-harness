@@ -27,7 +27,7 @@ function assistant(overrides: Partial<AssistantMessage> = {}): AssistantMessage 
     content: [],
     api: 'openai-completions',
     provider: 'deepseek',
-    model: 'deepseek-v4-flash',
+    model: 'deepseek-v4-pro',
     usage: usage(),
     stopReason: 'stop',
     timestamp: 0,
@@ -76,7 +76,7 @@ describe('toPiContext', () => {
   it('maps system prompt, user text, and tools', () => {
     const context = toPiContext({
       provider: 'deepseek',
-      model: 'deepseek-v4-flash',
+      model: 'deepseek-v4-pro',
       system: 'be helpful',
       messages: [createUserMessage({
         content: [{ type: 'text', text: 'hi' }],
@@ -477,7 +477,7 @@ describe('toPiContext', () => {
         ],
         source: {
           kind: 'model',
-          ...{ provider: 'deepseek', model: 'deepseek-v4-flash', replayState: state },
+          ...{ provider: 'deepseek', model: 'deepseek-v4-pro', replayState: state },
         },
       })],
     })
@@ -536,13 +536,13 @@ describe('toPiContext', () => {
           kind: 'model',
           ...{
             provider: 'deepseek',
-            model: 'deepseek-v4-flash',
+            model: 'deepseek-v4-pro',
             replayState: {
               kind: 'pi-ai',
               version: 1,
               api: 'openai-completions',
               provider: 'deepseek',
-              model: 'deepseek-v4-flash',
+              model: 'deepseek-v4-pro',
               stopReason: 'stop',
               blocks: [{ type: 'text' }],
             },
@@ -565,7 +565,7 @@ describe('toPiContext', () => {
         content: [{ type: 'reasoning', text: 'done' }],
         source: {
           kind: 'model',
-          ...{ provider: 'deepseek', model: 'deepseek-v4-flash', replayState: state },
+          ...{ provider: 'deepseek', model: 'deepseek-v4-pro', replayState: state },
         },
       })],
     }, undefined, onDegrade)
@@ -588,7 +588,7 @@ describe('toPiContext', () => {
         content: [{ type: 'text', text: 'done' }],
         source: {
           kind: 'model',
-          ...{ provider: 'deepseek', model: 'deepseek-v4-flash', replayState: state },
+          ...{ provider: 'deepseek', model: 'deepseek-v4-pro', replayState: state },
         },
       })],
     }, undefined, onDegrade)
@@ -596,7 +596,7 @@ describe('toPiContext', () => {
       role: 'assistant',
       api: 'dsh-foreign',
       provider: 'deepseek',
-      model: 'deepseek-v4-flash',
+      model: 'deepseek-v4-pro',
       content: [{ type: 'text', text: 'done' }],
       stopReason: 'stop',
     })
@@ -608,7 +608,7 @@ describe('toPiContext', () => {
     version: 2,
     api: 'openai-completions',
     provider: 'deepseek',
-    model: 'deepseek-v4-flash',
+    model: 'deepseek-v4-pro',
     stopReason: 'stop',
   }
   const validReplay = { response: validResponse, blocks: [{ type: 'text' }] }
@@ -624,7 +624,7 @@ describe('toPiContext', () => {
         content: [{ type: 'text', text: 'done' }],
         source: {
           kind: 'model',
-          ...{ provider: 'deepseek', model: 'deepseek-v4-flash', replayState },
+          ...{ provider: 'deepseek', model: 'deepseek-v4-pro', replayState },
         },
       })],
     }, undefined, onDegrade)
@@ -638,7 +638,10 @@ describe('toPiContext', () => {
 
   it.each([
     ['provider', { ...validReplay, response: { ...validResponse, provider: 'openai' } }],
-    ['model', { ...validReplay, response: { ...validResponse, model: 'deepseek-v4-pro' } }],
+    // A name the installed 1.5.0 catalog no longer ships is deliberate here:
+    // this case exists to make the replayed model differ from the assistant
+    // source, so the old id stays as the mismatched value.
+    ['model', { ...validReplay, response: { ...validResponse, model: 'deepseek-v4-flash' } }],
   ])('degrades replay metadata whose %s differs from assistant source', (field, replayState) => {
     expectDegraded(replayState, `${field} does not match assistant source`)
   })
@@ -709,8 +712,11 @@ describe('toStreamChunks', () => {
     const returned = catalog.find(model => model.id === returnedModel)
     if (requested === undefined || returned === undefined) throw new Error('missing Anthropic catalog model')
     expect(transformMessages(context.messages, returned)[0]).toMatchObject({ content: native.content })
+    // pi-ai 1.5.0 drops thinking blocks on a cross-model handoff rather than
+    // degrading them to text: encrypted signatures only replay on the model
+    // that produced them.
     expect(transformMessages(context.messages, requested)[0]).toMatchObject({
-      content: requestedModel === returnedModel ? native.content : [{ type: 'text', text: 'reason' }],
+      content: requestedModel === returnedModel ? native.content : [],
     })
   })
 
@@ -741,7 +747,7 @@ describe('toStreamChunks', () => {
             version: 2,
             api: 'openai-completions',
             provider: 'deepseek',
-            model: 'deepseek-v4-flash',
+            model: 'deepseek-v4-pro',
             stopReason: 'stop',
           },
           blocks: [{ type: 'text' }],
@@ -792,7 +798,7 @@ describe('toStreamChunks', () => {
             version: 2,
             api: 'openai-completions',
             provider: 'deepseek',
-            model: 'deepseek-v4-flash',
+            model: 'deepseek-v4-pro',
             stopReason: 'toolUse',
           },
           blocks: [{ type: 'tool-call' }],
@@ -852,11 +858,11 @@ describe('mapStopReason / mapUsage', () => {
     ['toolUse', { kind: 'tool-calls' }],
     ['pending', {
       kind: 'error',
-      failure: { message: 'pi-ai stream for model "deepseek-v4-flash" ended pending', code: 'PI_AI_ERROR' },
+      failure: { message: 'pi-ai stream for model "deepseek-v4-pro" ended pending', code: 'PI_AI_ERROR' },
     }],
     ['deferred', {
       kind: 'error',
-      failure: { message: 'pi-ai deferred response for model "deepseek-v4-flash" is not supported', code: 'PI_AI_ERROR' },
+      failure: { message: 'pi-ai deferred response for model "deepseek-v4-pro" is not supported', code: 'PI_AI_ERROR' },
     }],
     ['aborted', { kind: 'aborted', failure: { message: 'pi-ai stream aborted', code: 'ABORTED' } }],
   ] as const)('maps %s', (stopReason, expected) => {
@@ -867,7 +873,7 @@ describe('mapStopReason / mapUsage', () => {
     expect(mapStopReason(assistant({ stopReason: 'stop' }))).toEqual({
       kind: 'error',
       failure: {
-        message: 'model "deepseek-v4-flash" returned a completed response with no content',
+        message: 'model "deepseek-v4-pro" returned a completed response with no content',
         code: EMPTY_RESPONSE_CODE,
       },
     })
@@ -961,7 +967,7 @@ describe('mapStopReason / mapUsage', () => {
     expect(mapStopReason(silent, 100)).toEqual({
       kind: 'error',
       failure: {
-        message: 'pi-ai detected context overflow for model "deepseek-v4-flash"',
+        message: 'pi-ai detected context overflow for model "deepseek-v4-pro"',
         code: CONTEXT_WINDOW_EXCEEDED_CODE,
       },
     })

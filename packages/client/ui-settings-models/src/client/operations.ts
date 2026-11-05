@@ -7,6 +7,7 @@
 
 import type { Context as ClientContext } from '@deepseek-ai/cordis'
 import type {
+  AuthorizationAttemptView, AuthorizationFlowView,
   CredentialInfo, LlmDiscoveredModel, LlmModelDiscoveryRequest,
   SettingsNamespaceView, SettingsPathOpView,
 } from '@deepseek-ai/dsh-api-remotes/client'
@@ -21,6 +22,11 @@ export type SettingsWriteOutcome =
    */
   | { readonly kind: 'conflict'; readonly message: string }
   /** Any other refusal, with the Host's own diagnostic. */
+  | { readonly kind: 'refused'; readonly message: string }
+
+/** What one authorization Remote call answered. */
+export type AuthorizationCall<T> =
+  | { readonly kind: 'ok'; readonly value: T }
   | { readonly kind: 'refused'; readonly message: string }
 
 /** What one endpoint interrogation answered. */
@@ -71,6 +77,21 @@ export interface ModelsOperations {
    * @returns the candidates, or the refusal.
    */
   discoverModels(settingsNs: string, request: LlmModelDiscoveryRequest): Promise<ModelDiscoveryOutcome>
+  /**
+   * List the sign-in flows a provider adapter registered. An empty answer is
+   * the honest "nothing to sign into" state, not a refused read.
+   */
+  listSignIns(): Promise<readonly AuthorizationFlowView[]>
+  /** Start one sign-in and return the attempt id that answers its prompts. */
+  startSignIn(key: string, method: string | undefined): Promise<AuthorizationCall<string>>
+  /** Read one attempt's notices, question, and status. */
+  pollSignIn(id: string): Promise<AuthorizationCall<AuthorizationAttemptView>>
+  /** Supply the answer to the question a poll reported. */
+  answerSignIn(id: string, value: string): Promise<string | undefined>
+  /** Withdraw the sign-in running for a credential key. */
+  cancelSignIn(key: string): Promise<void>
+  /** Release a settled attempt on the Host. */
+  finishSignIn(id: string): Promise<void>
 }
 
 /**
@@ -104,6 +125,38 @@ export function createModelsOperations(ctx: ClientContext): ModelsOperations {
       return response.ok
         ? { kind: 'found', models: response.value }
         : { kind: 'refused', message: response.error.message }
+    },
+    listSignIns: async () => {
+      // A browser may be talking to an older Host without this namespace;
+      // showing no sign-in is the honest state, not a broken Models page.
+      try {
+        const response = await ctx.remote.authorization.list()
+        return response.ok ? response.value : []
+      } catch {
+        return []
+      }
+    },
+    startSignIn: async (key, method) => {
+      const response = await ctx.remote.authorization.start(key, method)
+      return response.ok
+        ? { kind: 'ok', value: response.value }
+        : { kind: 'refused', message: response.error.message }
+    },
+    pollSignIn: async (id) => {
+      const response = await ctx.remote.authorization.poll(id)
+      return response.ok
+        ? { kind: 'ok', value: response.value }
+        : { kind: 'refused', message: response.error.message }
+    },
+    answerSignIn: async (id, value) => {
+      const response = await ctx.remote.authorization.answer(id, value)
+      return response.ok ? undefined : response.error.message
+    },
+    cancelSignIn: async (key) => {
+      await ctx.remote.authorization.cancel(key)
+    },
+    finishSignIn: async (id) => {
+      await ctx.remote.authorization.finish(id)
     },
   }
 }

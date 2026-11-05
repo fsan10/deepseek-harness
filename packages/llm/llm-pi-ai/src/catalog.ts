@@ -20,6 +20,7 @@ import type {
   BedrockCompat,
   ChatTemplateKwargValue,
   KnownApi,
+  MistralConversationsCompat,
   Model,
   ModelCost,
   ModelThinkingLevel,
@@ -253,8 +254,11 @@ const COMPLETIONS_COMPAT_GATE = {
   zaiToolStream: 'withhold',
   supportsOpenAIGrammarTools: 'withhold',
   sendSessionAffinityHeaders: 'withhold',
-  deferredToolsMode: 'withhold',
   sessionAffinityFormat: 'withhold',
+  // pi-ai 1.5.0 replaced `deferredToolsMode` with two mid-conversation
+  // switches the catalog owns; a private gateway cannot state them from a URL.
+  supportsMidConvoSystemMessages: 'withhold',
+  supportsMidConvoToolAdditions: 'withhold',
 } as const satisfies Record<keyof OpenAICompletionsCompat, CompatDisposition>
 
 /** Disposition of every `OpenAIResponsesCompat` field; a drift gate like the one above. */
@@ -268,6 +272,9 @@ const RESPONSES_COMPAT_GATE = {
   supportsAdditionalTools: 'withhold',
   supportsToolSearch: 'withhold',
   supportsExplicitPromptCacheMode: 'withhold',
+  // New in pi-ai 1.5.0; catalog models carry these, a profile cannot infer them.
+  supportsMidConvoSystemMessages: 'withhold',
+  supportsMidConvoEffort: 'withhold',
 } as const satisfies Record<keyof OpenAIResponsesCompat, CompatDisposition>
 
 /** Disposition of every `AnthropicMessagesCompat` field; a drift gate like the one above. */
@@ -280,15 +287,28 @@ const ANTHROPIC_COMPAT_GATE = {
   allowEmptySignature: 'offer',
   supportsStrictTools: 'offer',
   sendSessionAffinityHeaders: 'withhold',
-  supportsToolReferences: 'withhold',
   supportsMidConvoEffort: 'withhold',
   allowedFallbackModels: 'withhold',
+  // pi-ai 1.5.0 dropped `supportsToolReferences` and gained these four;
+  // every one is catalog-owned behavior, not a gateway-configurable switch.
+  sessionAffinityFormat: 'withhold',
+  supportsMidConvoSystemMessages: 'withhold',
+  supportsMidConvoToolChanges: 'withhold',
 } as const satisfies Record<keyof AnthropicMessagesCompat, CompatDisposition>
 
 /** Disposition of every `BedrockCompat` field; a drift gate like the one above. */
 const BEDROCK_COMPAT_GATE = {
   supportsStrictMode: 'offer',
 } as const satisfies Record<keyof BedrockCompat, CompatDisposition>
+
+/**
+ * Disposition of every `MistralConversationsCompat` field. pi-ai 1.5.0 gives
+ * this protocol a compat type of its own; none of its switches is something a
+ * hand-declared gateway can state from a URL, so all stay catalog-owned.
+ */
+const MISTRAL_COMPAT_GATE = {
+  supportsMidConvoSystemMessages: 'withhold',
+} as const satisfies Record<keyof MistralConversationsCompat, CompatDisposition>
 
 /**
  * Every wire protocol pi-ai gives a compat type. Derived from `Model.compat`'s
@@ -315,6 +335,7 @@ const COMPAT_GATES: Readonly<Record<ApiWithCompat, Readonly<Record<string, Compa
   'openai-codex-responses': RESPONSES_COMPAT_GATE,
   'anthropic-messages': ANTHROPIC_COMPAT_GATE,
   'bedrock-converse-stream': BEDROCK_COMPAT_GATE,
+  'mistral-conversations': MISTRAL_COMPAT_GATE,
 }
 
 /**
@@ -461,11 +482,31 @@ type UpstreamCompat = OpenAICompletionsCompat & OpenAIResponsesCompat & Anthropi
  * refuses a value the provider accepts, which is how an upgrade that widens a
  * union would otherwise leave configuration silently behind.
  */
-export type EveryProfileFieldMatchesUpstream = AssertTrue<
-  PiAiCompatProfile extends Partial<Pick<UpstreamCompat, OfferedCompatField>>
-    ? Partial<Pick<UpstreamCompat, OfferedCompatField>> extends PiAiCompatProfile ? true : false
-    : false
->
+type UpstreamOffered = Partial<Pick<UpstreamCompat, OfferedCompatField>>
+
+/**
+ * One field name per documented field whose type is not exactly upstream's.
+ * pi-ai 1.5.0 derives compat members from TypeBox as `T | undefined`, so an
+ * object-wide reverse `extends` against a profile declaring `?: T` fails under
+ * `exactOptionalPropertyTypes` on optionality alone. Comparing each field in
+ * both directions proves the same invariant without that noise; the two name
+ * gates above already pin the key sets.
+ */
+type DriftedCompatFields = {
+  [K in keyof PiAiCompatProfile & keyof UpstreamOffered]:
+  PiAiCompatProfile[K] extends UpstreamOffered[K]
+    ? UpstreamOffered[K] extends PiAiCompatProfile[K] ? never : K
+    : K
+}[keyof PiAiCompatProfile & keyof UpstreamOffered]
+
+/**
+ * A tuple rather than an intersection: the drift proof resolves to `never`
+ * when it holds, and `never` in an intersection would swallow the whole type.
+ */
+export type EveryProfileFieldMatchesUpstream = [
+  AssertTrue<PiAiCompatProfile extends UpstreamOffered ? true : false>,
+  AssertNever<DriftedCompatFields>,
+]
 
 /**
  * The compat entries a profile actually set.

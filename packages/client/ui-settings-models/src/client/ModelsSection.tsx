@@ -12,8 +12,9 @@
  * re-renders from pushed invalidations or the post-apply reload.
  */
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
+import type { AuthorizationFlowView } from '@deepseek-ai/dsh-api-remotes/client'
 import { Button, IconPlusOutline16, Modal } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { InjectFace, PropsRenderSlots } from '@deepseek-ai/dsh-client-ui-slots'
 // Type-only: pulls this package's SlotMap merge (the two Models child slots).
@@ -24,6 +25,7 @@ import type { ModelsSettingsStore, ProviderRow } from './store.ts'
 import type { ModelsOperations } from './operations.ts'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
 import { ProviderEditor, type ProviderEditorProps } from './ProviderEditor.tsx'
+import { SignInPanel } from './SignInPanel.tsx'
 import type { en } from './locales.ts'
 import styles from './ModelsSection.module.css'
 
@@ -212,6 +214,19 @@ function Loaded({ injected, renderSlot }: { injected: ModelsSectionFace; renderS
   const [savedTarget, setSavedTarget] = useState<ProviderIdentity | undefined>(undefined)
   const [declaring, setDeclaring] = useState(false)
   const [dismissedSetup, setDismissedSetup] = useState<ReadonlySet<string>>(() => new Set())
+  // The sign-in flows an adapter registered with the authorization seam. One
+  // read serves every card; a card with no matching flow renders nothing.
+  const [flows, setFlows] = useState<readonly AuthorizationFlowView[]>([])
+
+  useEffect(() => {
+    void operations.listSignIns().then(setFlows)
+  }, [operations])
+
+  /** Re-read both the credential dots and the flows' in-flight state. */
+  const refresh = (): void => {
+    void controller.load()
+    void operations.listSignIns().then(setFlows)
+  }
 
   const announceSaved = (target: ProviderIdentity): void => {
     // Announced only once the refreshed directory is in the snapshot the
@@ -346,6 +361,13 @@ function Loaded({ injected, renderSlot }: { injected: ModelsSectionFace; renderS
                   { provider: row.entry, configured: row.configured, keyConfigured: keyConfiguredOf(row) },
                   { entryKey: row.entry.settingsNs },
                 )}
+                <SignInPanel
+                  flow={flows.find(candidate => candidate.key === `llm-pi-ai/${row.entry.provider}`)}
+                  operations={operations}
+                  t={t}
+                  readOnly={!state.writable}
+                  onAuthorized={refresh}
+                />
               </li>
             )
           }
@@ -427,6 +449,13 @@ function Loaded({ injected, renderSlot }: { injected: ModelsSectionFace; renderS
                 { provider: row.entry, configured: row.configured, keyConfigured: keyConfiguredOf(row) },
                 { entryKey: row.entry.settingsNs },
               )}
+              <SignInPanel
+                flow={flows.find(candidate => candidate.key === `llm-pi-ai/${row.entry.provider}`)}
+                operations={operations}
+                t={t}
+                readOnly={!state.writable}
+                onAuthorized={refresh}
+              />
               {open
                 ? renderProviderEditor({
                   target,

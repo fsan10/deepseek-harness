@@ -1,8 +1,8 @@
 /**
  * Host Remote owner for the configuration surfaces over the settings-domain
- * seams. Two namespaces: `settings`, the redacted reads and writes of
- * `ctx.settings`, owned by the class below; and `credentials`, mounted from
- * here as its own plugin.
+ * seams. Three namespaces: `settings`, the redacted reads and writes of
+ * `ctx.settings`, owned by the class below; `credentials`, mounted from here
+ * as its own plugin; and `authorization`, the human-guided sign-in flows.
  *
  * @module @deepseek-ai/dsh-api-settings-controller
  */
@@ -25,9 +25,11 @@ import { Remote, RemoteError, TypertRemoteService } from '@deepseek-ai/dsh-typer
 import type { JsonValue } from '@deepseek-ai/dsh-util-values'
 import { z } from 'zod'
 import { CredentialsController } from './credentials.ts'
+import { AuthorizationController } from './authorization.ts'
 import type { AgentPresetDirectoryOpenValue, SettingsDocumentOpenValue } from './types.ts'
 
 export { CredentialsController } from './credentials.ts'
+export { AuthorizationController } from './authorization.ts'
 export type * from './types.ts'
 
 const settingsNamespaceRequestSchema = z.object({ ns: z.string().min(1) })
@@ -105,6 +107,7 @@ export class SettingsController extends TypertRemoteService {
     this.canOpenPath = internals.canOpenPath
       ?? (() => config.nativeOpen ?? (internals.openPath !== undefined || canOpenNativePath()))
     ctx.plugin(CredentialsController)
+    ctx.plugin(AuthorizationController)
   }
 
   /**

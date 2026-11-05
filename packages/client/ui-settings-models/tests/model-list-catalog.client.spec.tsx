@@ -15,6 +15,13 @@ function operations(discoverModels: ModelsOperations['discoverModels']): ModelsO
     storeCredential: vi.fn(),
     removeCredential: vi.fn(),
     writeSettings: vi.fn(),
+    // This card never signs in; the page's other operations stay inert here.
+    listSignIns: vi.fn(() => Promise.resolve([])),
+    startSignIn: vi.fn(),
+    pollSignIn: vi.fn(),
+    answerSignIn: vi.fn(),
+    cancelSignIn: vi.fn(),
+    finishSignIn: vi.fn(),
   }
 }
 

@@ -10,6 +10,7 @@ import * as LlmPiAi from '@deepseek-ai/dsh-llm-pi-ai'
 import { PiAiAdapter } from '@deepseek-ai/dsh-llm-pi-ai'
 import { getBuiltinModels } from '@earendil-works/pi-ai/providers/all'
 import { AssistantMessageEventStream } from '@earendil-works/pi-ai/utils/event-stream'
+import { normalizeContext } from '@earendil-works/pi-ai/utils/transcript'
 import type { Api, Model, OpenAICompletionsCompat, Provider } from '@earendil-works/pi-ai'
 import { resolveProfiles } from '../src/config.ts'
 import { createModels, createProvider, getSupportedThinkingLevels } from '../src/models.ts'
@@ -370,7 +371,9 @@ describe('hand-declared providers', () => {
       auth: { apiKey: { name: 'Local', resolve: () => Promise.resolve({ auth: {}, source: 'Local' }) } },
       api: { stream, streamSimple },
     })
-    const context = { messages: [] }
+    // pi-ai 1.5.0 brands provider stream input as TranscriptContext; a raw
+    // Context no longer type-checks, so build it the way a real request does.
+    const context = normalizeContext({ messages: [] })
 
     expect(provider.stream(model, context)).toBe(direct)
     expect(provider.streamSimple(model, context)).toBe(simple)
@@ -553,7 +556,7 @@ describe('catalog routes with per-model configuration', () => {
     if (built === undefined) throw new Error('the deepseek route built no provider')
     const [model] = built.getModels()
     if (model === undefined) throw new Error('the deepseek route resolved no models')
-    const context = { messages: [{ role: 'user' as const, content: 'hi', timestamp: 0 }] }
+    const context = normalizeContext({ messages: [{ role: 'user', content: 'hi', timestamp: 0 }] })
 
     // `stream` is interface-required and unused by the harness adapter, which
     // only calls `streamSimple`; both must still reach the catalog provider.
@@ -1079,15 +1082,17 @@ describe('compat switches', () => {
   it('refuses a valueless compat key on a model entry too', () => {
     expect(() => resolveProfiles({
       deepseek: {
-        modelOverrides: { 'deepseek-v4-flash': { compat: { requiresReasoningContentOnAssistantMessages: null } } as never },
+        modelOverrides: { 'deepseek-v4-pro': { compat: { requiresReasoningContentOnAssistantMessages: null } } as never },
       },
-    })).toThrow(/model "deepseek-v4-flash" sets compat "requiresReasoningContentOnAssistantMessages" with no value/)
+    })).toThrow(/model "deepseek-v4-pro" sets compat "requiresReasoningContentOnAssistantMessages" with no value/)
   })
 
   it('serves the Responses compat type on every protocol pi-ai gives it to', () => {
-    // pi-ai types azure-openai-responses and openai-codex-responses with the
-    // same OpenAIResponsesCompat, so a switch settable on one is settable on all.
-    for (const route of ['azure-openai-responses', 'openai-codex']) {
+    // pi-ai types openai-responses and openai-codex-responses with the same
+    // OpenAIResponsesCompat, so a switch settable on one is settable on all.
+    // 1.5.0 ships no azure-openai-responses catalog models, so that route can
+    // no longer answer this from the installed catalog.
+    for (const route of ['openai', 'openai-codex']) {
       const models = modelsOf({ [route]: { compat: { supportsDeveloperRole: false } } }, route)
       const [first] = [...models.values()]
       expect((first?.compat as { supportsDeveloperRole?: boolean }).supportsDeveloperRole).toBe(false)
@@ -1144,7 +1149,7 @@ describe('resolution snapshots', () => {
     const inFlight = (async () => {
       for await (const chunk of adapter.stream({
         provider: 'deepseek',
-        model: 'deepseek-v4-flash',
+        model: 'deepseek-v4-pro',
         messages: [],
       })) chunks.push(chunk)
     })()
@@ -1173,7 +1178,7 @@ describe('resolution snapshots', () => {
     })
     const drain = async (): Promise<void> => {
       for await (const _chunk of adapter.stream({
-        provider: 'deepseek', model: 'deepseek-v4-flash', messages: [],
+        provider: 'deepseek', model: 'deepseek-v4-pro', messages: [],
       })) { /* drain */ }
     }
 

@@ -18,6 +18,12 @@ overrides:
   'extract-zip>yauzl': '3.4.0'
   '@deepseek-ai/cosmokit': 'link:vendor/cosmokit'
   '@deepseek-ai/schemastery': 'link:vendor/schemastery'
+  # pi-ai 1.5.0's dependency refresh pulls a second micromark-util-types
+  # generation into the tree; the docs scripts compile against 2.0.2 and two
+  # structural copies make their Extension types mutually unassignable.
+  micromark-core-commonmark: '2.0.3'
+  micromark-factory-space: '2.0.1'
+  micromark-util-types: '2.0.2'
 
 peerDependencyRules:
   allowedVersions:
@@ -61,8 +67,9 @@ minimumReleaseAgeExclude:
   - '@deepseek-ai/libreoffice-kit-wasm@0.0.1'
   # Fresh pi-ai releases carry the model catalog updates that are the whole
   # point of bumping it; waiting out the release age would defeat that.
-  - '@earendil-works/pi-ai@0.85.1'
-  - '@earendil-works/pi-telemetry@0.85.1'
+  - '@earendil-works/pi-ai@1.5.0'
+  - '@earendil-works/pi-schema@1.5.0'
+  - '@earendil-works/pi-telemetry@1.5.0'
   - node-addon-native-custom-loader@0.1.6
   - node-addon-require-builtin-darwin-arm64@0.1.6
   - node-addon-require-builtin-darwin-x64@0.1.6

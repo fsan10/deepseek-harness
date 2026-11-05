@@ -240,7 +240,15 @@ const thinkingBudgets = z.object({
  * thinking state, which makes a template-driven gateway configurable without
  * restating its template.
  */
-const chatTemplateKwarg: z<ChatTemplateKwargValue> = z.union([
+/**
+ * schemastery widens every `z.object` member to optional-and-nullable and adds
+ * a `Dict` index, while pi-ai 1.5.0 declares `$var` as required and
+ * `omitWhenOff` as `boolean | undefined`. The runtime shape is unchanged —
+ * `.required()` still rejects a missing `$var` and the union still admits the
+ * scalar branches — so the assertion bridges only the declared static type,
+ * exactly as `reasoningEfforts` does for its own dict.
+ */
+const chatTemplateKwarg = z.union([
   z.string(),
   z.number(),
   z.boolean(),
@@ -249,7 +257,7 @@ const chatTemplateKwarg: z<ChatTemplateKwargValue> = z.union([
     $var: z.union(CHAT_TEMPLATE_VARS).required(),
     omitWhenOff: z.boolean(),
   }),
-])
+]) as unknown as z<ChatTemplateKwargValue>
 
 const compatProfile: z<PiAiCompatProfile> = z.object({
   supportsStore: z.boolean(),
