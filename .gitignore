@@ -48,3 +48,5 @@ worktrees/
 .agents/worktrees/
 .typert-*/
 native/system/test/bin/
+# Zero-byte scratch files left behind by local tooling / installers.
+/_tmp_*
