@@ -102,10 +102,27 @@ describe('pi-ai login flows', () => {
     const ctx = await harness()
 
     await attempt(ctx, () => Promise.resolve())
-    expect(login).toHaveBeenLastCalledWith('openai-codex', 'oauth', expect.anything())
+    expect(login).toHaveBeenLastCalledWith('openai-codex', 'oauth', expect.anything(), expect.anything())
 
     await attempt(ctx, () => Promise.resolve(), { key: recordKeyFor('anthropic'), method: 'api-key' })
-    expect(login).toHaveBeenLastCalledWith('anthropic', 'api_key', expect.anything())
+    expect(login).toHaveBeenLastCalledWith('anthropic', 'api_key', expect.anything(), expect.anything())
+  })
+
+  it('gives Sign in with ChatGPT a stable installation UUID', async () => {
+    const ctx = await harness()
+    // Isolate the identity file from the developer's own DSH_HOME.
+    vi.stubEnv('DSH_HOME', dirs.at(-1))
+    try {
+      await attempt(ctx, () => Promise.resolve(), { key: recordKeyFor('openai'), method: 'oauth' })
+      const options = login.mock.calls.at(-1)?.[3] as { agentName?: string; getDeviceId?: () => string } | undefined
+      expect(options?.agentName).toBe('DeepSeek Harness')
+      const deviceId = options?.getDeviceId?.()
+      expect(deviceId).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)
+      // The same installation must report the same id on every later login.
+      expect(options?.getDeviceId?.()).toBe(deviceId)
+    } finally {
+      vi.unstubAllEnvs()
+    }
   })
 
   it('commits what the login produced, where the adapter reads it back', async () => {

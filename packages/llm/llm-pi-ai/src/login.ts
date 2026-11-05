@@ -10,6 +10,7 @@
 import type { AuthEvent, AuthPrompt, AuthType, Provider } from '@earendil-works/pi-ai'
 import type { Context } from '@deepseek-ai/cordis'
 import type { AuthorizationMethod, AuthorizationPrompt, AuthorizationSession } from '@deepseek-ai/dsh-authorization'
+import { getOrCreateAnonymousUserId } from '@deepseek-ai/dsh-anonymous-user-id'
 import { isCredentialKeySegment } from '@deepseek-ai/dsh-credentials'
 import { catalogProvider, catalogProviderIds } from './catalog.ts'
 import { recordKeyFor } from './auth.ts'
@@ -154,6 +155,15 @@ export function registerPiAiFlows(ctx: Context, auth: PiAiAuthInjection): void {
           signal: session.signal,
           notify: (event) => { relay(event, session) },
           prompt: prompt => session.prompt(restate(prompt)),
+        }, {
+          // pi-ai 1.5.0's "Sign in with ChatGPT" flow identifies this
+          // installation with a stable `urn:uuid:` host id and refuses to
+          // start without one. The harness already owns a per-DSH_HOME UUID
+          // for telemetry/feedback; reusing it keeps one identity across
+          // logins, restarts, and token refreshes instead of minting a new
+          // installation on every attempt.
+          getDeviceId: () => getOrCreateAnonymousUserId(),
+          agentName: 'DeepSeek Harness',
         })
       },
     })

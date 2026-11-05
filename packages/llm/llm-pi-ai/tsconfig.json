@@ -39,6 +39,9 @@
       "path": "../../credentials/authorization"
     },
     {
+      "path": "../../identity/anonymous-user-id"
+    },
+    {
       "path": "../../settings/settings"
     },
     {
