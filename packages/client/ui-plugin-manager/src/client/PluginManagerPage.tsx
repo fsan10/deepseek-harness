@@ -21,7 +21,7 @@ import {
   type IconProps, type StateDotState, type TerminalBlockLabels,
 } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { InjectFace, PropsLocale, PropsRenderSlots, PropsRuntime, PropsStore } from '@deepseek-ai/dsh-client-ui-slots'
-import { EXTENSION_BUNDLES, HIDDEN_BUNDLES, MORE_BUNDLES } from '@deepseek-ai/dsh-official-bundles'
+import { EXTENSION_BUNDLES, HIDDEN_BUNDLES, INSTALLED_BUNDLES, MORE_BUNDLES } from '@deepseek-ai/dsh-official-bundles'
 import type { createNavigationStore } from './navigation-store.ts'
 import type { PluginHeaderLayoutFace } from './header-scroll.ts'
 import { rowConfigKey, type OfficialItem } from './config-ledger.ts'
@@ -1573,8 +1573,10 @@ export function PluginManagerPage(props: PluginManagerPageProps): ReactNode {
   const listed = state.packages.filter(pkg => !HIDDEN_BUNDLES.has(pkg.name)
     && (pkg.listedByDefault !== false || pkg.enabled || pkg.installed || rowsRunning(pkg))
     && (pkg.installed || pkg.official || pkg.error !== undefined))
-  const mine = listed.filter(pkg => !pkg.official)
-  const official = listed.filter(pkg => pkg.official)
+  // `INSTALLED_BUNDLES` ships as ordinary product capabilities, so their cards join the installed packages; every other
+  // official bundle is offered as an experiment.
+  const mine = listed.filter(pkg => !pkg.official || INSTALLED_BUNDLES.has(pkg.name))
+  const official = listed.filter(pkg => pkg.official && !INSTALLED_BUNDLES.has(pkg.name))
   // Both lists read one order over the eligible bundles: the main list holds the always-held ones plus the held-back
   // ones the profile enabled, and the More list holds the eligible ones, so enabling a bundle from the More list pins it
   // to the main list without moving it among its neighbours there.

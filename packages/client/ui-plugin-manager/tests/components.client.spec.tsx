@@ -805,6 +805,22 @@ describe('PluginManagerPage', () => {
     expect(b.actions.uninstall).not.toHaveBeenCalled()
   })
 
+  it('lists a shipped bundle the catalog places with installed packages there, unmarked and after the profile bundles', () => {
+    const name = '@deepseek-ai/dsh-openai-subscription-bundle'
+    renderTab({ packages: [
+      pkg({ name: '@deepseek-ai/dsh-experimental-voice-input-bundle', installed: false, optional: true, removable: false, enabled: false }),
+      pkg({ name: 'dsh-better-sidebar' }),
+      pkg({ name, installed: false, optional: true, removable: false, enabled: true }),
+    ] })
+    expect([...document.querySelectorAll('[data-plugin-group]')].map(group => group.getAttribute('data-plugin-group')))
+      .toEqual(['extensions', 'bundles'])
+    const bundles = document.querySelector('[data-plugin-group="bundles"]') as HTMLElement
+    expect(within(bundles).getAllByRole('listitem').map(card => card.getAttribute('data-plugin-package')))
+      .toEqual(['dsh-better-sidebar', name])
+    // Only the Experimental bundle carries the marker.
+    expect(screen.getAllByText(en.statusBeta)).toHaveLength(1)
+  })
+
   it('keeps a shipped bundle out of both lists until one of its declared rows runs', () => {
     const hidden = '@deepseek-ai/dsh-experimental-liveshare'
     const shown = '@deepseek-ai/dsh-experimental-voice-input-bundle'

@@ -33,6 +33,14 @@ export const HIDDEN_BUNDLES: ReadonlySet<string> = new Set([
 ])
 
 /**
+ * The optional bundles the plugin manager lists with the installed packages instead of the Experimental group: they ship
+ * as an ordinary product capability rather than an experiment, so their card belongs beside a profile dependency's card.
+ */
+export const INSTALLED_BUNDLES: ReadonlySet<string> = new Set([
+  '@deepseek-ai/dsh-openai-subscription-bundle',
+])
+
+/**
  * The optional bundles the plugin manager's main and More lists rank first, in this order. {@link MORE_BUNDLES}, not
  * this list, decides whether a bundle appears on the main list.
  */
