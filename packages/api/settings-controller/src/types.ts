@@ -20,15 +20,12 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
      */
     'settings/conflict': { readonly ns: string; readonly expected: number; readonly actual: number }
     /**
-     * The provider refused a valid credential write, for example because a
-     * read-only source shadows the reference. The details name only the
-     * reference, never the value.
+     * The provider refused a valid credential write, for example because the
+     * stored document no longer parses. The details name only the reference,
+     * never the value.
      */
     'credential/rejected': { readonly ref: string }
-    /**
-     * An authorization attempt was refused: no flow owns the key, the named
-     * method is not one it offers, or the attempt id is unknown or stale.
-     */
+    /** A sign-in flow's begin or answer was refused for an addressable credential. */
     'authorization/rejected': { readonly key: string }
   }
 }
@@ -37,11 +34,6 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
 export interface SettingsDocumentOpenValue {
   readonly opened: true
 }
-
-/** Result of opening or revealing one locally authored Agent preset directory. */
-export type AgentPresetDirectoryOpenValue =
-  | { readonly opened: true }
-  | { readonly opened: false; readonly path: string }
 
 /** One sign-in a configuration surface may offer, with its methods in preference order. */
 export interface AuthorizationFlowView {
