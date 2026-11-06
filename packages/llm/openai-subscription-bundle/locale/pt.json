@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "OpenAI (assinatura do ChatGPT)",
+    "description": "Oferece modelos de uma assinatura do ChatGPT. Apenas os oito modelos GPT-6 e GPT-5.6 de uma sessão do Codex são listados; entre em Configurações › Modelos para escolhê-los no chat."
+  }
+}

@@ -1,0 +1,11 @@
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="dsh_openai_subscription_tile" x1="7" y1="7" x2="29" y2="29" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38BDF8" />
+      <stop offset="1" stop-color="#6366F1" />
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="28" height="28" rx="8" fill="url(#dsh_openai_subscription_tile)" />
+  <path d="M12 22.5V13.5L18 18.5L24 13.5V22.5" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="26" cy="10" r="3" fill="#FFFFFF" fill-opacity="0.9" />
+</svg>

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "API de autorización de inicio de sesión",
+    "description": "Ofrece a las páginas del navegador los flujos de inicio de sesión guiados por la persona."
+  }
+}

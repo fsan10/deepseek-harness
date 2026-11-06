@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "OpenAI (ChatGPT subscription)",
+    "description": "Serve models from a ChatGPT subscription. Only the eight GPT-6 and GPT-5.6 models a Codex session offers are listed; sign in to ChatGPT under Settings › Models to select them in a chat."
+  }
+}

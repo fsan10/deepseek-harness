@@ -1,0 +1,31 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/llm/openai-subscription-bundle/README.md
+/:
+  en: 0124e12996515d03
+  zh: 421bed3d167e5293
+/deepseek-ai-dsh-openai-subscription-bundle:
+  en: 9d5de5e6029ee73f
+  zh: b835101447c9520c
+/deepseek-ai-dsh-openai-subscription-bundle/summary:
+  en: 7a72bb4eb5a07931
+  zh: 6fc9d56af638ed11
+/deepseek-ai-dsh-openai-subscription-bundle/table-of-contents:
+  en: d7fbbba70852c433
+  zh: a7e57a59cea0f1d9
+/deepseek-ai-dsh-openai-subscription-bundle/use-this-package:
+  en: 6100e62c1d24aefb
+  zh: a2ebba0d367b3b7e
+/deepseek-ai-dsh-openai-subscription-bundle/model-experience:
+  en: 2ca77aa26aac2033
+  zh: 71b8f661f5220d61
+/deepseek-ai-dsh-openai-subscription-bundle/model-experience/kv-cache-effect:
+  en: e05bb3320367b843
+  zh: 4ab416e36af32715
+/deepseek-ai-dsh-openai-subscription-bundle/known-limitations-and-deferred-work:
+  en: e7f51564332419de
+  zh: 6379c6e729c2194d
+/deepseek-ai-dsh-openai-subscription-bundle/known-limitations-and-deferred-work/dev-note:
+  en: 19c3a0421248c8f2
+  zh: c29a9dba94c20f2f

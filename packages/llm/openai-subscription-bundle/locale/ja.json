@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "OpenAI（ChatGPT サブスクリプション）",
+    "description": "ChatGPT サブスクリプションの枠をモデル提供元として使います。Codex と同じ GPT-6 / GPT-5.6 系の8モデルのみを表示します。有効にしたら「設定 › モデル」で ChatGPT にサインインすると、会話で選択できます。"
+  }
+}

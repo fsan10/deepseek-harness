@@ -228,7 +228,10 @@ export class AuthorizationController extends TypertRemoteService {
     resolve(value)
   }
 
-  /** Withdraw the sign-in running for one credential key. */
+  /**
+   * Withdraw the sign-in running for one credential key.
+   * @param keyValue - the credential key whose flow is withdrawn.
+   */
   @Remote
   cancel(keyValue: string): void {
     const key = this.keyOf(keyValue)

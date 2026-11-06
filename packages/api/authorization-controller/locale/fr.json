@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "API d'autorisation de connexion",
+    "description": "Expose aux pages du navigateur les flux de connexion guidés par l'utilisateur."
+  }
+}

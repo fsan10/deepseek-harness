@@ -1,0 +1,31 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/api/authorization-controller/README.md
+/:
+  en: 90a7fa8ab82ac8b6
+  zh: 98a7886deb95ec82
+/deepseek-ai-dsh-api-authorization-controller:
+  en: 061b23e2e1f61212
+  zh: 117f67c622ba0488
+/deepseek-ai-dsh-api-authorization-controller/summary:
+  en: 8e71ac5aeb97f722
+  zh: 099f8cffda8d6538
+/deepseek-ai-dsh-api-authorization-controller/table-of-contents:
+  en: d7fbbba70852c433
+  zh: a7e57a59cea0f1d9
+/deepseek-ai-dsh-api-authorization-controller/use-this-package:
+  en: 7f18ed39326c496f
+  zh: 0d8cf085cf92aaef
+/deepseek-ai-dsh-api-authorization-controller/model-experience:
+  en: 5d7bf53bfc36b9eb
+  zh: 36f0fe7677da9195
+/deepseek-ai-dsh-api-authorization-controller/model-experience/kv-cache-effect:
+  en: 521dbaa61f20193e
+  zh: 62bd651d83ca5773
+/deepseek-ai-dsh-api-authorization-controller/known-limitations-and-deferred-work:
+  en: 4467148bca5f90e7
+  zh: c5fc1268696f64de
+/deepseek-ai-dsh-api-authorization-controller/known-limitations-and-deferred-work/dev-note:
+  en: 2b696cc970feb94e
+  zh: 18480dac9ea1084a

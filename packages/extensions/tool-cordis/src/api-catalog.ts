@@ -554,6 +554,46 @@ export const SERVICE_API: readonly ServiceApiEntry[] = [
     ],
   },
   {
+    key: 'authorizationController',
+    summary: 'Host service backing the generated `ctx.remote.authorization` namespace.',
+    description: 'Host service backing the generated `ctx.remote.authorization` namespace. Every method reports an actionable error when the authorization seam is not mounted, and no method ever returns a secret: the credential itself stays in the credential store, written by the flow that owns it.',
+    methods: [
+      {
+        signature: '@Remote list(): AuthorizationFlowView[]',
+        description: 'List every sign-in a surface may offer, with its preferred method first.',
+        parameters: [],
+        returns: 'the registered flows, keyed by their credential record address.',
+      },
+      {
+        signature: '@Remote start(keyValue: string, method: string | undefined): string',
+        description: 'Start one sign-in without waiting for it. The flow runs against an interaction that records notices and holds at most one unanswered prompt; the page polls the returned id until the attempt settles.',
+        parameters: [{ name: 'keyValue', description: 'the `<scope>/<id>` credential address a flow registered.' }, { name: 'method', description: 'one of that flow\'s method ids; omission takes its first.' }],
+        returns: 'the attempt id, which is also the capability to answer its prompts.',
+      },
+      {
+        signature: '@Remote poll(id: string): AuthorizationAttemptView',
+        description: 'Read one attempt\'s current state. Notices accumulate for the whole attempt; a page renders the newest one and keeps earlier ones for context.',
+        parameters: [{ name: 'id', description: 'the attempt id `start()` returned.' }],
+        returns: 'status, notices, and the question currently waiting, if any.',
+      },
+      {
+        signature: '@Remote answer(id: string, value: string): void',
+        description: 'Supply the value for the question `poll()` reported. A second answer for the same question is refused rather than silently ignored.',
+        parameters: [{ name: 'id', description: 'the attempt id.' }, { name: 'value', description: 'the text, secret, or selected option id the human supplied.' }],
+      },
+      {
+        signature: '@Remote cancel(keyValue: string): void',
+        description: 'Withdraw the sign-in running for one credential key.',
+        parameters: [{ name: 'keyValue', description: 'the credential key whose flow is withdrawn.' }],
+      },
+      {
+        signature: '@Remote finish(id: string): void',
+        description: 'Release a settled attempt. Aborting its signal withdraws a flow that is still waiting on a prompt, and answering that prompt with an empty value releases the orphaned promise without letting it keep the process alive.',
+        parameters: [{ name: 'id', description: 'the attempt id.' }],
+      },
+    ],
+  },
+  {
     key: 'browserUse',
     summary: 'Owns one optional provider registration in the shared browser-use service.',
     description: 'Owns one optional provider registration in the shared browser-use service.',
@@ -5712,12 +5752,20 @@ export const TYPE_API: readonly TypeApiEntry[] = [
     declaration: 'export type AttachmentId = Branded<\'AttachmentId\'>;',
   },
   {
+    name: 'AuthorizationAttemptView',
+    declaration: 'export interface AuthorizationAttemptView {\n    readonly status: \'running\' | \'authorized\' | \'cancelled\' | \'failed\';\n    readonly notices: readonly AuthorizationNoticeView[];\n    readonly prompt?: AuthorizationPromptView;\n    readonly error?: string;\n}',
+  },
+  {
     name: 'AuthorizationEntry',
     declaration: 'export interface AuthorizationEntry {\n    key: CredentialKey;\n    label: string;\n    methods: readonly AuthorizationMethod[];\n    inFlight: boolean;\n}',
   },
   {
     name: 'AuthorizationFlow',
     declaration: 'export interface AuthorizationFlow {\n    readonly key: CredentialKey;\n    readonly label: string;\n    readonly methods: readonly [\n        AuthorizationMethod,\n        ...AuthorizationMethod[]\n    ];\n    run(session: AuthorizationSession): Promise<void>;\n}',
+  },
+  {
+    name: 'AuthorizationFlowView',
+    declaration: 'export interface AuthorizationFlowView {\n    readonly key: string;\n    readonly label: string;\n    readonly methods: readonly {\n        readonly id: string;\n        readonly label: string;\n    }[];\n    readonly inFlight: boolean;\n}',
   },
   {
     name: 'AuthorizationInteraction',
@@ -5732,6 +5780,10 @@ export const TYPE_API: readonly TypeApiEntry[] = [
     declaration: 'export interface AuthorizationNotice {\n    message: string;\n    url?: string;\n    code?: string;\n}',
   },
   {
+    name: 'AuthorizationNoticeView',
+    declaration: 'export interface AuthorizationNoticeView {\n    readonly message: string;\n    readonly url?: string;\n    readonly code?: string;\n}',
+  },
+  {
     name: 'AuthorizationOutcome',
     declaration: 'export interface AuthorizationOutcome {\n    status: AuthorizationStatus;\n}',
   },
@@ -5742,6 +5794,10 @@ export const TYPE_API: readonly TypeApiEntry[] = [
   {
     name: 'AuthorizationPromptOption',
     declaration: 'export interface AuthorizationPromptOption {\n    id: string;\n    label: string;\n    description?: string;\n}',
+  },
+  {
+    name: 'AuthorizationPromptView',
+    declaration: 'export type AuthorizationPromptView = {\n    readonly kind: \'text\' | \'secret\';\n    readonly message: string;\n    readonly placeholder?: string;\n} | {\n    readonly kind: \'select\';\n    readonly message: string;\n    readonly options: readonly {\n        readonly id: string;\n        readonly label: string;\n        readonly description?: string;\n    }[];\n};',
   },
   {
     name: 'AuthorizationRequest',

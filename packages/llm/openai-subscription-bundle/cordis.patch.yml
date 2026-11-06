@@ -1,0 +1,30 @@
+# OpenAI (ChatGPT subscription) as a model source.
+#
+# The route is a pi-ai catalog route: endpoint, protocol, auth, capacities and
+# reasoning levels come from the installed `openai` provider, and the stored
+# ChatGPT OAuth grant under `llm-pi-ai/openai` is what makes it serviceable.
+#
+# `models` narrows the served catalog to the lineup a ChatGPT plan exposes
+# through Codex, so the picker does not list every legacy GPT-4/o-series entry
+# the provider still describes. A bare id inherits that model's catalog entry
+# field by field, so this list states which models are offered, not what they
+# can do.
+#
+# The route lives in composition, so switching the bundle off removes it from
+# the picker. A `llm-pi-ai` section in the profile patch replaces this whole
+# `config` value: a person who saves the provider in the Models page takes over
+# the route, including its model list.
+- id: llm-pi-ai
+  config:
+    providers:
+      openai:
+        displayName: OpenAI（ChatGPT 订阅）
+        models:
+          - id: gpt-6.1-sol
+          - id: gpt-6-astra
+          - id: gpt-6.1-terra
+          - id: gpt-6-sol
+          - id: gpt-6-luna
+          - id: gpt-5.6-sol
+          - id: gpt-5.6-terra
+          - id: gpt-5.6-luna

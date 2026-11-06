@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "OpenAI (abonnement ChatGPT)",
+    "description": "Fournit les modèles d'un abonnement ChatGPT. Seuls les huit modèles GPT-6 et GPT-5.6 d'une session Codex sont proposés ; connectez-vous dans Réglages › Modèles pour les choisir dans une conversation."
+  }
+}

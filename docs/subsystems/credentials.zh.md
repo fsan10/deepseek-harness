@@ -131,6 +131,62 @@ async begin(request: AuthorizationRequest): Promise<AuthorizationOutcome>
 
 Source: [`packages/credentials/authorization/src/index.ts`](../../packages/credentials/authorization/src/index.ts)
 
+<a id="ctxauthorizationcontroller--authorizationcontroller"></a>
+
+### `ctx.authorizationController` — `AuthorizationController`
+
+Host service backing the generated `ctx.remote.authorization` namespace. Every method reports an actionable error when the authorization seam is not mounted, and no method ever returns a secret: the credential itself stays in the credential store, written by the flow that owns it.
+
+```ts cordis-catalog
+/**
+ * List every sign-in a surface may offer, with its preferred method first.
+ * @returns the registered flows, keyed by their credential record address.
+ */
+@Remote list(): AuthorizationFlowView[]
+
+/**
+ * Start one sign-in without waiting for it. The flow runs against an
+ * interaction that records notices and holds at most one unanswered prompt;
+ * the page polls the returned id until the attempt settles.
+ * @param keyValue - the `<scope>/<id>` credential address a flow registered.
+ * @param method - one of that flow's method ids; omission takes its first.
+ * @returns the attempt id, which is also the capability to answer its prompts.
+ */
+@Remote start(keyValue: string, method: string | undefined): string
+
+/**
+ * Read one attempt's current state. Notices accumulate for the whole attempt;
+ * a page renders the newest one and keeps earlier ones for context.
+ * @param id - the attempt id `start()` returned.
+ * @returns status, notices, and the question currently waiting, if any.
+ */
+@Remote poll(id: string): AuthorizationAttemptView
+
+/**
+ * Supply the value for the question `poll()` reported. A second answer for
+ * the same question is refused rather than silently ignored.
+ * @param id - the attempt id.
+ * @param value - the text, secret, or selected option id the human supplied.
+ */
+@Remote answer(id: string, value: string): void
+
+/**
+ * Withdraw the sign-in running for one credential key.
+ * @param keyValue - the credential key whose flow is withdrawn.
+ */
+@Remote cancel(keyValue: string): void
+
+/**
+ * Release a settled attempt. Aborting its signal withdraws a flow that is
+ * still waiting on a prompt, and answering that prompt with an empty value
+ * releases the orphaned promise without letting it keep the process alive.
+ * @param id - the attempt id.
+ */
+@Remote finish(id: string): void
+```
+
+Source: [`packages/api/authorization-controller/src/index.ts`](../../packages/api/authorization-controller/src/index.ts)
+
 <a id="ctxcredentials--credentialprovider-abstract-seam"></a>
 
 ### `ctx.credentials` — `CredentialProvider` (abstract seam)

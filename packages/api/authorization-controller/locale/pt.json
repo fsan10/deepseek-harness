@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "API de autorização de login",
+    "description": "Oferece às páginas do navegador os fluxos de login guiados pela pessoa."
+  }
+}

@@ -417,6 +417,9 @@ importers:
       '@deepseek-ai/dsh-official-bundles':
         specifier: workspace:*
         version: link:../../packages/util/official-bundles
+      '@deepseek-ai/dsh-openai-subscription-bundle':
+        specifier: workspace:*
+        version: link:../../packages/llm/openai-subscription-bundle
       '@deepseek-ai/dsh-persona':
         specifier: workspace:*
         version: link:../../packages/preset/persona
@@ -13358,6 +13361,12 @@ importers:
       '@deepseek-ai/dsh-tools':
         specifier: workspace:*
         version: link:../../core/tools
+
+  packages/llm/openai-subscription-bundle:
+    devDependencies:
+      '@deepseek-ai/cordis':
+        specifier: workspace:~
+        version: link:../../../vendor/cordis
 
   packages/llm/plugin-package-inventory-deepseek:
     dependencies:
