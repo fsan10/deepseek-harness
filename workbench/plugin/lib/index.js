@@ -444,7 +444,9 @@ export function apply(ctx) {
     sendJson(res, 404, { error: 'not-found', path })
   }
 
-  webServer.register({ kind: 'prefix', path: '/api/workbench', handler: (req, res) => { handle(req, res).catch(error => sendJson(res, 500, { error: String(error) })) } })
+  // 注册返回的 disposer 必须挂进 effect：webserver 的路由表不会随插件 scope
+  // 自动清理，裸注册会让卸载后的路由残留，重挂时抛 duplicate route。
+  ctx.effect(() => webServer.register({ kind: 'prefix', path: '/api/workbench', handler: (req, res) => { handle(req, res).catch(error => sendJson(res, 500, { error: String(error) })) } }), 'dsh-workbench: /api/workbench route')
 
   // ── 模型侧工具：人和 AI 走同一条通道 ────────────────────────────────────
   const tools = ctx.get?.('tools') ?? ctx.tools
