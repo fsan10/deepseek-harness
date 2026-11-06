@@ -146,6 +146,12 @@
     - id: settings-controller
       name: '@deepseek-ai/dsh-api-settings-controller'
 
+    # The `authorization` Remote namespace the Models page drives. Its own
+    # plugin, so a profile can offer sign-in flows without the settings
+    # controller and vice versa.
+    - id: authorization-controller
+      name: '@deepseek-ai/dsh-api-authorization-controller'
+
     # One shared MCP server fleet: Settings-configured servers plus servers
     # that installed plugins register, with status and recovery over Remote.
     # Credential templates and OAuth grants resolve through the credentials

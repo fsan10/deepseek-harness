@@ -4,7 +4,7 @@ import AuthorizationService from '@deepseek-ai/dsh-authorization'
 import type { AuthorizationSession } from '@deepseek-ai/dsh-authorization'
 import { credentialKey } from '@deepseek-ai/dsh-credentials'
 import { remoteErrorOf, remoteMethods } from '@deepseek-ai/dsh-typert-protocol'
-import AuthorizationController from '../src/authorization.ts'
+import { AuthorizationController } from '../src/index.ts'
 import type { AuthorizationAttemptView } from '../src/types.ts'
 import { MemoryCredentials } from '../../../credentials/credentials/tests/memory.ts'
 

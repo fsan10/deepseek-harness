@@ -9,7 +9,11 @@
  * `finish()` withdraws the attempt. Only the page holding the attempt id can
  * answer its prompts, which keeps the interaction with the surface that asked.
  *
- * @module @deepseek-ai/dsh-api-settings-controller/src/authorization.ts
+ * A plugin of its own rather than part of the settings controller: a
+ * composition that has no configuration surfaces still wants sign-in flows,
+ * and one that has them can drop this namespace without the settings owner.
+ *
+ * @module @deepseek-ai/dsh-api-authorization-controller
  */
 
 import { randomUUID } from 'node:crypto'
@@ -247,4 +251,15 @@ export class AuthorizationController extends TypertRemoteService {
   }
 }
 
-export default AuthorizationController
+export type * from './types.ts'
+
+/**
+ * Mount the `authorization` Remote namespace as a plugin of its own.
+ *
+ * The class is also exported so a composition that owns its mount can use it
+ * directly; installing this package is the ordinary path.
+ * @param ctx - the context carrying `ctx.authorization`.
+ */
+export function apply(ctx: Context): void {
+  ctx.plugin(AuthorizationController)
+}
